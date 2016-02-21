@@ -19,7 +19,7 @@ namespace DiscoverService
         {
             if(args.Length == 0)
             {
-                Console.WriteLine("-name uwp_sort_by_post -collection collectionName [-setting http://www.setting.com]");
+                Console.WriteLine("command: -name uwp_sort_by_post -collection collectionName [-setting http://www.setting.com|localSettings.json(default)]");
 
                 return;
             }
@@ -58,6 +58,8 @@ namespace DiscoverService
                 };
 
                 downloadDataQueue.Send(cmd);
+
+                Console.WriteLine(url);
             };
 
             discovery.Start();

@@ -25,19 +25,19 @@ namespace DownloadService
 
                 if (data != null)
                 {
-                    Console.WriteLine(data.Url);
+                    Console.Write(data.Url);
 
                     var task = httpClient.GetStreamAsync(data.Url);
 
                     task.Wait();
 
-                    Console.WriteLine("finish the content downloading");
+                    Console.Write("[download]");
 
                     var generatedPath = string.Format("{0}/{1}", DateTime.Now.ToString("yyyy-MM-dd"), Guid.NewGuid());
 
                     blobClient.Upload(task.Result, generatedPath);
 
-                    Console.WriteLine("store the content to blob");
+                    Console.Write("[store]");
 
                     processQueue.Send(new ProcessContentMessageBody
                     {
@@ -45,6 +45,8 @@ namespace DownloadService
                         BlobPath = generatedPath,
                         SaveTo = data.SaveTo
                     });
+
+                    Console.WriteLine();
                 }
                 else
                 {
