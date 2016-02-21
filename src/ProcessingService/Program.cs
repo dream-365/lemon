@@ -64,17 +64,19 @@ namespace ProcessingService
 
             while (true)
             {
-                try
-                {
-                    var message = processQueue.Dequeue<ProcessContentMessageBody>();
+                var message = processQueue.Dequeue<ProcessContentMessageBody>();
 
+                try
+                {                    
                     if (message != null)
                     {                       
                         using (var stream = blobClient.Download(message.BlobPath))
                         {
                             var metadata = streamProcessingPipeline.Process(stream);
 
-                            // TODO: store the proccessed data
+                            var writter = new MongoDataWritter(message.SaveTo);
+
+                            writter.Save(metadata);
                         }
 
                         Console.Write(".");
