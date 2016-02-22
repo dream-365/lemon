@@ -52,6 +52,8 @@ namespace ProcessingService
 
             var processQueue = MessageQueueProvider.Current.GetMessageQueue(GeneralSettings.ProcessDataQueueName);
 
+            var processErrorQueue = MessageQueueProvider.Current.GetMessageQueue(GeneralSettings.ProcessErrorQueueName);
+
             var blobClient = new AzureBlobClient(GeneralSettings.StorageContainerName);
 
             var modules = new List<IStreamProcessingModule>();
@@ -91,6 +93,11 @@ namespace ProcessingService
                     Console.ForegroundColor = ConsoleColor.Red;
 
                     Console.Write("x");
+
+                    processErrorQueue.Send(new DownloadContentMessageBody {
+                        Url = message.OrignalUrl,
+                        SaveTo = message.SaveTo
+                    });
 
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }

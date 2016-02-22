@@ -9,9 +9,20 @@ namespace DownloadService
 {
     class Program
     {
+        /// <summary>
+        /// error
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var downloadQueue = MessageQueueProvider.Current.GetMessageQueue(GeneralSettings.DownloadDataQueueName);
+            bool isError = false;
+
+            if(args.Length > 0)
+            {
+                isError = args[0] == "error";
+            }
+
+            var downloadQueue = MessageQueueProvider.Current.GetMessageQueue(isError ? GeneralSettings.ProcessErrorQueueName : GeneralSettings.DownloadDataQueueName);
 
             var processQueue = MessageQueueProvider.Current.GetMessageQueue(GeneralSettings.ProcessDataQueueName);
 

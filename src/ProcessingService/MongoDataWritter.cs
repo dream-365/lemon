@@ -1,5 +1,8 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 
@@ -44,11 +47,20 @@ namespace ProcessingService
         {
             var id = Builders<BsonDocument>.Filter.Eq("_id", data["_id"] as string);
 
-            var document = new BsonDocument(data);
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data);
 
-            _collection.DeleteOneAsync(id).Wait();
+            using (var jsonReader = new JsonReader(jsonString))
+            {
+                var context = BsonDeserializationContext.CreateRoot(jsonReader);
 
-            _collection.InsertOneAsync(document).Wait();
+                var document = _collection.DocumentSerializer.Deserialize(context);
+
+                document.Set("timestamp", DateTime.Now);
+
+                _collection.DeleteOneAsync(id).Wait();
+
+                _collection.InsertOneAsync(document).Wait();
+            }
         }
     }
 }

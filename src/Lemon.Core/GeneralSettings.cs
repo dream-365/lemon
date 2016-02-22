@@ -9,5 +9,7 @@ namespace Lemon.Core
         public static string StorageContainerName { get { return ConfigurationManager.AppSettings["lemon:storage"]; } }
 
         public static string ProcessDataQueueName { get { return ConfigurationManager.AppSettings["lemon:process"]; } }
+
+        public static string ProcessErrorQueueName { get { return ConfigurationManager.AppSettings["lemon:process-error"]; } }
     }
 }
