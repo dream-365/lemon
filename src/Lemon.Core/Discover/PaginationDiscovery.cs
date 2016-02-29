@@ -9,13 +9,13 @@ namespace Lemon.Core.Discover
 {
     public class PaginationDiscovery : IDiscover
     {
-        protected readonly PaginationDefinition _config;
+        protected readonly GeneralXPatUriFindSetting _config;
 
         protected Task _currentRunningTask;
 
         protected bool _isCanceled = false;
 
-        public PaginationDiscovery(PaginationDefinition config)
+        public PaginationDiscovery(GeneralXPatUriFindSetting config)
         {
             _config = config;
         }

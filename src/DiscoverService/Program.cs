@@ -41,7 +41,7 @@ namespace DiscoverService
 
             var collectionName = parameters["collection"];
 
-            var configrationManager = new JsonConfigrationManager<PaginationDefinition>("localSettings.json");
+            var configrationManager = new JsonConfigrationManager<GeneralXPatUriFindSetting>("localSettings.json");
 
             var setting = configrationManager.GetSetting(settingName);
 

@@ -1,10 +1,10 @@
 ﻿{
   "_base_": {
-    "baseUri": "https://social.msdn.microsoft.com",
     "encoding": "utf-8",
-    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
     "start": 1,
     "length": 50,
+    "baseUri": "https://social.msdn.microsoft.com",
+    "filter": "(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})",
     "lookUp": {
       "xPath": "//*[@id=\"threadList\"]/li/div/a",
       "attribute": "href"

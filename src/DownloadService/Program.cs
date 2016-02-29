@@ -32,36 +32,43 @@ namespace DownloadService
 
             while (true)
             {
-                var data = downloadQueue.Dequeue<DownloadContentMessageBody>();
 
-                if (data != null)
+                try
                 {
-                    Console.Write(data.Url);
+                    var data = downloadQueue.Dequeue<DownloadContentMessageBody>();
 
-                    var task = httpClient.GetStreamAsync(data.Url);
-
-                    task.Wait();
-
-                    Console.Write("[download]");
-
-                    var generatedPath = string.Format("{0}/{1}", DateTime.Now.ToString("yyyy-MM-dd"), Guid.NewGuid());
-
-                    blobClient.Upload(task.Result, generatedPath);
-
-                    Console.Write("[store]");
-
-                    processQueue.Send(new ProcessContentMessageBody
+                    if (data != null)
                     {
-                        OrignalUrl = data.Url,
-                        BlobPath = generatedPath,
-                        SaveTo = data.SaveTo
-                    });
+                        Console.Write(data.Url);
 
-                    Console.WriteLine();
-                }
-                else
+                        var task = httpClient.GetStreamAsync(data.Url);
+
+                        task.Wait();
+
+                        Console.Write("[download]");
+
+                        var generatedPath = string.Format("{0}/{1}", DateTime.Now.ToString("yyyy-MM-dd"), Guid.NewGuid());
+
+                        blobClient.Upload(task.Result, generatedPath);
+
+                        Console.Write("[store]");
+
+                        processQueue.Send(new ProcessContentMessageBody
+                        {
+                            OrignalUrl = data.Url,
+                            BlobPath = generatedPath,
+                            SaveTo = data.SaveTo
+                        });
+
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        System.Threading.Thread.Sleep(10000);
+                    }
+                }catch(Exception ex)
                 {
-                    System.Threading.Thread.Sleep(10000);
+                    Console.WriteLine(ex.Message);
                 }
             }
         }

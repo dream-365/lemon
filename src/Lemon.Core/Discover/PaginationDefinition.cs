@@ -1,19 +1,6 @@
 ﻿namespace Lemon.Core.Discover
 {
-    public class RegexTransform
-    {
-        public string Pattern { get; set; }
-
-        public string Expression { get; set; }
-    }
-
-    public class XPathAttributeMap
-    {
-        public string XPath { get; set; }
-        public string Attribute { get; set; }
-    }
-
-    public class PaginationDefinition
+    public class GeneralXPatUriFindSetting
     {
         public string Name { get; set; }
 

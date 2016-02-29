@@ -97,8 +97,16 @@
     <Compile Include="Data\HtmlTableCollection.cs" />
     <Compile Include="Discover\HtmlAttributeParse.cs" />
     <Compile Include="Discover\HtmlPageNavigator.cs" />
+    <Compile Include="Discover\IFindUri.cs" />
     <Compile Include="Discover\PaginationDiscovery.cs" />
     <Compile Include="Discover\PaginationDefinition.cs" />
+    <Compile Include="Discover\RegexTransform.cs" />
+    <Compile Include="Discover\URIDiscoverObject.cs" />
+    <Compile Include="Discover\URIDiscoverSetting.cs" />
+    <Compile Include="Discover\URINavigator.cs" />
+    <Compile Include="Discover\XPathAttributeMap.cs" />
+    <Compile Include="Discover\XPathFindUri.cs" />
+    <Compile Include="Discover\XPathFindUriSetting.cs" />
     <Compile Include="GeneralSettings.cs" />
     <Compile Include="IStreamProcessingModule.cs" />
     <Compile Include="IStreamProcessingModuleProvider.cs" />
