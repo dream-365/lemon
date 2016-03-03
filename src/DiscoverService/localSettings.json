@@ -17,10 +17,17 @@
   "test": {
     "baseUri": "http://community.powerbi.com/",
     "encoding": "utf-8",
+    "start": 1,
+    "length": 1,
     "filter": "jump-to",
     "lookUp": {
       "xPath": "//*[@id='messageList']/div/table//td[contains(@class,'threadSubjectColumn')]//a",
       "attribute": "href"
+    },
+    "urlFormat": "http://community.powerbi.com/t5/Desktop/bd-p/power-bi-designer/page/{0}",
+    "transform": {
+      "pattern": ".+",
+      "expression": "http://community.powerbi.com{0}"
     }
   },
   "uwp_sort_by_post": {

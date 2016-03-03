@@ -1,4 +1,5 @@
-﻿using Lemon.Core;
+﻿using Example.Modules;
+using Lemon.Core;
 using Lemon.Core.Message;
 using Lemon.Core.Message.Body;
 using Lemon.Core.Storage;
@@ -40,15 +41,17 @@ namespace ProcessingService
 
             var moduleName = parameters["module"];
 
-            var assemblyFilePath = ConfigurationManager.AppSettings["assembly:modules"];
+            // var assemblyFilePath = ConfigurationManager.AppSettings["assembly:modules"];
 
-            var assembly = Assembly.LoadFrom(assemblyFile: assemblyFilePath);
+            // var assembly = Assembly.LoadFrom(assemblyFile: assemblyFilePath);
 
-            var factoryInterfaceType = typeof(IStreamProcessingModuleProvider);
+            // var factoryInterfaceType = typeof(IStreamProcessingModuleProvider);
 
-            var defaultProviderType = assembly.GetTypes().Where(m => factoryInterfaceType.IsAssignableFrom(m)).FirstOrDefault();
+            // var defaultProviderType = assembly.GetTypes().Where(m => factoryInterfaceType.IsAssignableFrom(m)).FirstOrDefault();
 
-            var provider = Activator.CreateInstance(defaultProviderType) as IStreamProcessingModuleProvider;
+            // var provider = Activator.CreateInstance(defaultProviderType) as IStreamProcessingModuleProvider;
+
+            IStreamProcessingModuleProvider provider = new DefaultModuleProvider();
 
             var processQueue = MessageQueueProvider.Current.GetMessageQueue(GeneralSettings.ProcessDataQueueName);
 
@@ -93,6 +96,8 @@ namespace ProcessingService
                     Console.ForegroundColor = ConsoleColor.Red;
 
                     Console.Write("x");
+
+                    Console.WriteLine(ex.Message);
 
                     processErrorQueue.Send(new DownloadContentMessageBody {
                         Url = message.OrignalUrl,

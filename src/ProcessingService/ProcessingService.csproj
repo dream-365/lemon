@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Example.Modules\Example.Modules.csproj">
+      <Project>{5884eca0-9ce4-4d75-8af9-463e898c5540}</Project>
+      <Name>Example.Modules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lemon.Core\Lemon.Core.csproj">
       <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
       <Name>Lemon.Core</Name>

@@ -11,7 +11,15 @@ namespace Example.Modules
     {
         public IStreamProcessingModule Activate(string name)
         {
-            return new MSDNMetadataModule();
+            if(name == "msdn")
+            {
+                return new MSDNMetadataModule();
+            } else if(name == "powerbi")
+            {
+                return new PowerBIMeatadataModule();
+            }
+
+            throw new NotImplementedException(name);
         }
     }
 }
