@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Example.Modules
 {
-    public class DefaultModuleProvider : IStreamProcessingModuleProvider
+    public class DefaultModuleProvider : INormaliztionProvider
     {
-        public IStreamProcessingModule Activate(string name)
+        public INormalize Activate(string name)
         {
             if(name == "msdn")
             {

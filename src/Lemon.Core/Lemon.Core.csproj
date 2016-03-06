@@ -61,14 +61,13 @@
     <Compile Include="IMessageQueue.cs" />
     <Compile Include="IMessageQueueProvider.cs" />
     <Compile Include="IPersistenceProvider.cs" />
-    <Compile Include="IStreamProcessingModule.cs" />
-    <Compile Include="IStreamProcessingModuleProvider.cs" />
+    <Compile Include="INormalize.cs" />
+    <Compile Include="INormaliztionProvider.cs" />
     <Compile Include="JsonConfigrationManager.cs" />
     <Compile Include="Model\DownloadContentMessageBody.cs" />
     <Compile Include="Model\ProcessContentMessageBody.cs" />
     <Compile Include="Process\NormalizeProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamProcessingPipeline.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,9 +1,6 @@
 ﻿using Lemon.Core.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Core
 {
@@ -11,7 +8,7 @@ namespace Lemon.Core
     {
         private IMessageQueueProvider _messageQueueProvider;
 
-        private IStreamProcessingModuleProvider _streamProcessingModuleProvider;
+        private INormaliztionProvider _normaliztionProvider;
 
         private IPersistenceProvider _persistenceProvider;
 
@@ -34,9 +31,9 @@ namespace Lemon.Core
             _persistenceProvider = provider;
         }
 
-        public void SetStreamProcessingProvider(IStreamProcessingModuleProvider provider)
+        public void SetNormaliztionProvider(INormaliztionProvider provider)
         {
-            _streamProcessingModuleProvider = provider;
+            _normaliztionProvider = provider;
         }
 
         public void Start(string listenToQueueName)
@@ -64,13 +61,9 @@ namespace Lemon.Core
                     {
                         using (var stream = _blobClient.Download(message.BlobPath))
                         {
-                            var modules = new List<IStreamProcessingModule>();
+                            var module = _normaliztionProvider.Activate(message.Context["handler"]);
 
-                            modules.Add(_streamProcessingModuleProvider.Activate(message.Context["handler"]));
-
-                            var streamProcessingPipeline = new StreamProcessingPipeline(modules);
-
-                            var metadata = streamProcessingPipeline.Process(stream);
+                            var metadata = module.Normalize(stream);
 
                             if (!documentPersistenceCache.ContainsKey(message.Context["saveTo"]))
                             {

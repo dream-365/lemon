@@ -17,7 +17,7 @@ namespace Samples.msdn.normalize
 
             process.SetPersistenceProvider(new Lemon.Storage.MongoDBPersistenceProvider());
 
-            process.SetStreamProcessingProvider(new DefaultModuleProvider());
+            process.SetNormaliztionProvider(new DefaultModuleProvider());
 
             process.Start("listen-to-queue");
         }

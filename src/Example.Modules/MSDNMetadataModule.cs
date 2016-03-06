@@ -5,21 +5,19 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using MongoDB.Bson;
 
 namespace Example.Modules
 {
-    public class MSDNMetadataModule : IStreamProcessingModule
+    public class MSDNMetadataModule : INormalize
     {
-        public void OnProcess(IDictionary<string, object> metadata, Stream stream)
-        {
-            FillMetadata(metadata, stream);
-        }
-
-        private static void FillMetadata(IDictionary<string, object> metadata, Stream stream)
+        public BsonDocument Normalize(Stream stream)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
 
             settings.DtdProcessing = DtdProcessing.Ignore;
+
+            var document = new BsonDocument();
 
             using (XmlReader reader = XmlReader.Create(stream, settings))
             {
@@ -28,7 +26,7 @@ namespace Example.Modules
                 var xUsers = xDoc.Element("root").Element("users").Descendants("user");
 
                 var users = (from u in xUsers
-                             select new Dictionary<string, string>
+                             select new BsonDocument
                              {
                                  { "id", u.Attribute("id").Value },
                                  { "display_name", u.Element("displayName").Value },
@@ -41,24 +39,24 @@ namespace Example.Modules
 
                 var xMessages = xDoc.Element("root").Element("messages").Descendants("message");
 
-                var messages = new List<Dictionary<string, object>>();
+                var messages = new List<BsonDocument>();
 
                 foreach (var msg in xMessages)
                 {
-                    var histories = msg.Element("histories").Descendants("history").Select(m => new {
-                        type = m.Element("type").Value,
-                        date = m.Element("date").Value,
-                        user = m.Element("user").Value
+                    var histories = msg.Element("histories").Descendants("history").Select(m => new BsonDocument {
+                        { "type", m.Element("type").Value } ,
+                        { "date", m.Element("date").Value },
+                        { "user", m.Element("user").Value }
                     }).ToList();
 
-                    var item = new Dictionary<string, object>
+                    var item = new BsonDocument
                                 {
                                     { "id", msg.Attribute("id").Value },
                                     { "authorId", msg.Attribute("authorId").Value },
                                     { "createdOn", DateTime.Parse(msg.Element("createdOn").Value) },
                                     { "body", msg.Element("body").Value },
                                     { "is_answer", msg.Element("answer") == null ? "false" : msg.Element("answer").Value},
-                                    { "histories", histories }
+                                    { "histories", new BsonArray(histories) }
                                 };
 
                     messages.Add(item);
@@ -66,7 +64,7 @@ namespace Example.Modules
 
                 var xThread = xDoc.Element("root").Element("thread");
 
-                var thread = new Dictionary<string, object>
+                var thread = new BsonDocument
                 {
                     { "_id", xThread.Attribute("id") == null ? string.Empty : xThread.Attribute("id").Value},
                     { "authorId", xThread.Attribute("authorId") == null ? string.Empty : xThread.Attribute("authorId").Value },
@@ -77,15 +75,11 @@ namespace Example.Modules
                     { "answered", xThread.Attribute("answered") == null ? "false" : xThread.Attribute("answered").Value},
                     { "views", int.Parse(xThread.Attribute("views") == null ? string.Empty : xThread.Attribute("views").Value) },
                     { "forumId", xThread.Attribute("discussionGroupId") == null ? string.Empty : xThread.Attribute("discussionGroupId").Value},
-                    { "messages", messages},
-                    { "users", users}
+                    { "messages", new BsonArray(messages)},
+                    { "users", new BsonArray(users)}
                 };
 
-                // push to result
-                foreach (var kv in thread)
-                {
-                    metadata.Add(kv);
-                }
+                return thread;
             }
         }
     }

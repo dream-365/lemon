@@ -1,24 +1,22 @@
 ﻿using Lemon.Core;
 using MongoDB.Bson;
-using MongoDB.Bson.IO;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 
 namespace Lemon.Storage
 {
     public class MongoDBPersistence : IDocumentPersistence
     {
-        public void Persist(IDictionary<string, object> dict)
-        {
-            Save(dict);
-        }
-
         public void Persist(BsonDocument document)
         {
-            throw new NotImplementedException();
+            document.Set("timestamp", DateTime.Now);
+
+            var id = Builders<BsonDocument>.Filter.Eq("_id", document.GetValue("_id"));
+
+            _collection.DeleteOneAsync(id).Wait();
+
+            _collection.InsertOneAsync(document).Wait();
         }
 
 
@@ -55,26 +53,6 @@ namespace Lemon.Storage
             var collectionName = temp[1];
 
             _collection = Client.GetDatabase(dbName).GetCollection<BsonDocument>(collectionName);
-        }
-
-        private  void Save(IDictionary<string, object> data)
-        {
-            var id = Builders<BsonDocument>.Filter.Eq("_id", data["_id"] as string);
-
-            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data);
-
-            using (var jsonReader = new JsonReader(jsonString))
-            {
-                var context = BsonDeserializationContext.CreateRoot(jsonReader);
-
-                var document = _collection.DocumentSerializer.Deserialize(context);
-
-                document.Set("timestamp", DateTime.Now);
-
-                _collection.DeleteOneAsync(id).Wait();
-
-                _collection.InsertOneAsync(document).Wait();
-            }
         }
     }
 }

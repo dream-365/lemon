@@ -1,10 +1,11 @@
 ﻿using MongoDB.Bson;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Lemon.Core
 {
-    public interface IDocumentPersistence
+    public interface INormalize
     {
-        void Persist(BsonDocument document);
+        BsonDocument Normalize(Stream stream);
     }
 }

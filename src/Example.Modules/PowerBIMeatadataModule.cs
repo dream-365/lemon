@@ -6,13 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using MongoDB.Bson;
 
 namespace Example.Modules
 {
-    public class PowerBIMeatadataModule : IStreamProcessingModule
+    public class PowerBIMeatadataModule : INormalize
     {
-        public void OnProcess(IDictionary<string, object> metadata, Stream stream)
+        public BsonDocument Normalize(Stream stream)
         {
+            var metadata = new BsonDocument();
+
             var document = new HtmlAgilityPack.HtmlDocument();
 
             document.Load(stream, Encoding.GetEncoding("utf-8"));
@@ -25,7 +28,7 @@ namespace Example.Modules
 
             string createdOnText = string.Empty;
 
-            if (dateNode  == null)
+            if (dateNode == null)
             {
                 var tempNodes = message.SelectSingleNode("//span[contains(@class,'ia-message-posted-on')]").SelectNodes("span[contains(@class,'local')]");
 
@@ -81,6 +84,8 @@ namespace Example.Modules
             metadata.Add("views", views);
 
             metadata.Add("replies", replies);
+
+            return metadata;
         }
     }
 }
