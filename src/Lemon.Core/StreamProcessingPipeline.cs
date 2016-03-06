@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Lemon.Core
 {
-    public class StreamProcessingPipeline
+    internal class StreamProcessingPipeline
     {
         private IEnumerable<IStreamProcessingModule> _modules;
 

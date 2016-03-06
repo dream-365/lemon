@@ -73,9 +73,9 @@
       <Project>{5884eca0-9ce4-4d75-8af9-463e898c5540}</Project>
       <Name>Example.Modules</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lemon.Core\Lemon.Core.csproj">
+    <ProjectReference Include="..\Lemon.Core\Lemon.Core.Legacy.csproj">
       <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
-      <Name>Lemon.Core</Name>
+      <Name>Lemon.Core.Legacy</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

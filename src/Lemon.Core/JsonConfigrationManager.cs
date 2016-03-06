@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Lemon.Core.Config
 {
-    public class JsonConfigrationManager<TConfigNode>
+    internal class JsonConfigrationManager<TConfigNode>
     {
         private IDictionary<string, IDictionary<string, object>> _raw;
 

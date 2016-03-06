@@ -1,0 +1,13 @@
+﻿{
+  "_msdn_base_": {
+    "encoding": "utf-8",
+    "indexBuilder": "msdn",
+    "step":  1
+  },
+  "uwp_forum": {
+     "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
+    "start": 1,
+    "length": 1
+  }
+}

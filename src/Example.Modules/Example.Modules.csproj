@@ -50,14 +50,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lemon.Core\Lemon.Core.csproj">
-      <Project>{f0fca46c-ced4-4fbb-b8c2-7e82c9ef5810}</Project>
-      <Name>Lemon.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lemon.Core\Lemon.Core.csproj">
+      <Project>{1bb44da3-1df4-4d5c-af87-0dab837cbba6}</Project>
+      <Name>Lemon.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
