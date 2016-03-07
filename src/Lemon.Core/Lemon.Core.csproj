@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Discover\DiscoverObject.cs" />
+    <Compile Include="Local\LocalBlobClient.cs" />
+    <Compile Include="Local\MemoryMessageQueue.cs" />
+    <Compile Include="Local\MemoryMessageQueueProvider.cs" />
     <Compile Include="Process\DiscoverProcess.cs" />
     <Compile Include="Discover\DiscoverSetting.cs" />
     <Compile Include="Discover\IBuildIndex.cs" />
