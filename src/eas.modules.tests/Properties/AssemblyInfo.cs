@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("eas.modules")]
+[assembly: AssemblyTitle("eas.modules.tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("eas.modules")]
+[assembly: AssemblyProduct("eas.modules.tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5884eca0-9ce4-4d75-8af9-463e898c5540")]
+[assembly: Guid("9063d8cf-346e-43b7-bdab-0e5469007997")]
 
 // Version information for an assembly consists of the following four values:
 //

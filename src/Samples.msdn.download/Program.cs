@@ -1,23 +1,32 @@
 ﻿using Lemon.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
-namespace Samples.msdn.download
+namespace eas.download
 {
     class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             var process = new DownloadProcess();
 
             process.SetMessageQueueProvider(new Lemon.Storage.Message.DefaultMessageQueueProvider());
 
-            process.SetBlobClient(new Lemon.Storage.AzureBlobClient("container-name"));
+            process.SetBlobClient(new Lemon.Storage.AzureBlobClient(ConfigurationManager.AppSettings["eas:storage"]));
 
-            process.Start("download-queue-name");
+            process.DispatchQueueName = ConfigurationManager.AppSettings["eas:normalize"];
+
+            if (args.Length > 0 && args[0] == "onerror")
+            {
+                process.Start(ConfigurationManager.AppSettings["eas:onerror"]);
+            }
+            else
+            {
+                process.Start(ConfigurationManager.AppSettings["eas:download"]);
+            }
         }
     }
 }

@@ -1,16 +1,13 @@
 ﻿using Lemon.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
 
-namespace Example.Modules
+namespace eas.modules
 {
-    public class PowerBIMeatadataModule : INormalize
+    public class PowerBIHtmlNormalization : INormalize
     {
         public BsonDocument Normalize(Stream stream)
         {
