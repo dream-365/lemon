@@ -38,7 +38,7 @@ namespace Lemon.Core
             _action = action;
         }
 
-        public void Start(string name, string saveTo = null, string handler = null)
+        public void Start(string name, string collection = null, string handler = null)
         {
             var setting = _configrationManager.GetSetting(name);
 
@@ -50,8 +50,6 @@ namespace Lemon.Core
 
             var task = discoverObject.ForEachAsync((item) => {
 
-                Console.Write(item.GetValue("uri").AsString);
-
                 if(dispatchQueue != null)
                 {
                     var message = new DownloadContentMessageBody
@@ -59,13 +57,13 @@ namespace Lemon.Core
                         Url = item.GetValue("uri").AsString
                     };
 
-                    message.Context.Add("saveTo", saveTo);
+                    message.Context.Add("saveTo", collection);
 
                     message.Context.Add("handler", handler);
 
                     dispatchQueue.Send(message);
 
-                    Console.Write("[Dispatch]");
+                    Console.WriteLine("[Dispatch]");
                 }
 
                 if (_action != null)
@@ -78,8 +76,6 @@ namespace Lemon.Core
                         // Ignore the exception caused by external invoke
                     }
                 }
-
-                Console.WriteLine();
             });
 
             task.Wait();

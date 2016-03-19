@@ -5,19 +5,21 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Core", "Lemon.Core\Lemon.Core.csproj", "{1BB44DA3-1DF4-4D5C-AF87-0DAB837CBBA6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{70B66729-DC95-4422-8907-0032C78BE27C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.msdn.discover", "Samples.msdn.discover\Samples.msdn.discover.csproj", "{C2D0B46A-DF9E-42E5-8C3F-D49096B77128}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.discover", "Samples.msdn.discover\eas.discover.csproj", "{C2D0B46A-DF9E-42E5-8C3F-D49096B77128}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Storage", "Lemon.Storage\Lemon.Storage.csproj", "{B69F98AF-71C5-46A5-B271-9889A2A48A40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Core.Legacy", "Lemon.Core.Legacy\Lemon.Core.Legacy.csproj", "{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.msdn.download", "Samples.msdn.download\Samples.msdn.download.csproj", "{03DEC3C4-8F68-4654-80C6-4E336C3AA116}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.download", "Samples.msdn.download\eas.download.csproj", "{03DEC3C4-8F68-4654-80C6-4E336C3AA116}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.msdn.normalize", "Samples.msdn.normalize\Samples.msdn.normalize.csproj", "{FD757376-8DB8-45D6-B2C0-9B1C3441CA02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.normalize", "Samples.msdn.normalize\eas.normalize.csproj", "{FD757376-8DB8-45D6-B2C0-9B1C3441CA02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Modules", "Example.Modules\Example.Modules.csproj", "{5884ECA0-9CE4-4D75-8AF9-463E898C5540}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.modules", "Example.Modules\eas.modules.csproj", "{5884ECA0-9CE4-4D75-8AF9-463E898C5540}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Easy Analysis", "Easy Analysis", "{39B80122-FC17-4C70-B567-7E16E3A995C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.modules.tests", "eas.modules.tests\eas.modules.tests.csproj", "{9063D8CF-346E-43B7-BDAB-0E5469007997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +55,19 @@ Global
 		{5884ECA0-9CE4-4D75-8AF9-463E898C5540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5884ECA0-9CE4-4D75-8AF9-463E898C5540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5884ECA0-9CE4-4D75-8AF9-463E898C5540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9063D8CF-346E-43B7-BDAB-0E5469007997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9063D8CF-346E-43B7-BDAB-0E5469007997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9063D8CF-346E-43B7-BDAB-0E5469007997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9063D8CF-346E-43B7-BDAB-0E5469007997}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C2D0B46A-DF9E-42E5-8C3F-D49096B77128} = {70B66729-DC95-4422-8907-0032C78BE27C}
-		{03DEC3C4-8F68-4654-80C6-4E336C3AA116} = {70B66729-DC95-4422-8907-0032C78BE27C}
-		{FD757376-8DB8-45D6-B2C0-9B1C3441CA02} = {70B66729-DC95-4422-8907-0032C78BE27C}
-		{5884ECA0-9CE4-4D75-8AF9-463E898C5540} = {70B66729-DC95-4422-8907-0032C78BE27C}
+		{C2D0B46A-DF9E-42E5-8C3F-D49096B77128} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
+		{03DEC3C4-8F68-4654-80C6-4E336C3AA116} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
+		{FD757376-8DB8-45D6-B2C0-9B1C3441CA02} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
+		{5884ECA0-9CE4-4D75-8AF9-463E898C5540} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
+		{9063D8CF-346E-43B7-BDAB-0E5469007997} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
 	EndGlobalSection
 EndGlobal

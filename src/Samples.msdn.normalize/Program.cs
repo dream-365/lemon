@@ -1,7 +1,8 @@
-﻿using Example.Modules;
+﻿using eas.modules;
 using Lemon.Core;
+using System.Configuration;
 
-namespace Samples.msdn.normalize
+namespace eas.normalize
 {
     class Program
     {
@@ -9,17 +10,17 @@ namespace Samples.msdn.normalize
         {
             var process = new NormalizeProcess();
 
-            process.OnErrorQueueName = "on-error-queue-name";
+            process.OnErrorQueueName = ConfigurationManager.AppSettings["eas:onerror"];
 
-            process.SetBlobClient(new Lemon.Storage.AzureBlobClient("container-name"));
+            process.SetBlobClient(new Lemon.Storage.AzureBlobClient(ConfigurationManager.AppSettings["eas:storage"]));
 
             process.SetMessageQueueProvider(new Lemon.Storage.Message.DefaultMessageQueueProvider());
 
             process.SetPersistenceProvider(new Lemon.Storage.MongoDBPersistenceProvider());
 
-            process.SetNormaliztionProvider(new DefaultModuleProvider());
+            process.SetNormaliztionProvider(new EasDefaultModuleProvider());
 
-            process.Start("listen-to-queue");
+            process.Start(ConfigurationManager.AppSettings["eas:normalize"]);
         }
     }
 }
