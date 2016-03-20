@@ -41,7 +41,7 @@ namespace Lemon.Transform
                     .Limit(BAT_SZIE + 1)
                     .ToList();
 
-                list.ForEach(m => forEach(new MongoValueProvider(m)));
+                list.ForEach(m => forEach(new BsonDocumentValueProvider(m)));
 
                 if(list.Count <= BAT_SZIE)
                 {

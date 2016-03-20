@@ -1,17 +1,12 @@
 ﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
-    public class MongoValueProvider : IValueProvider
+    public class BsonDocumentValueProvider : IValueProvider
     {
         private BsonDocument _document;
 
-        public MongoValueProvider(BsonDocument document)
+        public BsonDocumentValueProvider(BsonDocument document)
         {
             _document = document;
         }

@@ -15,7 +15,17 @@
             var progressIndicator = new ProgressIndicator(1000);
 
             dataReader.ForEach((provider) => {
-                var setter = dataWritter.GetValueSetter(provider.GetValue(dataReader.PrimaryKey).AsString);
+
+                var id = provider.GetValue(dataReader.PrimaryKey).AsString;
+
+                if(string.IsNullOrWhiteSpace(id))
+                {
+                    ConsoleUtilities.PrintErrorMessage("empty primary key error");
+
+                    return;
+                }
+
+                var setter = dataWritter.GetValueSetter(id);
 
                 foreach (var column in transformColumnDefinitions)
                 {

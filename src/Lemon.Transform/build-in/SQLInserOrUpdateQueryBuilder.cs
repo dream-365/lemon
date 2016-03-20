@@ -22,7 +22,7 @@ namespace Lemon.Transform
             var sb = new StringBuilder();
 
             sb.Append("IF EXISTS(SELECT * FROM [dbo].")
-                .Append("[" + _tableName + "]").Append(" WHERE [").Append(_primaryKey).Append("] = @").AppendLine(_primaryKey);
+                .Append("[" + _tableName + "]").Append(" WHERE [").Append(_primaryKey).Append("] = @").Append(_primaryKey).AppendLine(")");
 
             sb.Append("UPDATE [dbo].").AppendLine("[" + _tableName + "]");
 

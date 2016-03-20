@@ -50,7 +50,14 @@ namespace Lemon.Transform
         {
             var sql = _sqlInserOrUpdateQueryBuilder.Build(record.Keys);
 
-            _connection.Execute(sql, record);
+            try
+            {
+                _connection.Execute(sql, record);
+            }
+            catch(SqlException ex)
+            {
+                ConsoleUtilities.PrintErrorMessage(ex.Message + "\r\n" + sql);
+            }
         }
 
         public void Flush()

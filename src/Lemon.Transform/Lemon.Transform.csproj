@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleUtilities.cs" />
     <Compile Include="DataReaderRegistration.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="DataTarget.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="ProgressIndicator.cs" />
     <Compile Include="build-in\SqlNamedQueryProvider.cs" />
     <Compile Include="build-in\SqlTransformDataReader.cs" />
-    <Compile Include="build-in\SQLValueSetterOperation.cs" />
+    <Compile Include="build-in\SQLInserOrUpdateQueryBuilder.cs" />
     <Compile Include="CalculationColumnDefinition.cs" />
     <Compile Include="CoreDocumentTransformEngine.cs" />
     <Compile Include="interfaces\ITransformDataReader.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="build-in\MongoDataReader.cs" />
     <Compile Include="build-in\MongoDataWritter.cs" />
     <Compile Include="DefaultTransformEngine.cs" />
-    <Compile Include="build-in\MongoValueProvider.cs" />
+    <Compile Include="build-in\BsonDocumentValueProvider.cs" />
     <Compile Include="build-in\MongoValueSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="build-in\SqlDataWritter.cs" />

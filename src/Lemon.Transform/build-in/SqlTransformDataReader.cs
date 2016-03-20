@@ -94,7 +94,7 @@ namespace Lemon.Transform
 
                     document.Add(column.FieldName, Cast(value, column.DataType));
 
-                    forEach(new MongoValueProvider(document));
+                    forEach(new BsonDocumentValueProvider(document));
                 }
             }
 
