@@ -16,9 +16,9 @@
 
             dataReader.ForEach((provider) => {
 
-                var id = provider.GetValue(dataReader.PrimaryKey).AsString;
+                var id = provider.GetValue(dataReader.PrimaryKey).ToString();
 
-                if(string.IsNullOrWhiteSpace(id))
+                if (string.IsNullOrWhiteSpace(id))
                 {
                     ConsoleUtilities.PrintErrorMessage("empty primary key error");
 

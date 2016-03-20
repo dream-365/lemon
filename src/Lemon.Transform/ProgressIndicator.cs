@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
@@ -26,7 +22,6 @@ namespace Lemon.Transform
         public void Increment()
         {
             _counter = _counter + 1;
-
 
             if(_counter % _unit == 0)
             {
