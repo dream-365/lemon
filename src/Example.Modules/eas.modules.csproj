@@ -52,6 +52,7 @@
     <Compile Include="EasDefaultModuleProvider.cs" />
     <Compile Include="MSDNIndexBuilder.cs" />
     <Compile Include="MSDNXMLNormalization.cs" />
+    <Compile Include="PowerBIHtmlNormalization2.cs" />
     <Compile Include="PowerBIIndexBuilder.cs" />
     <Compile Include="PowerBIHtmlNormalization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

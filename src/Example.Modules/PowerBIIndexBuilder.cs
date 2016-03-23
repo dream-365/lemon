@@ -30,10 +30,9 @@ namespace eas.modules
 
                 var id = idPattern.Match(uri).Groups[1].Value;
 
-
                 var document = new BsonDocument();
 
-                document.Add("_id", id)
+                document.Add("_id", "powerbi_" + id)
                         .Add("title", title)
                         .Add("uri", uri);
 

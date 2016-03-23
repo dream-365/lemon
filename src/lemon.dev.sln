@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.discover", "Samples.msd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Storage", "Lemon.Storage\Lemon.Storage.csproj", "{B69F98AF-71C5-46A5-B271-9889A2A48A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Core.Legacy", "Lemon.Core.Legacy\Lemon.Core.Legacy.csproj", "{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.download", "Samples.msdn.download\eas.download.csproj", "{03DEC3C4-8F68-4654-80C6-4E336C3AA116}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.normalize", "Samples.msdn.normalize\eas.normalize.csproj", "{FD757376-8DB8-45D6-B2C0-9B1C3441CA02}"
@@ -41,10 +39,6 @@ Global
 		{B69F98AF-71C5-46A5-B271-9889A2A48A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B69F98AF-71C5-46A5-B271-9889A2A48A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B69F98AF-71C5-46A5-B271-9889A2A48A40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0FCA46C-CED4-4FBB-B8C2-7E82C9EF5810}.Release|Any CPU.Build.0 = Release|Any CPU
 		{03DEC3C4-8F68-4654-80C6-4E336C3AA116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03DEC3C4-8F68-4654-80C6-4E336C3AA116}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03DEC3C4-8F68-4654-80C6-4E336C3AA116}.Release|Any CPU.ActiveCfg = Release|Any CPU

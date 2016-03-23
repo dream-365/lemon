@@ -12,7 +12,7 @@ namespace eas.modules
                 return new MSDNXMLNormalization();
             } else if(name == "powerbi")
             {
-                return new PowerBIHtmlNormalization();
+                return new PowerBIHtmlNormalization2();
             }
 
             throw new NotImplementedException(name);

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Discover\DiscoverObject.cs" />
+    <Compile Include="Exception\NormalizeException.cs" />
     <Compile Include="Local\LocalBlobClient.cs" />
     <Compile Include="Local\MemoryMessageQueue.cs" />
     <Compile Include="Local\MemoryMessageQueueProvider.cs" />

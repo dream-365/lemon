@@ -2,12 +2,106 @@
   "_msdn_base_": {
     "encoding": "utf-8",
     "indexBuilder": "msdn",
+    "start": 1,
+    "length": 5,
+    "step": 1
+  },
+  "_powerbi_base_": {
+    "encoding": "utf-8",
+    "indexBuilder": "powerbi",
+    "start": 1,
     "step":  1
   },
-  "uwp_forum": {
-     "@extend": "_msdn_base_",
-    "uriTemplate": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}",
-    "start": 1,
+  "uwp_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "length": 100,
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "officedev_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "length": 100,
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/office/en-US/home?category=officedev&forum=vsto%2Cappsforoffice%2Cexceldev%2Cworddev%2Cofficegeneral%2Coutlookdev%2Caccessdev%2Cofficedevpreview%2Coxmlsdk&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "office_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "length": 100,
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/office/en-US/home?category=officeitpro&forum=Office2016forMac%2Coffice2010%2COffice2016setupdeploy%2Cword%2Cexcel%2Cofficeitproprevious%2Cofficeitprolegacy%2Cofficesetupdeploy%2Coutlook%2Cofficeitpromod%2COffice2016ITPro%2Cofficesetupdeployprevious%2Cofficeitpropreview%2Cofficeitpro%2Cofficesetupdeploylegacy&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "office_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/office/en-US/home?category=officeitpro&forum=Office2016forMac%2Coffice2010%2COffice2016setupdeploy%2Cword%2Cexcel%2Cofficeitproprevious%2Cofficeitprolegacy%2Cofficesetupdeploy%2Coutlook%2Cofficeitpromod%2COffice2016ITPro%2Cofficesetupdeployprevious%2Cofficeitpropreview%2Cofficeitpro%2Cofficesetupdeploylegacy&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "sql_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "length": 100,
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlintegrationservices%2Csqlreportingservices%2Csqlgetstarted%2Csqlexpress%2Csqldatabaseengine%2Cdatabasedesign%2Csqlsetupandupgrade%2Csqldataaccess%2Ctransactsql%2Csqldisasterrecovery%2Csqlsecurity%2Csqltools%2Csqlreplication%2Csqlanalysisservices&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "exchange_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "length": 100,
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/en-US/home?forum=exchangesvradmin%2Cexchangesvrclients%2Cexchangesvrmigration%2Cexchangesvrtransport%2Cexchangesvrsecuremessaginglegacy%2Cexchangesoftwareupdate%2Cexchangesvradminlegacy%2Cexchangesvrgeneral%2Cexchangesvravailabilityandisasterrecovery%2Cexchange2010hosters%2Cexchangesvrdeploylegacy%2Cexchangesvrdeploy%2Cexchangesvrsecuremessaging%2Cexchangesvrgenerallegacy%2Cexchange2010%2Cexchangesvrclientslegacy%2Cexchangesvravailabilityandisasterrecoverylegacy%2CExch2016CM%2CExch2016MFSM%2CExch2016Adm%2CExch2016PFs%2CExch2016HADR%2CExch2016PS%2CExch2016GD%2CExch2016SD&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "officedev_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/office/en-US/home?category=officedev&forum=vsto%2Cappsforoffice%2Cexceldev%2Cworddev%2Cofficegeneral%2Coutlookdev%2Caccessdev%2Cofficedevpreview%2Coxmlsdk&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "uwp_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=wpdevelop&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "sql_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/sqlserver/en-US/home?forum=sqlintegrationservices%2Csqlreportingservices%2Csqlgetstarted%2Csqlexpress%2Csqldatabaseengine%2Cdatabasedesign%2Csqlsetupandupgrade%2Csqldataaccess%2Ctransactsql%2Csqldisasterrecovery%2Csqlsecurity%2Csqltools%2Csqlreplication%2Csqlanalysisservices&filter=alltypes&sort=lastpostdesc&page={0}"
+  },
+  "powerapps_by_post": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/en-us/home?forum=PowerApps&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "powerapps_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/en-us/home?forum=PowerApps&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "csp_by_post": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/en-US/home?category=microsoftpartnercenter&forum=partnercenterapi%2Cpartnercenter&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "csp_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/en-US/home?category=microsoftpartnercenter&forum=partnercenterapi%2Cpartnercenter&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "lync_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.technet.microsoft.com/Forums/en-US/home?forum=sfbfr%2Cocsinterop%2Cocsvoice%2Cocsmonitoring%2Cocspresenceim%2Clyncinterop%2Clyncconferencing%2Cocscertificates%2Clyncdeploy%2Cocsplanningdeployment%2Cocsclients%2Cocsconferencing%2Clyncprofile%2Clyncvoice%2Cocscapacityplanning%2Cocsaddressbook%2Cocsmobility%2Cocsmanagement%2Cocsedge&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "sharepoint_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/en-US/home?forum=sharepointdevelopment%2Csharepointsearch%2Csharepointsearchprevious%2Csharepointdevelopmentprevious%2Csharepointcustomization%2Csharepointadminprevious%2Csharepointadmin%2Cappsforsharepoint%2Csharepointgeneral%2Csharepointcustomizationprevious%2Csharepointgeneralprevious&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "sharepoint_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/en-US/home?forum=sharepointdevelopment%2Csharepointsearch%2Csharepointsearchprevious%2Csharepointdevelopmentprevious%2Csharepointcustomization%2Csharepointadminprevious%2Csharepointadmin%2Cappsforsharepoint%2Csharepointgeneral%2Csharepointcustomizationprevious%2Csharepointgeneralprevious&filter=alltypes&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "cordova_sort_by_lastpost": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=ToolsForApacheCordova&sort=lastpostdesc&brandIgnore=true&page={0}"
+  },
+  "cordova_sort_by_post": {
+    "@extend": "_msdn_base_",
+    "uriTemplate": "https://social.msdn.microsoft.com/Forums/windowsapps/en-US/home?forum=ToolsForApacheCordova&filter=alltypes&sort=firstpostdesc&brandIgnore=true&page={0}"
+  },
+  "powerbi_desktop": {
+    "@extend": "_powerbi_base_",
+    "uriTemplate": "http://community.powerbi.com/t5/Desktop/bd-p/power-bi-designer/page/{0}",
+    "length": 1
+  },
+  "powerbi_service": {
+    "@extend": "_powerbi_base_",
+    "uriTemplate": "http://community.powerbi.com/t5/Service/bd-p/power-bi-web-app/page/{0}",
+    "length": 1
+  },
+  "powerbi_integrations": {
+     "@extend": "_powerbi_base_",
+    "uriTemplate": "http://community.powerbi.com/t5/Integrations-with-Files-and/bd-p/power-bi-services/page/{0}",
     "length": 1
   }
 }
