@@ -12,7 +12,7 @@ namespace eas.modules
 {
     public class PowerBIHtmlNormalization2 : INormalize
     {
-        public BsonDocument Normalize(Stream stream)
+        public BsonDocument Normalize(Stream stream, IDictionary<string, object> context)
         {
             var metadata = new BsonDocument();
 
@@ -50,6 +50,7 @@ namespace eas.modules
             var thread = new BsonDocument {
                 { "_id", string.Format("powerbi_{0}", firstMessage.GetValue("id").AsString)},
                 { "title", firstMessage.GetValue("title")},
+                { "url", context["url"] as string },
                 { "answered", resovled},
                 { "author", firstMessage.GetValue("author")},
                 { "createdOn", firstMessage.GetValue("createdOn")},

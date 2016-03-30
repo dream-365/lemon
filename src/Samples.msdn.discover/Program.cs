@@ -63,8 +63,6 @@ namespace eas.discover
             // load settings 
             var process = new DiscoverProcess();
 
-            var persistence = new MongoDBPersistence("lemon.indexes");
-
             process.LoadSettings("disocver.settings.json");
 
             process.SetBuildIndexProivder(new EasBuildIndexProvider());
@@ -74,7 +72,6 @@ namespace eas.discover
             process.DispatchQueueName = ConfigurationManager.AppSettings["eas:download"];
 
             process.OnNew((item) => {
-                persistence.Persist(item);
                 Console.WriteLine(item.GetValue("uri").AsString);
                 Console.WriteLine(item.GetValue("title").AsString);
             });

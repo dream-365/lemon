@@ -63,7 +63,7 @@ namespace Lemon.Core
                         {
                             var module = _normaliztionProvider.Activate(message.Context["handler"]);
 
-                            var metadata = module.Normalize(stream);
+                            var metadata = module.Normalize(stream, new Dictionary<string, object> { {"url", message.OrignalUrl } });
 
                             if (!documentPersistenceCache.ContainsKey(message.Context["saveTo"]))
                             {

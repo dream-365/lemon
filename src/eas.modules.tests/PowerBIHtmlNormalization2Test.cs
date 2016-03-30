@@ -14,7 +14,7 @@ namespace eas.modules.tests
             {
                 var normalization = new PowerBIHtmlNormalization2();
 
-                normalization.Normalize(fs);
+                normalization.Normalize(fs, new System.Collections.Generic.Dictionary<string, object> { { "url", "url"} });
             }
         }
     }

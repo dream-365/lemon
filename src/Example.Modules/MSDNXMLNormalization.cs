@@ -11,7 +11,7 @@ namespace eas.modules
 {
     public class MSDNXMLNormalization : INormalize
     {
-        public BsonDocument Normalize(Stream stream)
+        public BsonDocument Normalize(Stream stream, IDictionary<string, object> context)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
 

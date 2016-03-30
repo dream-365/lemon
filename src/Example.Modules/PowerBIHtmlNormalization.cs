@@ -4,12 +4,13 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace eas.modules
 {
     public class PowerBIHtmlNormalization : INormalize
     {
-        public BsonDocument Normalize(Stream stream)
+        public BsonDocument Normalize(Stream stream, IDictionary<string, object> context)
         {
             var metadata = new BsonDocument();
 
