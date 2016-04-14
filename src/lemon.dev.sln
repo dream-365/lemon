@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.modules.tests", "eas.mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Transform", "Lemon.Transform\Lemon.Transform.csproj", "{1A0E7840-4D1D-4226-8931-C1DAEDEAE0D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eas.restapi", "eas.restapi\eas.restapi.csproj", "{E8B45BF9-416C-4F02-ACC8-7EF02FE9ED09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{1A0E7840-4D1D-4226-8931-C1DAEDEAE0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A0E7840-4D1D-4226-8931-C1DAEDEAE0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A0E7840-4D1D-4226-8931-C1DAEDEAE0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8B45BF9-416C-4F02-ACC8-7EF02FE9ED09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B45BF9-416C-4F02-ACC8-7EF02FE9ED09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B45BF9-416C-4F02-ACC8-7EF02FE9ED09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B45BF9-416C-4F02-ACC8-7EF02FE9ED09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,6 @@ Global
 		{FD757376-8DB8-45D6-B2C0-9B1C3441CA02} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
 		{5884ECA0-9CE4-4D75-8AF9-463E898C5540} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
 		{9063D8CF-346E-43B7-BDAB-0E5469007997} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
+		{E8B45BF9-416C-4F02-ACC8-7EF02FE9ED09} = {39B80122-FC17-4C70-B567-7E16E3A995C9}
 	EndGlobalSection
 EndGlobal
