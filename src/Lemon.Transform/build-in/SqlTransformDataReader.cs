@@ -83,22 +83,27 @@ namespace Lemon.Transform
                 mappings.Add(new FieldTypeMapping { Ordinal = ordinal, FieldName = name, DataType = type });
             }
 
-                // Call Read before accessing data.
             while (reader.Read())
             {
                 var document = new BsonDocument();
 
                 foreach (FieldTypeMapping column in mappings)
                 {
-                    var value = reader.GetValue(column.Ordinal);
+                    if(reader.IsDBNull(column.Ordinal))
+                    {
+                        document.Add(column.FieldName, BsonNull.Value);
+                    }
+                    else
+                    {
+                        var value = reader.GetValue(column.Ordinal);
 
-                    document.Add(column.FieldName, Cast(value, column.DataType));
-
-                    forEach(new BsonDocumentValueProvider(document));
+                        document.Add(column.FieldName, Cast(value, column.DataType));
+                    }
                 }
+
+                forEach(new BsonDocumentValueProvider(document));
             }
 
-            // Call Close when done reading.
             reader.Close();
         }
 
