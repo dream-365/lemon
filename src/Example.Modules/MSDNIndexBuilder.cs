@@ -18,6 +18,11 @@ namespace eas.modules
 
             var nodes = htmlDocument.DocumentNode.SelectNodes("//*[@id=\"threadList\"]/li//div[@class='detailscontainer']");
 
+            if(nodes == null)
+            {
+                return documents;
+            }
+
             var numberRegex = new Regex(@"\d+");
 
             foreach(var node in nodes)
