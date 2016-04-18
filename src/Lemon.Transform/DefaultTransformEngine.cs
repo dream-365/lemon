@@ -26,6 +26,7 @@ namespace Lemon.Transform
 
             RegisterDataReader(new DataReaderRegistration { Name = "mongo", CreateNew = CreateMongoDataReader });
             RegisterDataReader(new DataReaderRegistration { Name = "mssql", CreateNew = CreateSqlDataReader });
+            RegisterDataReader(new DataReaderRegistration { Name = "json", CreateNew = CreateJsonFileDataReader });
 
             RegisterDataWriter(new DataWriterRegistration { Name = "mongo", CreateNew = CreateMongoDataWritter });
             RegisterDataWriter(new DataWriterRegistration { Name = "mssql", CreateNew = CreateSqlDataWritter });
@@ -64,6 +65,12 @@ namespace Lemon.Transform
             Execute(transformObject);
 
             Console.WriteLine();
+        }
+
+
+        private static ITransformDataReader CreateJsonFileDataReader(DataSource source)
+        {
+            return new JsonFileDataReader(source.Connection, source.PrimaryKey);
         }
 
         private ITransformDataReader CreateSqlDataReader(DataSource source)

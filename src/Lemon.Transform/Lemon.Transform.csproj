@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="build-in\JsonFileDataReader.cs" />
     <Compile Include="ConsoleUtilities.cs" />
     <Compile Include="DataReaderRegistration.cs" />
     <Compile Include="DataSource.cs" />
