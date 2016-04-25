@@ -12,6 +12,9 @@ namespace eas.modules
             } else if ( name == "powerbi")
             {
                 return new PowerBIIndexBuilder();
+            } else if (name == "uservoice" )
+            {
+                return new UserVoiceIndexBuilder();
             }
 
             throw new System.NotSupportedException();
