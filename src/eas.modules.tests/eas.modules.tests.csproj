@@ -73,6 +73,9 @@
     <Content Include="data\powerbi.com_t5_Desktop_bd-p_power-bi-designer.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\powerbi.com_t5_Desktop_unexpected-error_m-p_31104.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

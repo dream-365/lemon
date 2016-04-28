@@ -10,11 +10,11 @@ namespace eas.modules.tests
         [TestMethod]
         public void NormalizeTest()
         {
-            using (var fs = new FileStream(@"data\poerbi.com_detail_page.html", FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(@"data\powerbi.com_t5_Desktop_unexpected-error_m-p_31104.html", FileMode.Open, FileAccess.Read))
             {
                 var normalization = new PowerBIHtmlNormalization2();
 
-                normalization.Normalize(fs, new System.Collections.Generic.Dictionary<string, object> { { "url", "url"} });
+                normalization.Normalize(fs, new System.Collections.Generic.Dictionary<string, object> { { "url", "http://community.powerbi.com/t5/Desktop/unexpected-error/m-p/31104/" } });
             }
         }
     }

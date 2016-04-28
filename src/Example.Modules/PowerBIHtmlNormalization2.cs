@@ -47,8 +47,10 @@ namespace eas.modules
 
             var forum = scopeNode.InnerText;
 
+            var questionId = new Regex(@"/(\d+)/").Match(context["url"] as string).Groups[1].Value;
+
             var thread = new BsonDocument {
-                { "_id", string.Format("powerbi_{0}", firstMessage.GetValue("id").AsString)},
+                { "_id", string.Format("powerbi_{0}", questionId)},
                 { "title", firstMessage.GetValue("title")},
                 { "url", context["url"] as string },
                 { "answered", resovled},
@@ -58,6 +60,7 @@ namespace eas.modules
                 { "messages", new BsonArray(messages.Skip(1))},
                 { "forumId", string.Format("powerbi.{0}", forum.ToLower())}
             };
+
 
             return thread;
         }

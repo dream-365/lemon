@@ -70,6 +70,7 @@
     <Compile Include="JsonConfigrationManager.cs" />
     <Compile Include="Model\DownloadContentMessageBody.cs" />
     <Compile Include="Model\ProcessContentMessageBody.cs" />
+    <Compile Include="Process\ListDiscoverProcess.cs" />
     <Compile Include="Process\NormalizeProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
