@@ -10,7 +10,18 @@
     "encoding": "utf-8",
     "indexBuilder": "powerbi",
     "start": 1,
-    "step":  1
+    "step": 1
+  },
+  "_uservoice_base_": {
+    "encoding": "utf-8",
+    "indexBuilder": "uservoice",
+    "start": 1,
+    "step": 1
+  },
+  "uservoice_powerapps": {
+    "@extend": "_uservoice_base_",
+    "length":  5,
+    "uriTemplate": "https://powerapps.uservoice.com/forums/331617-general?filter=hot&page={0}"
   },
   "uwp_sort_by_post": {
     "@extend": "_msdn_base_",
@@ -100,7 +111,7 @@
     "length": 1
   },
   "powerbi_integrations": {
-     "@extend": "_powerbi_base_",
+    "@extend": "_powerbi_base_",
     "uriTemplate": "http://community.powerbi.com/t5/Integrations-with-Files-and/bd-p/power-bi-services/page/{0}",
     "length": 1
   }
