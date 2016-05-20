@@ -18,7 +18,7 @@ namespace Lemon.Core
 
         public string DispatchQueueName { get; set; }
 
-        public void SetBuildIndexProivder(IBuildIndexProvider provider)
+        public void SetBuildIndexProvider(IBuildIndexProvider provider)
         {
             _buildIndexProvider = provider;
         }

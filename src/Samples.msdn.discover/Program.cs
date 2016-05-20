@@ -65,7 +65,7 @@ namespace eas.discover
 
             process.LoadSettings("disocver.settings.json");
 
-            process.SetBuildIndexProivder(new EasBuildIndexProvider());
+            process.SetBuildIndexProvider(new EasBuildIndexProvider());
 
             process.SetMessageQueueProvider(new DefaultMessageQueueProvider());
 

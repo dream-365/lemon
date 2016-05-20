@@ -29,7 +29,7 @@ namespace Lemon.Core
 
         public void Start(string listenToQueue)
         {
-            IMessageQueue downloadQueue = _messageQueueProvider.Get(listenToQueue, false);
+            IMessageQueue downloadQueue = _messageQueueProvider.Get(listenToQueue, true);
 
             if(downloadQueue == null)
             {
