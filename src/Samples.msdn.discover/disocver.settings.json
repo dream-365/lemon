@@ -20,7 +20,7 @@
   },
   "uservoice_powerapps": {
     "@extend": "_uservoice_base_",
-    "length":  5,
+    "length": 5,
     "uriTemplate": "https://powerapps.uservoice.com/forums/331617-general?filter=hot&page={0}"
   },
   "uwp_sort_by_post": {
@@ -103,16 +103,31 @@
   "powerbi_desktop": {
     "@extend": "_powerbi_base_",
     "uriTemplate": "http://community.powerbi.com/t5/Desktop/bd-p/power-bi-designer/page/{0}",
-    "length": 1
+    "length": 2
+  },
+  "powerbi_desktop_all": {
+    "@extend": "_powerbi_base_",
+    "uriTemplate": "http://community.powerbi.com/t5/Desktop/bd-p/power-bi-designer/page/{0}",
+    "length": 10
   },
   "powerbi_service": {
     "@extend": "_powerbi_base_",
     "uriTemplate": "http://community.powerbi.com/t5/Service/bd-p/power-bi-web-app/page/{0}",
-    "length": 1
+    "length": 2
+  },
+  "powerbi_service_all": {
+    "@extend": "_powerbi_base_",
+    "uriTemplate": "http://community.powerbi.com/t5/Service/bd-p/power-bi-web-app/page/{0}",
+    "length": 10
   },
   "powerbi_integrations": {
     "@extend": "_powerbi_base_",
     "uriTemplate": "http://community.powerbi.com/t5/Integrations-with-Files-and/bd-p/power-bi-services/page/{0}",
-    "length": 1
+    "length": 2
+  },
+  "powerbi_integrations_all": {
+    "@extend": "_powerbi_base_",
+    "uriTemplate": "http://community.powerbi.com/t5/Integrations-with-Files-and/bd-p/power-bi-services/page/{0}",
+    "length": 10
   }
 }

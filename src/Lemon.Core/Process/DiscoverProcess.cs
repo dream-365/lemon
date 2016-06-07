@@ -71,7 +71,7 @@ namespace Lemon.Core
                     try
                     {
                         _action.Invoke(item);
-                    }catch(System.Exception)
+                    }catch(System.Exception ex)
                     {
                         // Ignore the exception caused by external invoke
                     }

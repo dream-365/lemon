@@ -1,10 +1,8 @@
 ﻿using eas.modules;
 using Lemon.Core;
-using Lemon.Storage;
-using Lemon.Storage.Message;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.IO;
 using System.Linq;
 
 namespace eas.discover
@@ -19,7 +17,7 @@ namespace eas.discover
         static void Main(string[] args)
         {
             // parse parameters
-            if (args.Length < 6)
+            if (args.Length < 2)
             {
                 Console.WriteLine("-name settingName -collection collectinName -handler handlerName");
 
@@ -67,13 +65,34 @@ namespace eas.discover
 
             process.SetBuildIndexProivder(new EasBuildIndexProvider());
 
-            process.SetMessageQueueProvider(new DefaultMessageQueueProvider());
+            //process.SetMessageQueueProvider(new DefaultMessageQueueProvider());
+            //process.SetMessageQueueProvider(new MemoryMessageQueueProvider());
 
-            process.DispatchQueueName = ConfigurationManager.AppSettings["eas:download"];
+            //process.DispatchQueueName = ConfigurationManager.AppSettings["eas:download"];
 
             process.OnNew((item) => {
                 Console.WriteLine(item.GetValue("uri").AsString);
                 Console.WriteLine(item.GetValue("title").AsString);
+                Console.WriteLine(item.GetValue("vote").AsInt32);
+
+                var log = String.Format("{0} \t {1}\t {2}", item.GetValue("title").AsString, item.GetValue("uri").AsString, item.GetValue("vote").AsInt32);
+
+                var path = "output.txt";
+
+                if (!File.Exists(path))
+                {
+                    // Create a file to write to.
+                    using (StreamWriter sw = File.CreateText(path))
+                    {
+                        sw.WriteLine(log);
+                    }
+                }
+
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.WriteLine(log);
+                }
+
             });
 
             process.Start(name: name, collection: collection, handler: handler);
