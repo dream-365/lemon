@@ -1,0 +1,26 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/Example.Modules/bin
+/src/Example.Modules/obj/
+/src/Lemon.Storage/bin/
+/src/Lemon.Storage/obj
+/src/packages
+/src/Samples.msdn.discover/bin
+/src/Samples.msdn.discover/obj
+/src/Samples.msdn.download/bin/
+/src/Samples.msdn.download/obj
+/src/.vs
+/src/eas.listdiscover/bin
+/src/eas.listdiscover/obj
+/src/Samples.msdn.normalize/bin/
+/src/Samples.msdn.normalize/obj/
+/src/Lemon.Core/bin
+/src/Lemon.Core/obj
+/src/Lemon.Transform/bin
+/src/Lemon.Transform/obj
+/src/eas.restapi/bin
+/src/eas.restapi/obj
+/src/eas.modules.tests/bin
+/src/eas.modules.tests/obj
