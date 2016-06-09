@@ -1,4 +1,6 @@
-﻿namespace Lemon.Transform
+﻿using System.Collections.Generic;
+
+namespace Lemon.Transform
 {
     public class CoreDocumentTransformEngine2
     {
@@ -9,34 +11,22 @@
             _dataFactory = new DataInputOutputFactory();
         }
 
-        public void Execute(SessionContext context)
-        {
-            var dataReader = context.DataReader;
-
-            var dataWritter = context.DataWritter;
-
-            var pipeline = new DataRowPipeline();
-
-            pipeline.Actions.Add(null);
-
-            pipeline.Output = (row) => {
-                dataWritter.Write(row);
-            };
-
-            dataReader.ForEach((dataRow) => {
-                pipeline.Input(dataRow);
-            });
-        }
-
-        public void Execute(string packageName)
+        public void Execute(string packageName, IDictionary<string, string> namedParameters = null)
         {
             var package = LemonTransform.PackageContainer.Resove(packageName);
 
-            Execute(package);
+            Execute(package, namedParameters);
         }
 
-        public void Execute(TransformPackage package)
+        public void Execute(TransformPackage package, IDictionary<string, string> namedParameters = null)
         {
+            if(namedParameters != null)
+            {
+                package.Input.RepalceWithNamedParameters(namedParameters);
+
+                package.Output.RepalceWithNamedParameters(namedParameters);
+            }
+
             var input = _dataFactory.CreateDataInput(package.Input);
 
             var output = _dataFactory.CreateDataOutput(package.Output);

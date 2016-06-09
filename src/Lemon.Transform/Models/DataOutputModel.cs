@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Lemon.Transform.Models;
+using System.Collections.Generic;
+using System;
 
 namespace Lemon.Transform
 {
-    public class DataOutputModel
+    public class DataOutputModel : NamedParameterObjectModel
     {
         public string TargetType { get; set; }
 
@@ -15,5 +17,10 @@ namespace Lemon.Transform
         public string PrimaryKey { get; set; }
 
         public bool IsUpsert { get; set; }
+
+        public override void RepalceWithNamedParameters(IDictionary<string, string> parameters)
+        {
+            ObjectName = RepalceWithNamedParameters(ObjectName, parameters);
+        }
     }
 }

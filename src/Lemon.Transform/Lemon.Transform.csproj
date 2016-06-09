@@ -85,7 +85,6 @@
     <Compile Include="interfaces\IDataStoreService.cs" />
     <Compile Include="JsonDataStoreService.cs" />
     <Compile Include="LemonTransform.cs" />
-    <Compile Include="Models\DataColumn.cs" />
     <Compile Include="interfaces\IDataInput.cs" />
     <Compile Include="DataReaderRegistration.cs" />
     <Compile Include="BsonDataRow.cs" />
@@ -94,8 +93,7 @@
     <Compile Include="Models\DataOutputModel.cs" />
     <Compile Include="DataWriterRegistration.cs" />
     <Compile Include="interfaces\IDocumentTransformProvider.cs" />
-    <Compile Include="interfaces\ITransformDataReader2.cs" />
-    <Compile Include="interfaces\ITransformDataWritter2.cs" />
+    <Compile Include="Models\NamedParameterObjectModel.cs" />
     <Compile Include="PackageBuilder.cs" />
     <Compile Include="PackageContainer.cs" />
     <Compile Include="PackageInstallation.cs" />
@@ -118,7 +116,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="build-in\SqlDataWritter.cs" />
     <Compile Include="build-in\SqlValueSetter.cs" />
-    <Compile Include="SessionContext.cs" />
     <Compile Include="TransformAction.cs" />
     <Compile Include="TransformActionDefinition.cs" />
     <Compile Include="TransformColumnDefinition.cs" />
