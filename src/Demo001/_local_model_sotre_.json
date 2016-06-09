@@ -1,0 +1,21 @@
+﻿{
+  "inputs": {
+    "office_365_threads": {
+      "sourceType": "mongo",
+      "objectName": "landing.office_365_threads",
+      "connection": "mongodb://localhost:27017",
+      "filter": "{}"
+    }
+  },
+  "outputs": {
+    "output_test": {
+      "targetType": "mongo",
+      "connection": "mongodb://localhost:27017",
+      "objectName": "landing.output_test",
+      "columnNames": [ "_id", "questionId", "title", "createdOn", "createdBy" ],
+      "isUpsert": true,
+      "primaryKey": "_id"
+    }
+  }
+
+}

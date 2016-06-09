@@ -55,7 +55,7 @@ namespace Lemon.Transform
             public Type DataType { get; set; }
         }
 
-        public void ForEach(Action<IValueProvider> forEach)
+        public void ForEach(Action<BsonDataRow> forEach)
         {
             SqlCommand command = new SqlCommand(_sql, _connection);
 
@@ -101,7 +101,7 @@ namespace Lemon.Transform
                     }
                 }
 
-                forEach(new BsonDocumentValueProvider(document));
+                forEach(new BsonDataRow(document));
             }
 
             reader.Close();

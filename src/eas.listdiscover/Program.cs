@@ -13,7 +13,7 @@ namespace eas.listdiscover
     {
         static void Main(string[] args)
         {
-            var process = new ListDiscoverProcess(new List<string> { "http://community.powerbi.com/t5/Desktop/unexpected-error/m-p/31104/" });
+            var process = new ListDiscoverProcess(new List<string> { "http://community.powerbi.com/t5/Desktop/Custom-Query-Error/m-p/40827/" });
 
             process.SetMessageQueueProvider(new DefaultMessageQueueProvider());
 

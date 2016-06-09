@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9063D8CF-346E-43B7-BDAB-0E5469007997}</ProjectGuid>
+    <ProjectGuid>{D9B686B8-2CA8-4DD3-A42A-0B1D323D6EF6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eas.modules.tests</RootNamespace>
-    <AssemblyName>eas.modules.tests</AssemblyName>
+    <RootNamespace>Lemon.Transform.Tests</RootNamespace>
+    <AssemblyName>Lemon.Transform.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,11 +35,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson, Version=2.2.3.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.2.3\lib\net45\MongoDB.Bson.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -56,29 +65,22 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PowerBIHtmlNormalization2Test.cs" />
-    <Compile Include="PowerBIIndexBuilderTest.cs" />
+    <Compile Include="CustomPackageInstallation.cs" />
+    <Compile Include="FakeDataInput.cs" />
+    <Compile Include="FakeDataOutput.cs" />
+    <Compile Include="FakeDataStoreService.cs" />
+    <Compile Include="FakeTransformAction1.cs" />
+    <Compile Include="FakeTransformAction2.cs" />
+    <Compile Include="MongoDataInputTest.cs" />
+    <Compile Include="PackageTests.cs" />
+    <Compile Include="TransformActionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Modules\eas.modules.csproj">
-      <Project>{5884eca0-9ce4-4d75-8af9-463e898c5540}</Project>
-      <Name>eas.modules</Name>
+    <ProjectReference Include="..\Lemon.Transform\Lemon.Transform.csproj">
+      <Project>{1a0e7840-4d1d-4226-8931-c1daedeae0d5}</Project>
+      <Name>Lemon.Transform</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="data\Desktop_Custom-Query-Error_m-p_40827.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\poerbi.com_detail_page.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\powerbi.com_t5_Desktop_bd-p_power-bi-designer.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\powerbi.com_t5_Desktop_unexpected-error_m-p_31104.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

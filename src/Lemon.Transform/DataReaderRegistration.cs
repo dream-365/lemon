@@ -6,6 +6,6 @@ namespace Lemon.Transform
     {
         public string Name { get; set; }
 
-        public Func<DataSource, ITransformDataReader> CreateNew { get; set; }
+        public Func<DataInputModel, ITransformDataReader> CreateNew { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace Lemon.Transform
     {
         public string TargetColumnName { get; set; }
 
-        public Func<IValueProvider, BsonValue> CalculateFunction { get; set; }
+        public Func<BsonDataRow, BsonValue> CalculateFunction { get; set; }
     }
 }

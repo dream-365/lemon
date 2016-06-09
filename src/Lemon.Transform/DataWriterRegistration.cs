@@ -10,6 +10,6 @@ namespace Lemon.Transform
     {
         public string Name { get; set; }
 
-        public Func<DataTarget, ITransformDataWritter> CreateNew { get; set; }
+        public Func<DataOutputModel, ITransformDataWritter> CreateNew { get; set; }
     }
 }

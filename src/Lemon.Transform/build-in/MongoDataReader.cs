@@ -28,7 +28,7 @@ namespace Lemon.Transform
             _filter = filter;
         }
 
-        public void ForEach(Action<IValueProvider> forEach)
+        public void ForEach(Action<BsonDataRow> forEach)
         {
             var start = 0;
 
@@ -41,7 +41,7 @@ namespace Lemon.Transform
                     .Limit(BAT_SZIE + 1)
                     .ToList();
 
-                list.ForEach(m => forEach(new BsonDocumentValueProvider(m)));
+                list.ForEach(m => forEach(new BsonDataRow(m)));
 
                 if(list.Count <= BAT_SZIE)
                 {

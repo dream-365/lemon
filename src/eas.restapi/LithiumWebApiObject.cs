@@ -112,10 +112,10 @@ namespace Lemon.Core.Discover
             return task;
         }
 
-        public void ForEach(Action<IValueProvider> forEach)
+        public void ForEach(Action<BsonDataRow> forEach)
         {
             ForEachAsync((document) => {
-                forEach(new BsonDocumentValueProvider(document));
+                forEach(new BsonDataRow(document));
             }).Wait();
         }
     }

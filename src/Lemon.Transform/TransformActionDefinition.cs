@@ -2,9 +2,9 @@
 {
     public class TransformActionDefinition
     {
-        public DataSource Source { get; set; }
+        public DataInputModel Source { get; set; }
 
-        public DataTarget Target { get; set; }
+        public DataOutputModel Target { get; set; }
 
         public string Transformer { get; set; }
     }

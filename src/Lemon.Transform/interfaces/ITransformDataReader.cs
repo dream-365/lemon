@@ -8,7 +8,7 @@ namespace Lemon.Transform
 {
     public interface ITransformDataReader
     {
-        void ForEach(Action<IValueProvider> forEach);
+        void ForEach(Action<BsonDataRow> forEach);
 
         string PrimaryKey { get; }
     }

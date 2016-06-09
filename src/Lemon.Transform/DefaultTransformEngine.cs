@@ -68,12 +68,12 @@ namespace Lemon.Transform
         }
 
 
-        private static ITransformDataReader CreateJsonFileDataReader(DataSource source)
+        private static ITransformDataReader CreateJsonFileDataReader(DataInputModel source)
         {
             return new JsonFileDataReader(source.Connection, source.PrimaryKey);
         }
 
-        private ITransformDataReader CreateSqlDataReader(DataSource source)
+        private ITransformDataReader CreateSqlDataReader(DataInputModel source)
         {
             var temp = source.Connection.Split('.');
 
@@ -94,14 +94,14 @@ namespace Lemon.Transform
             return reader;
         }
 
-        private ITransformDataReader CreateMongoDataReader(DataSource source)
+        private ITransformDataReader CreateMongoDataReader(DataInputModel source)
         {
             var collection = GetCollection(source.Connection);
 
             return new MongoDataReader(collection, source.Filter);
         }
 
-        private ITransformDataWritter CreateSqlDataWritter(DataTarget target)
+        private ITransformDataWritter CreateSqlDataWritter(DataOutputModel target)
         {
             var temp = target.Connection.Split('.');
 
@@ -114,7 +114,7 @@ namespace Lemon.Transform
             return new SqlDataWritter(connection, tableName, target.PrimaryKey);
         }
 
-        private ITransformDataWritter CreateMongoDataWritter(DataTarget target)
+        private ITransformDataWritter CreateMongoDataWritter(DataOutputModel target)
         {
             var collection = GetCollection(target.Connection);
 

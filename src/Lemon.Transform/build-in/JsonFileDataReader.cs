@@ -26,7 +26,7 @@ namespace Lemon.Transform
             _primaryKey = primaryKey;
         }
 
-        public void ForEach(Action<IValueProvider> forEach)
+        public void ForEach(Action<BsonDataRow> forEach)
         {
             using (var fs = new FileStream(_filePath, FileMode.Open, FileAccess.Read))
             using (var sr = new StreamReader(fs))
@@ -41,7 +41,7 @@ namespace Lemon.Transform
 
                         var document = BsonDocument.Parse(text);
 
-                        forEach(new BsonDocumentValueProvider(document));
+                        forEach(new BsonDataRow(document));
                     }
                     catch (Exception ex)
                     {
