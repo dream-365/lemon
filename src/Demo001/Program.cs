@@ -10,9 +10,9 @@ namespace Demo001
 
             LemonTransform.InstallPackage<Package1>("package1");
 
-            var engine2 = new CoreDocumentTransformEngine();
+            var engine = new CoreDocumentTransformEngine();
 
-            engine2.Execute("package1");
+            engine.Execute("package1");
         }
     }
 }
