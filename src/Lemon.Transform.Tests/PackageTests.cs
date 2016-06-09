@@ -77,7 +77,7 @@ namespace Lemon.Transform.Tests
                    .Output("json_office_365")
                    .Build();
 
-            var engine = new CoreDocumentTransformEngine2();
+            var engine = new CoreDocumentTransformEngine();
 
             engine.Execute(package);
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Lemon.Transform
 {
-    public class SQLInserOrUpdateQueryBuilder
+    internal class SQLInserOrUpdateQueryBuilder
     {
         private string _tableName;
 

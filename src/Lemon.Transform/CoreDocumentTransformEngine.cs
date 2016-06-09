@@ -1,61 +1,47 @@
-﻿namespace Lemon.Transform
+﻿using System.Collections.Generic;
+
+namespace Lemon.Transform
 {
     public class CoreDocumentTransformEngine
     {
-        public void Execute(TransformObject transformObject)
+        private DataInputOutputFactory _dataFactory;
+
+        public CoreDocumentTransformEngine()
         {
-            var dataReader = transformObject.DataReader;
+            _dataFactory = new DataInputOutputFactory();
+        }
 
-            var dataWritter = transformObject.DataWritter;
+        public void Execute(string packageName, IDictionary<string, string> namedParameters = null)
+        {
+            var package = LemonTransform.PackageContainer.Resove(packageName);
 
-            var transformColumnDefinitions = transformObject.TransformColumnDefinitions;
+            Execute(package, namedParameters);
+        }
 
-            var calculationColumnDefinition = transformObject.CalculationColumnDefinition;
+        public void Execute(TransformPackage package, IDictionary<string, string> namedParameters = null)
+        {
+            if(namedParameters != null)
+            {
+                package.Input.RepalceWithNamedParameters(namedParameters);
 
-            var progressIndicator = new ProgressIndicator(1000);
+                package.Output.RepalceWithNamedParameters(namedParameters);
+            }
 
-            dataReader.ForEach((provider) => {
+            var input = _dataFactory.CreateDataInput(package.Input);
 
-                var id = provider.GetValue(dataReader.PrimaryKey).ToString();
+            var output = _dataFactory.CreateDataOutput(package.Output);
 
-                if (string.IsNullOrWhiteSpace(id))
-                {
-                    ConsoleUtilities.PrintErrorMessage("empty primary key error");
+            var pipeline = new DataRowPipeline();
 
-                    return;
-                }
+            pipeline.Actions = package.Actions;
 
-                var setter = dataWritter.GetValueSetter(id);
+            input.Output = pipeline.Input;
 
-                foreach (var column in transformColumnDefinitions)
-                {
-                    if(column.TransformFunction != null)
-                    {
-                        var newVal = column.TransformFunction(provider.GetValue(column.SourceColumnName));
+            pipeline.Output = output.Input;
 
-                        setter.SetValue(column.TargetColumnName, newVal);
-                    }
-                    else
-                    {
-                        setter.SetValue(column.TargetColumnName, provider.GetValue(column.SourceColumnName));
-                    }
-                }
+            pipeline.Link();
 
-                foreach(var column in calculationColumnDefinition)
-                {
-                    var calVal = column.CalculateFunction(provider);
-
-                    setter.SetValue(column.TargetColumnName, calVal);
-                }
-
-                setter.Apply();
-
-                progressIndicator.Increment();
-            });
-
-            dataWritter.Flush();
-
-            progressIndicator.Summary();
+            input.Start();
         }
     }
 }
