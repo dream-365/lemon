@@ -5,6 +5,12 @@
       "objectName": "landing.office_365_threads",
       "connection": "mongodb://localhost:27017",
       "filter": "{}"
+    },
+    "landing_threads": {
+      "sourceType": "mongo",
+      "objectName": "dev_landing.{{scope}}_threads",
+      "connection": "mongodb://localhost:27017",
+      "filter": "{}"
     }
   },
   "outputs": {
@@ -13,6 +19,14 @@
       "connection": "mongodb://localhost:27017",
       "objectName": "landing.output_test",
       "columnNames": [ "_id", "questionId", "title", "createdOn", "createdBy" ],
+      "isUpsert": true,
+      "primaryKey": "_id"
+    },
+    "user_activity": {
+      "targetType": "mongo",
+      "connection": "mongodb://localhost:27017",
+      "objectName": "landing.user_activities",
+      "columnNames": [ "_id", "userId", "action", "time", "effectOn", "timestamp" ],
       "isUpsert": true,
       "primaryKey": "_id"
     }

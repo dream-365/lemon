@@ -1,4 +1,5 @@
 ﻿using Lemon.Transform;
+using System.Collections.Generic;
 
 namespace Demo001
 {
@@ -8,11 +9,13 @@ namespace Demo001
         {
             LemonTransform.UseDefaultSevices();
 
-            LemonTransform.InstallPackage<Package1>("package1");
+            LemonTransform.InstallPackage<Package2>("package2");
 
             var engine = new CoreDocumentTransformEngine();
 
-            engine.Execute("package1");
+            engine.Execute("package2", new Dictionary<string, string> {
+                {"scope", "uwp" }
+            });
         }
     }
 }
