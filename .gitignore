@@ -24,3 +24,7 @@
 /src/eas.restapi/obj
 /src/eas.modules.tests/bin
 /src/eas.modules.tests/obj
+/src/Lemon.Transform.Tests/bin
+/src/Lemon.Transform.Tests/obj
+/src/Demo001/bin
+/src/Demo001/obj
