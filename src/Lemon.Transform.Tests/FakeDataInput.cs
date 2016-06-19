@@ -1,30 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform.Tests
 {
-    public class FakeDataInput : IDataInput
+    public class FakeDataInput : AbstractDataInput
     {
-        private Action<BsonDataRow> _outputFunction;
-
-
         public FakeDataInput(DataInputModel model)
         {
 
         }
 
-        public Action<BsonDataRow> Output
-        {
-            set
-            {
-                _outputFunction = value;
-            }
-        }
-
-        public void Start()
+        public override void Start()
         {
             var row = new BsonDataRow();
 
@@ -36,7 +21,7 @@ namespace Lemon.Transform.Tests
 
             row.SetValue("createBy", "_create_by_");
 
-            _outputFunction(row);
+            Post(row);
         }
     }
 }

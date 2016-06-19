@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
-    public class MongoDataOutput : IDataOutput
+    public class MongoDataOutput : AbstractDataOutput
     {
         private string _connectionString;
 
@@ -41,7 +41,7 @@ namespace Lemon.Transform
             _collection = database.GetCollection<BsonDocument>(_collectionName);
         }
 
-        public void Input(BsonDataRow inputRow)
+        private void Input(BsonDataRow inputRow)
         {
             var identity = Builders<BsonDocument>.Filter.Eq("_id", inputRow.GetValue("_id"));
 
@@ -62,6 +62,11 @@ namespace Lemon.Transform
             var task = _collection.UpdateOneAsync(identity, updateDefinition, new UpdateOptions { IsUpsert = true });
 
             task.Wait();
+        }
+
+        protected override void OnReceive(BsonDataRow row)
+        {
+            Input(row);
         }
     }
 }

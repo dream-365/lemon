@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
-    public abstract class BaseTransformAction : TransformAction
+    public abstract class BaseTransformAction : TransformSingleAction
     {
         protected IList<TransformColumnDefinition> _transformColumnDefinitions;
 
@@ -47,10 +47,10 @@ namespace Lemon.Transform
             return _calculationColumnDefinitions;
         }
 
-        public override void Input(BsonDataRow inputRow)
+        public override BsonDataRow Transform(BsonDataRow inputRow)
         {
             var newRow = new BsonDataRow();
-
+            
             foreach (var column in _transformColumnDefinitions)
             {
                 if (column.TransformFunction != null)
@@ -74,7 +74,7 @@ namespace Lemon.Transform
 
             inputRow.CombineWith(newRow);
 
-            Output(inputRow);
+            return inputRow;
         }
     }
 }

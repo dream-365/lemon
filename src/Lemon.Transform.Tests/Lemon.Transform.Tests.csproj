@@ -65,14 +65,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CustomPackageInstallation.cs" />
+    <Compile Include="CountAction.cs" />
+    <Compile Include="FakeDataFlowPipeline.cs" />
     <Compile Include="FakeDataInput.cs" />
     <Compile Include="FakeDataOutput.cs" />
     <Compile Include="FakeDataStoreService.cs" />
     <Compile Include="FakeTransformAction1.cs" />
     <Compile Include="FakeTransformAction2.cs" />
     <Compile Include="MongoDataInputTest.cs" />
-    <Compile Include="PackageTests.cs" />
     <Compile Include="TransformActionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

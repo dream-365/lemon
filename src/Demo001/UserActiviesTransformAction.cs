@@ -2,10 +2,11 @@
 using MongoDB.Bson;
 using System;
 using System.Linq;
+using System.Collections.Concurrent;
 
 namespace Demo001
 {
-    public class UserActiviesTransformAction : TransformAction
+    public class UserActiviesTransformAction : TransformManyAction
     {
         private class UserActivity
         {
@@ -62,11 +63,11 @@ namespace Demo001
             return ConvertToDataRow(activity);
         }
 
-        public override void Input(BsonDataRow row)
+        protected override void InternalTransform(BsonDataRow row, ConcurrentQueue<BsonDataRow> queue)
         {
             var aksActivity = GetAskQuestionActivity(row);
 
-            Output(aksActivity);
+            queue.Enqueue(aksActivity);
 
             var messages = row.GetValue("messages").AsBsonArray;
 
@@ -86,7 +87,7 @@ namespace Demo001
                     Time = repliedOn
                 };
 
-                Output(ConvertToDataRow(replyActivity));
+                queue.Enqueue(ConvertToDataRow(replyActivity));
             }
         }
     }

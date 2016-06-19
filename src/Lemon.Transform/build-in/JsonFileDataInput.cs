@@ -5,27 +5,17 @@ using System.IO;
 
 namespace Lemon.Transform
 {
-    public class JsonFileDataInput : IDataInput
+    public class JsonFileDataInput : AbstractDataInput
     {
         private string _primaryKey;
 
         private string _filePath;
-
-        private Action<BsonDataRow> _outputFunction;
 
         public string PrimaryKey
         {
             get
             {
                 return _primaryKey;
-            }
-        }
-
-        public Action<BsonDataRow> Output
-        {
-            set
-            {
-                _outputFunction = value;
             }
         }
 
@@ -69,14 +59,9 @@ namespace Lemon.Transform
             }
         }
 
-        public void Start()
+        public override void Start()
         {
-            if (_outputFunction == null)
-            {
-                throw new Exception("No output specified");
-            }
-
-            ForEach(_outputFunction);
+            ForEach(Post);
         }
     }
 }

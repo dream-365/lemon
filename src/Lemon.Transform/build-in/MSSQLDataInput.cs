@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Lemon.Transform
 {
-    public class MSSQLDataInput : IDataInput, IDisposable
+    public class MSSQLDataInput : AbstractDataInput, IDisposable
     {
         private SqlConnection _connection;
 
@@ -14,17 +14,7 @@ namespace Lemon.Transform
 
         private string _sql;
 
-        private Action<BsonDataRow> _outputFunction;
-
         private IDictionary<string, object> _parameters;
-
-        public Action<BsonDataRow> Output
-        {
-            set
-            {
-                _outputFunction = value;
-            }
-        }
 
         public MSSQLDataInput(DataInputModel model)
         {
@@ -119,9 +109,9 @@ namespace Lemon.Transform
             throw new NotSupportedException();
         }
 
-        public void Start()
+        public override void Start()
         {
-            ForEach(_outputFunction);
+            ForEach(Post);
         }
 
         public void Dispose()

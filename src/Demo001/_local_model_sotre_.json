@@ -29,6 +29,14 @@
       "columnNames": [ "_id", "userId", "action", "time", "effectOn", "timestamp" ],
       "isUpsert": true,
       "primaryKey": "_id"
-    }
+    },
+    "console_user_activity": {
+      "targetType": "console",
+      "connection": "na",
+      "objectName": "na",
+      "columnNames": [ "_id", "userId"],
+      "isUpsert": true,
+      "primaryKey": "na"
+    },
   }
 }

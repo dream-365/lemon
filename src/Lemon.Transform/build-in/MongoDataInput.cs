@@ -5,27 +5,15 @@ using System.Linq;
 
 namespace Lemon.Transform
 {
-    public class MongoDataInput : IDataInput
+    public class MongoDataInput : AbstractDataInput
     {
-        private Action<BsonDataRow> _outputFunction;
-
         private string _connectionString;
 
         private string _databaseName;
 
         private string _collectionName;
 
-        private IMongoCollection<BsonDocument> _collection;
-
-        public Action<BsonDataRow> Output
-        {
-            set
-            {
-                _outputFunction = value;
-            }
-        }
-
-        
+        private IMongoCollection<BsonDocument> _collection;     
 
         private const int BAT_SZIE = 1000;
 
@@ -85,16 +73,11 @@ namespace Lemon.Transform
             _collection = database.GetCollection<BsonDocument>(_collectionName);
         }
 
-        public void Start()
+        public override void Start()
         {
             Connect();
 
-            if(_outputFunction == null)
-            {
-                throw new Exception("No output specified");
-            }
-
-            ForEach(_outputFunction);
+            ForEach(Post);
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Demo001
         {
             LemonTransform.UseDefaultSevices();
 
-            LemonTransform.InstallPackage<Package2>("package2");
+            LemonTransform.RegisterDataOutput<ConsoleOutput>("console");
 
-            var engine = new CoreDocumentTransformEngine();
+            var pipeline = new HelloDataPipeline();
 
-            engine.Execute("package2", new Dictionary<string, string> {
-                {"scope", "uwp" }
+            pipeline.Run(new Dictionary<string, string> {
+                {"scope", "uwp"}
             });
         }
     }

@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Package1.cs" />
-    <Compile Include="Package2.cs" />
+    <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="HelloDataPipeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionBasicTransformAction.cs" />

@@ -18,15 +18,13 @@ namespace Lemon.Transform.Tests
 
             var dataInput = new MongoDataInput(model);
 
-            var index = 0;
+            var countAction = new CountAction();
 
-            dataInput.Output = (row) => {
-                index++;
-            };
+            dataInput.LinkTo(countAction);
 
             dataInput.Start();
 
-            Assert.AreEqual(1694, index);
+            Assert.AreEqual(1694, countAction.Count);
         }
     }
 }

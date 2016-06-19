@@ -9,7 +9,7 @@ using Dapper;
 
 namespace Lemon.Transform.build_in
 {
-    public class MSSQLDataOutput : IDataOutput, IDisposable
+    public class MSSQLDataOutput : AbstractDataOutput, IDisposable
     {
         private string _connectionString;
 
@@ -67,7 +67,7 @@ namespace Lemon.Transform.build_in
             return dotNetObject;
         }
 
-        public void Input(BsonDataRow inputRow)
+        private void Input(BsonDataRow inputRow)
         {
             var dict = new Dictionary<string, object>();
 
@@ -82,6 +82,11 @@ namespace Lemon.Transform.build_in
         public void Dispose()
         {
             _connection.Close();
+        }
+
+        protected override void OnReceive(BsonDataRow row)
+        {
+            Input(row);
         }
     }
 }

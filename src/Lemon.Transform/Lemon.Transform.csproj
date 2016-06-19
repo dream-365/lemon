@@ -65,6 +65,10 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -73,37 +77,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractDataInput.cs" />
+    <Compile Include="AbstractDataOutput.cs" />
     <Compile Include="build-in\JsonFileDataInput.cs" />
     <Compile Include="BaseTransformAction.cs" />
     <Compile Include="build-in\MongoDataInput.cs" />
     <Compile Include="build-in\MongoDataOutput.cs" />
     <Compile Include="build-in\MSSQLDataOutput.cs" />
     <Compile Include="ConsoleUtilities.cs" />
-    <Compile Include="CoreDocumentTransformEngine.cs" />
+    <Compile Include="DataFlowPipeline.cs" />
     <Compile Include="DataInputOutputFactory.cs" />
     <Compile Include="DataStore.cs" />
-    <Compile Include="interfaces\IDataOutput.cs" />
+    <Compile Include="IOContext.cs" />
     <Compile Include="interfaces\IDataStoreService.cs" />
     <Compile Include="build-in\JsonDataStoreService.cs" />
     <Compile Include="LemonTransform.cs" />
-    <Compile Include="interfaces\IDataInput.cs" />
     <Compile Include="BsonDataRow.cs" />
-    <Compile Include="DataRowPipeline.cs" />
     <Compile Include="Models\DataInputModel.cs" />
     <Compile Include="Models\DataOutputModel.cs" />
     <Compile Include="Models\NamedParameterObjectModel.cs" />
-    <Compile Include="PackageBuilder.cs" />
-    <Compile Include="PackageContainer.cs" />
-    <Compile Include="PackageInstallation.cs" />
     <Compile Include="ProgressIndicator.cs" />
     <Compile Include="build-in\SqlNamedQueryProvider.cs" />
     <Compile Include="build-in\MSSQLDataInput.cs" />
     <Compile Include="build-in\SQLInserOrUpdateQueryBuilder.cs" />
     <Compile Include="CalculationColumnDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransformAction.cs" />
+    <Compile Include="LinkObject.cs" />
+    <Compile Include="TransformManyAction.cs" />
+    <Compile Include="TransformSingleAction.cs" />
     <Compile Include="TransformColumnDefinition.cs" />
-    <Compile Include="TransformPackage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

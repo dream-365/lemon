@@ -2,9 +2,9 @@
 
 namespace Lemon.Transform.Tests
 {
-    public class FakeDataOutput : IDataOutput
+    public class FakeDataOutput : AbstractDataOutput
     {
-        public void Input(BsonDataRow inputRow)
+        protected override void OnReceive(BsonDataRow row)
         {
             
         }
