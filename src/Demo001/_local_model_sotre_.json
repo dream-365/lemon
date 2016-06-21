@@ -11,6 +11,12 @@
       "objectName": "dev_landing.{{scope}}_threads",
       "connection": "mongodb://localhost:27017",
       "filter": "{}"
+    },    
+    "test_data": {
+      "sourceType": "json",
+      "objectName": "na",
+      "connection": "test_data.json",
+      "filter": "{}"
     }
   },
   "outputs": {
@@ -25,7 +31,7 @@
     "user_activity": {
       "targetType": "mongo",
       "connection": "mongodb://localhost:27017",
-      "objectName": "landing.user_activities",
+      "objectName": "landing.user_activities2",
       "columnNames": [ "_id", "userId", "action", "time", "effectOn", "timestamp" ],
       "isUpsert": true,
       "primaryKey": "_id"
@@ -34,9 +40,25 @@
       "targetType": "console",
       "connection": "na",
       "objectName": "na",
-      "columnNames": [ "_id", "userId"],
+      "columnNames": [ "_id", "userId" ],
       "isUpsert": true,
       "primaryKey": "na"
     },
+    "console_test": {
+      "targetType": "console",
+      "connection": "na",
+      "objectName": "na",
+      "columnNames": [ "id", "name" ],
+      "isUpsert": true,
+      "primaryKey": "na"
+    },    
+    "sql_tbl001": {
+      "targetType": "mssql",
+      "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=test;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
+      "objectName": "tbl001",
+      "columnNames": ["id", "name"],
+      "isUpsert": true,
+      "primaryKey": "id"
+    }
   }
 }

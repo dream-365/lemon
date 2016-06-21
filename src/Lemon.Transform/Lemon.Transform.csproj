@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="AbstractDataInput.cs" />
     <Compile Include="AbstractDataOutput.cs" />
+    <Compile Include="BroadcastAction.cs" />
     <Compile Include="build-in\JsonFileDataInput.cs" />
     <Compile Include="BaseTransformAction.cs" />
     <Compile Include="build-in\MongoDataInput.cs" />
@@ -110,7 +111,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

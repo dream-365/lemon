@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DF = System.Threading.Tasks.Dataflow;
 
 namespace Lemon.Transform
@@ -24,6 +25,14 @@ namespace Lemon.Transform
         internal override DF.ITargetBlock<BsonDataRow> AsTarget()
         {
             return _transformBlock as DF.ITargetBlock<BsonDataRow>;
+        }
+
+        public override Task Compltetion
+        {
+            get
+            {
+                return _transformBlock.Completion;
+            }
         }
 
         protected abstract void InternalTransform(BsonDataRow row, ConcurrentQueue<BsonDataRow> queue);

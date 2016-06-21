@@ -1,18 +1,17 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
-    public class BsonDataRow
+    public class BsonDataRow : ICloneable
     {
         private BsonDocument _internalDocument;
 
         public BsonDataRow()
         {
+            _internalDocument.Clone();
+
             _internalDocument = new BsonDocument();
         }
 
@@ -31,8 +30,6 @@ namespace Lemon.Transform
             }
         }
 
-        public IEnumerable<string> ColumnNames { get; private set; }
-
         public void SetValue(string name, BsonValue value)
         {
             _internalDocument.Set(name, value);
@@ -48,6 +45,16 @@ namespace Lemon.Transform
             }
 
             return BsonNull.Value;
+        }
+
+        public override string ToString()
+        {
+            return _internalDocument.ToJson(JsonWriterSettings.Defaults);
+        }
+
+        public object Clone()
+        {
+            return new BsonDataRow(_internalDocument.Clone().ToBsonDocument());
         }
     }
 }

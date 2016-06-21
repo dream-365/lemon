@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 namespace Lemon.Transform
@@ -20,6 +21,14 @@ namespace Lemon.Transform
         internal override ITargetBlock<BsonDataRow> AsTarget()
         {
             return _actionBlock as ITargetBlock<BsonDataRow>;
+        }
+
+        public override Task Compltetion
+        {
+            get
+            {
+                return _actionBlock.Completion;
+            }
         }
 
         protected abstract void OnReceive(BsonDataRow row);

@@ -19,11 +19,11 @@ namespace Lemon.Transform
             }
         }
 
-        public JsonFileDataInput(string filePath, string primaryKey)
+        public JsonFileDataInput(DataInputModel model)
         {
-            _filePath = filePath;
+            _filePath = model.Connection;
 
-            _primaryKey = primaryKey;
+            _primaryKey = model.PrimaryKey;
         }
 
         public void ForEach(Action<BsonDataRow> forEach)
@@ -62,6 +62,8 @@ namespace Lemon.Transform
         public override void Start()
         {
             ForEach(Post);
+
+            Complete();
         }
     }
 }

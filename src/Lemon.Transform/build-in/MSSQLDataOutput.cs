@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace Lemon.Transform.build_in
+namespace Lemon.Transform
 {
     public class MSSQLDataOutput : AbstractDataOutput, IDisposable
     {
@@ -86,7 +86,20 @@ namespace Lemon.Transform.build_in
 
         protected override void OnReceive(BsonDataRow row)
         {
-            Input(row);
+            try
+            {
+                Input(row);
+            }catch(Exception ex)
+            {
+                var backup = Console.ForegroundColor;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.WriteLine(ex.Message);
+
+                Console.ForegroundColor = backup;
+            }
+            
         }
     }
 }

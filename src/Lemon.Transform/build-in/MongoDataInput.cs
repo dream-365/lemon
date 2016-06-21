@@ -78,6 +78,8 @@ namespace Lemon.Transform
             Connect();
 
             ForEach(Post);
+
+            Complete();
         }
     }
 }

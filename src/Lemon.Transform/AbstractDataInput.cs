@@ -21,6 +21,12 @@ namespace Lemon.Transform
             _targetBlock.Post(row);
         }
 
+
+        protected void Complete()
+        {
+            _targetBlock.Complete();
+        }
+
         public abstract void Start();
     }
 }

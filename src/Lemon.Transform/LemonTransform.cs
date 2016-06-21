@@ -14,12 +14,17 @@ namespace Lemon.Transform
         public static void RegisterDataInput<TDataInput>(string name) where TDataInput : AbstractDataInput
         {
             _container.Register(Component.For<AbstractDataInput>().Named(name + "_input")
-                       .ImplementedBy<TDataInput>());
+                .LifeStyle
+                .Transient
+                .ImplementedBy<TDataInput>());
+
         }
 
         public static void RegisterDataOutput<TDataOutput>(string name) where TDataOutput : AbstractDataOutput
         {
             _container.Register(Component.For<AbstractDataOutput>().Named(name + "_output")
+                .LifeStyle
+                .Transient
                 .ImplementedBy<TDataOutput>());
         }
 
@@ -27,6 +32,9 @@ namespace Lemon.Transform
         {
             RegisterDataInput<MongoDataInput>("mongo");
             RegisterDataOutput<MongoDataOutput>("mongo");
+            RegisterDataInput<MSSQLDataInput>("mssql");
+            RegisterDataOutput<MSSQLDataOutput>("mssql");
+            RegisterDataInput<JsonFileDataInput>("json");
             RegisterServcie<IDataStoreService, JsonDataStoreService>();
         }
 

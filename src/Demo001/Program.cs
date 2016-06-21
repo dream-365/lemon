@@ -11,11 +11,17 @@ namespace Demo001
 
             LemonTransform.RegisterDataOutput<ConsoleOutput>("console");
 
-            var pipeline = new HelloDataPipeline();
+            var pipeline = new SimplePipeline();
 
-            pipeline.Run(new Dictionary<string, string> {
-                {"scope", "uwp"}
-            });
+            pipeline.Run();
+
+            //var pipeline = new HelloDataPipeline();
+
+            //pipeline.Run(new Dictionary<string, string> {
+            //    {"scope", "uwp"}
+            //});
+
+            pipeline.WaitForComplete();
         }
     }
 }

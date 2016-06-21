@@ -1,0 +1,1 @@
+﻿nuget pack Lemon.Transform.csproj -Prop Configuration=Release

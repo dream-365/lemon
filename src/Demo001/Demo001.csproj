@@ -48,16 +48,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="FaultAction.cs" />
     <Compile Include="HelloDataPipeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionBasicTransformAction.cs" />
+    <Compile Include="SimplePipeline.cs" />
     <Compile Include="UserActiviesTransformAction.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="test_data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="_local_model_sotre_.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

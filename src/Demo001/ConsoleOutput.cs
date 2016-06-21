@@ -11,6 +11,8 @@ namespace Demo001
     {
         private string[] _columnNames;
 
+        private int _count = 0;
+
         public ConsoleOutput(DataOutputModel model)
         {
             _columnNames = model.ColumnNames.ToArray();
@@ -20,8 +22,10 @@ namespace Demo001
         {
             foreach (var columnName in _columnNames)
             {
-                Console.Write(inputRow.GetValue(columnName).ToString() + "|");
+                Console.Write(_count + "|" + inputRow.GetValue(columnName).ToString() + "|");
             }
+
+            _count++;
 
             Console.WriteLine();
         }
