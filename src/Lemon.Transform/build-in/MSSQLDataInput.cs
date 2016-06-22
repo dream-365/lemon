@@ -112,6 +112,8 @@ namespace Lemon.Transform
         public override void Start()
         {
             ForEach(Post);
+
+            Complete();
         }
 
         public void Dispose()

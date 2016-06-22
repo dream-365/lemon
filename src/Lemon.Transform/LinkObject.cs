@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -14,7 +15,7 @@ namespace Lemon.Transform
 
         private IList<ITargetBlock<BsonDataRow>> _targets;
 
-        private bool _registered = false;
+        private bool _linkInitialized = false;
 
 
         public LinkObject()
@@ -23,9 +24,9 @@ namespace Lemon.Transform
         }
 
 
-        private void RegisterOnce()
+        private void InitializeLink()
         {
-            if(_registered)
+            if(_linkInitialized)
             {
                 return;
             }
@@ -39,6 +40,8 @@ namespace Lemon.Transform
                     return;
                 }
 
+                source.LinkTo(DataflowBlock.NullTarget<BsonDataRow>());
+
                 source.Completion.ContinueWith(t => {
                     foreach (var target in _targets)
                     {
@@ -46,7 +49,9 @@ namespace Lemon.Transform
                     }
                 });
 
-                _registered = true;
+
+
+                _linkInitialized = true;
             }
             catch (System.NotSupportedException)
             {
@@ -56,13 +61,22 @@ namespace Lemon.Transform
 
         public void LinkTo(LinkObject action)
         {
-            RegisterOnce();
+            InitializeLink();
 
             var target = action.AsTarget();
 
             AsSource().LinkTo(target, row => row != null);
 
-            AsSource().LinkTo(DataflowBlock.NullTarget<BsonDataRow>());
+            _targets.Add(target);
+        }
+
+        public void LinkTo(LinkObject action, Predicate<BsonDataRow> predicate)
+        {
+            InitializeLink();
+
+            var target = action.AsTarget();
+
+            AsSource().LinkTo(target, row => (row != null && predicate(row)));
 
             _targets.Add(target);
         }
