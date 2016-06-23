@@ -49,8 +49,6 @@ namespace Lemon.Transform
                     }
                 });
 
-
-
                 _linkInitialized = true;
             }
             catch (System.NotSupportedException)
@@ -68,6 +66,11 @@ namespace Lemon.Transform
             AsSource().LinkTo(target, row => row != null);
 
             _targets.Add(target);
+        }
+
+        public void LinkToNullTarget()
+        {
+            AsSource().LinkTo(DataflowBlock.NullTarget<BsonDataRow>());
         }
 
         public void LinkTo(LinkObject action, Predicate<BsonDataRow> predicate)

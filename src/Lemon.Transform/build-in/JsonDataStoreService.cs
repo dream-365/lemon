@@ -24,7 +24,7 @@ namespace Lemon.Transform
         {
             if(_datastore == null)
             {
-                var text = File.ReadAllText("_local_model_sotre_.json");
+                var text = File.ReadAllText("_local_model_store_.json");
 
                 _datastore = JsonConvert
                     .DeserializeObject<DataStoreModel>(
