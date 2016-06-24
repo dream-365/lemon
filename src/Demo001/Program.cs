@@ -11,9 +11,9 @@ namespace Demo001
 
             LemonTransform.RegisterDataOutput<ConsoleOutput>("console");
 
-            var pipeline = new SimplePipeline();
+            var pipeline = new DatapipelineDemo2 ();
 
-            pipeline.Run();
+            pipeline.Run(new Dictionary<string, string> { { "batchId", "batchId_123" } });
 
             //var pipeline = new HelloDataPipeline();
 

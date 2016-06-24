@@ -87,9 +87,11 @@
     <Compile Include="build-in\MSSQLDataOutput.cs" />
     <Compile Include="ConsoleUtilities.cs" />
     <Compile Include="DataFlowPipeline.cs" />
-    <Compile Include="DataInputOutputFactory.cs" />
+    <Compile Include="DataIOConstructor.cs" />
+    <Compile Include="DataIOProvider.cs" />
     <Compile Include="DataStore.cs" />
-    <Compile Include="IOContext.cs" />
+    <Compile Include="PipelineContext.cs" />
+    <Compile Include="build-in\DebugOutput.cs" />
     <Compile Include="interfaces\IDataStoreService.cs" />
     <Compile Include="build-in\JsonDataStoreService.cs" />
     <Compile Include="LemonTransform.cs" />

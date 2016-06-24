@@ -40,8 +40,6 @@ namespace Lemon.Transform
                     return;
                 }
 
-                source.LinkTo(DataflowBlock.NullTarget<BsonDataRow>());
-
                 source.Completion.ContinueWith(t => {
                     foreach (var target in _targets)
                     {

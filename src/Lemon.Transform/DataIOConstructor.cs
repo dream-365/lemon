@@ -2,7 +2,7 @@
 
 namespace Lemon.Transform
 {
-    public class DataInputOutputFactory
+    public class DataIOConstructor
     {
         public AbstractDataInput CreateDataInput(DataInputModel model)
         {

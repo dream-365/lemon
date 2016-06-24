@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
-    public class IOContext
+    public class DataIOProvider
     {
         private DataStore _store;
 
-        private DataInputOutputFactory _factory;
+        private DataIOConstructor _factory;
 
         private IDictionary<string, string> _namedParameters;
 
-        public IOContext(IDictionary<string, string> namedParameters = null)
+        public DataIOProvider(IDictionary<string, string> namedParameters = null)
         {
             _store = new DataStore();
 
-            _factory = new DataInputOutputFactory();
+            _factory = new DataIOConstructor();
 
             _namedParameters = namedParameters;
         }

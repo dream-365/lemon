@@ -8,7 +8,7 @@ namespace Lemon.Transform.Tests
 {
     public class FakeDataFlowPipeline : DataFlowPipeline
     {
-        protected override AbstractDataInput OnCreate(IOContext context)
+        protected override AbstractDataInput OnCreate(PipelineContext context)
         {
             var input = context.GetInput("any");
 

@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lemon.Transform;
+﻿using Lemon.Transform;
 
 namespace Demo001
 {
     public class HelloDataPipeline : DataFlowPipeline
     {
-        protected override AbstractDataInput OnCreate(IOContext context)
+        protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            var input = context.GetInput("landing_threads");
+            var input = context.IO.GetInput("landing_threads");
 
-            var output1 = context.GetOutput("console_user_activity");
+            var output1 = context.IO.GetOutput("console_user_activity");
 
-            var output2 = context.GetOutput("user_activity");
+            var output2 = context.IO.GetOutput("user_activity");
 
             var action1 = new UserActiviesTransformAction();
 

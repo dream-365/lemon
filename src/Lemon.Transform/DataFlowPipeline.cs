@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace Lemon.Transform
 {
@@ -8,6 +9,9 @@ namespace Lemon.Transform
     {
         private IList<Task> _compltetions;
 
+        protected event Action OnStart;
+
+        protected event Action OnComplete;
 
         public DataFlowPipeline()
         {
@@ -19,11 +23,16 @@ namespace Lemon.Transform
             _compltetions.Add(completion);
         }
 
-        protected abstract AbstractDataInput OnCreate(IOContext context);
+        protected abstract AbstractDataInput OnCreate(PipelineContext context);
 
         public void Run(IDictionary<string, string> namedParameters = null)
         {
-            var entry = OnCreate(new IOContext(namedParameters));
+            var entry = OnCreate(new PipelineContext(namedParameters));
+
+            if(OnStart != null)
+            {
+                OnStart();
+            }
 
             entry.Start();
         }
@@ -32,6 +41,11 @@ namespace Lemon.Transform
         public void WaitForComplete()
         {
             Task.WaitAll(_compltetions.ToArray());
+
+            if(OnComplete != null)
+            {
+                OnComplete();
+            }
         }
     }
 }

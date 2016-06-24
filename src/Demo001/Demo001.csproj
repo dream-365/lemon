@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachBatchIdAction.cs" />
     <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="DatapipelineDemo2.cs" />
     <Compile Include="FaultAction.cs" />
     <Compile Include="HelloDataPipeline.cs" />
     <Compile Include="Program.cs" />

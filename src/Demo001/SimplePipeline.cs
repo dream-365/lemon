@@ -9,13 +9,13 @@ namespace Demo001
 {
     public class SimplePipeline : DataFlowPipeline
     {
-        protected override AbstractDataInput OnCreate(IOContext context)
+        protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            var input = context.GetInput("test_data");
+            var input = context.IO.GetInput("test_data");
 
-            var consoleOutput = context.GetOutput("console_test");
+            var consoleOutput = context.IO.GetOutput("console_test");
 
-            var mssqlOutput = context.GetOutput("sql_tbl001");
+            var mssqlOutput = context.IO.GetOutput("sql_tbl001");
 
             var bad = new BadDataAction();
 
