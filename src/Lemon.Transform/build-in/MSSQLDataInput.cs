@@ -90,23 +90,27 @@ namespace Lemon.Transform
 
         private static BsonValue Cast(object dotNetValue,Type sourceType)
         {
-            if(sourceType == typeof(string))
+            if(sourceType == ObjectType.String)
             {
                 return new BsonString(dotNetValue as string);
             }
-            else if (sourceType == typeof(int))
+            else if (sourceType == ObjectType.Int32)
             {
                 return new BsonInt32((int)dotNetValue);
             }
-            else if (sourceType == typeof(bool))
+            else if (sourceType == ObjectType.Int64)
+            {
+                return new BsonInt64((Int64)dotNetValue);
+            }
+            else if (sourceType == ObjectType.Boolean)
             {
                 return new BsonBoolean((bool)dotNetValue);
-            }else if (sourceType == typeof(DateTime))
+            }else if (sourceType == ObjectType.DateTime)
             {
                 return new BsonDateTime((DateTime)dotNetValue);
             }
 
-            throw new NotSupportedException();
+            throw new NotSupportedException(string.Format("Unable to cast type {0} to BsonValue", sourceType.FullName));
         }
 
         public override void Start()

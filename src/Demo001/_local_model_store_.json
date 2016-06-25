@@ -6,6 +6,12 @@
       "connection": "mongodb://localhost:27017",
       "filter": "{}"
     },
+    "msdn_user_ranks": {
+      "sourceType": "mssql",
+      "objectName": "msdn_user_ranks",
+      "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=eas_data_hub;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
+      "filter": "{startDate: '{{startDate}}', endDate: '{{endDate}}'}"
+    },
     "landing_threads": {
       "sourceType": "mongo",
       "objectName": "dev_landing.{{scope}}_threads",

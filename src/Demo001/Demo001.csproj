@@ -50,6 +50,7 @@
     <Compile Include="AttachBatchIdAction.cs" />
     <Compile Include="ConsoleOutput.cs" />
     <Compile Include="DatapipelineDemo2.cs" />
+    <Compile Include="DataPipelineDemo3.cs" />
     <Compile Include="FaultAction.cs" />
     <Compile Include="HelloDataPipeline.cs" />
     <Compile Include="Program.cs" />
@@ -60,7 +61,9 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="test_data.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
