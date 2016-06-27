@@ -12,8 +12,6 @@ namespace Demo001
             var pipeline = new DataPipelineDemo3();
 
             pipeline.Run(new Dictionary<string, string> { { "startDate", "2016-6-17" }, { "endDate", "2016-6-24" } });
-
-            pipeline.WaitForComplete();
         }
     }
 }

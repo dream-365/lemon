@@ -7,14 +7,25 @@ namespace Lemon.Transform
 {
     public abstract class DataFlowPipeline
     {
+        private enum Status
+        {
+            New = 0,
+            Running = 1,
+            Finished = 2
+        }
+
         private IList<Task> _compltetions;
 
         protected event Action OnStart;
 
         protected event Action OnComplete;
 
+        private Status _status;
+
         public DataFlowPipeline()
         {
+            _status = Status.New;
+
             _compltetions = new List<Task>();
         }
 
@@ -27,6 +38,13 @@ namespace Lemon.Transform
 
         public void Run(IDictionary<string, string> namedParameters = null)
         {
+            if(_status == Status.Running)
+            {
+                return;
+            }
+
+            _status = Status.Running;
+
             var entry = OnCreate(new PipelineContext(namedParameters));
 
             if(OnStart != null)
@@ -35,17 +53,18 @@ namespace Lemon.Transform
             }
 
             entry.Start();
-        }
 
-
-        public void WaitForComplete()
-        {
             Task.WaitAll(_compltetions.ToArray());
 
-            if(OnComplete != null)
+            _status = Status.Finished;
+        }
+
+        public Task RunAsync(IDictionary<string, string> namedParameters = null)
+        {
+            return Task.Run(() =>
             {
-                OnComplete();
-            }
+                Run(namedParameters);
+            });
         }
     }
 }
