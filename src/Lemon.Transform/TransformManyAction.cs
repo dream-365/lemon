@@ -1,30 +1,32 @@
-﻿using System;
+﻿using Lemon.Transform.Models;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DF = System.Threading.Tasks.Dataflow;
+using System.Linq;
 
 namespace Lemon.Transform
 {
     public abstract class TransformManyAction : LinkObject
     {
-        private DF.TransformManyBlock<BsonDataRow, BsonDataRow> _transformBlock;
+        private DF.TransformManyBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>> _transformBlock;
 
         public TransformManyAction()
         {
-            var transform = new Func<BsonDataRow, IEnumerable<BsonDataRow>>(Transform);
+            var transform = new Func<DataRowWrapper<BsonDataRow>, IEnumerable<DataRowWrapper<BsonDataRow>>>(Transform);
 
-            _transformBlock = new DF.TransformManyBlock<BsonDataRow, BsonDataRow>(transform);
+            _transformBlock = new DF.TransformManyBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>>(transform);
         }
 
-        internal override DF.ISourceBlock<BsonDataRow> AsSource()
+        internal override DF.ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource()
         {
-            return _transformBlock as DF.ISourceBlock<BsonDataRow>;
+            return _transformBlock as DF.ISourceBlock<DataRowWrapper<BsonDataRow>>;
         }
 
-        internal override DF.ITargetBlock<BsonDataRow> AsTarget()
+        internal override DF.ITargetBlock<DataRowWrapper<BsonDataRow>> AsTarget()
         {
-            return _transformBlock as DF.ITargetBlock<BsonDataRow>;
+            return _transformBlock as DF.ITargetBlock<DataRowWrapper<BsonDataRow>>;
         }
 
         public override Task Compltetion
@@ -37,13 +39,20 @@ namespace Lemon.Transform
 
         protected abstract void InternalTransform(BsonDataRow row, ConcurrentQueue<BsonDataRow> queue);
 
-        private IEnumerable<BsonDataRow> Transform(BsonDataRow row)
+        private IEnumerable<DataRowWrapper<BsonDataRow>> Transform(DataRowWrapper<BsonDataRow> data)
         {
             var queue = new ConcurrentQueue<BsonDataRow>();
 
-            InternalTransform(row, queue);
+            try
+            {
+                InternalTransform(data.Row, queue);
 
-            return queue;
+                return queue.Select(m => new DataRowWrapper<BsonDataRow> { Success = true, Row = m });
+            }
+            catch (Exception)
+            {
+                return new List<DataRowWrapper<BsonDataRow>>();
+            }
         }
     }
 }

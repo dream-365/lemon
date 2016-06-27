@@ -36,5 +36,15 @@ namespace Lemon.Transform
 
             return string.Empty;
         }
+
+        /// <summary>
+        /// Set the named parameter value
+        /// </summary>
+        /// <param name="key">key to set</param>
+        /// <param name="value">value to set</param>
+        public void SetNamedParameterValue(string key, string value)
+        {
+            _namedParameters[key] = value;
+        }
     }
 }

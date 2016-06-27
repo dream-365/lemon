@@ -21,7 +21,7 @@ namespace Demo001
 
             input.LinkTo(batchIdAction);
 
-            batchIdAction.LinkTo(output);
+            batchIdAction.Link.SuccessTo(output).End();
 
             EnsureComplete(output.Compltetion);
 

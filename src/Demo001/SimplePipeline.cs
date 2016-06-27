@@ -23,11 +23,11 @@ namespace Demo001
 
             input.LinkTo(bad);
 
-            bad.LinkTo(broadcast);
+            bad.Link.SuccessTo(broadcast).End();
 
-            broadcast.LinkTo(consoleOutput);
+            broadcast.Link.SuccessTo(consoleOutput).End();
 
-            broadcast.LinkTo(mssqlOutput);
+            broadcast.Link.SuccessTo(mssqlOutput).End();
 
             EnsureComplete(consoleOutput.Compltetion);
 

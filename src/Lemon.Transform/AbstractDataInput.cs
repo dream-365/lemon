@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lemon.Transform.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Lemon.Transform
 {
     public abstract class AbstractDataInput
     {
-        private ITargetBlock<BsonDataRow> _targetBlock;
+        private ITargetBlock<DataRowWrapper<BsonDataRow>> _targetBlock;
 
         public void LinkTo(LinkObject target)
         {
@@ -18,9 +19,8 @@ namespace Lemon.Transform
 
         protected void Post(BsonDataRow row)
         {
-            _targetBlock.Post(row);
+            _targetBlock.Post(new DataRowWrapper<BsonDataRow> { Success = true, Row = row });
         }
-
 
         protected void Complete()
         {

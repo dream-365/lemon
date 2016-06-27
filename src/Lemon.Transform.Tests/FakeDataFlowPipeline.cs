@@ -10,7 +10,7 @@ namespace Lemon.Transform.Tests
     {
         protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            var input = context.GetInput("any");
+            var input = context.IO.GetInput("any");
 
             var action1 = new FakeTransformAction2();
 
@@ -18,7 +18,7 @@ namespace Lemon.Transform.Tests
 
             input.LinkTo(action1);
 
-            action1.LinkTo(output);
+            action1.Link.SuccessTo(output).End();
 
             return input;
         }

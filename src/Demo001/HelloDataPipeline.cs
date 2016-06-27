@@ -18,11 +18,11 @@ namespace Demo001
 
             input.LinkTo(action1);
 
-            action1.LinkTo(broadcast);
+            action1.Link.SuccessTo(broadcast).End();
 
-            broadcast.LinkTo(output1);
+            broadcast.Link.SuccessTo(output1).End();
 
-            broadcast.LinkTo(output2);
+            broadcast.Link.SuccessTo(output2).End();
 
             EnsureComplete(output1.Compltetion);
 
