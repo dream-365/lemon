@@ -18,5 +18,11 @@ namespace Lemon.Transform
         {
             return this;
         }
+
+
+        public void End()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
