@@ -13,12 +13,6 @@ namespace Demo001
 
             pipeline.Run(new Dictionary<string, string> { { "startDate", "2016-6-17" }, { "endDate", "2016-6-24" } });
 
-            //var pipeline = new HelloDataPipeline();
-
-            //pipeline.Run(new Dictionary<string, string> {
-            //    {"scope", "uwp"}
-            //});
-
             pipeline.WaitForComplete();
         }
     }

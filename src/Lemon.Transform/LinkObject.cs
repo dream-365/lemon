@@ -55,6 +55,12 @@ namespace Lemon.Transform
             }
         }
 
+
+        public LinksBuilder Link()
+        {
+            return new LinksBuilder();
+        }
+
         public void LinkTo(LinkObject action)
         {
             InitializeLink();

@@ -90,6 +90,7 @@
     <Compile Include="DataIOConstructor.cs" />
     <Compile Include="DataIOProvider.cs" />
     <Compile Include="DataStore.cs" />
+    <Compile Include="LinksBuilder.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="PipelineContext.cs" />
     <Compile Include="build-in\DebugOutput.cs" />

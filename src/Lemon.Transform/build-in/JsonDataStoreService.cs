@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
@@ -42,7 +38,7 @@ namespace Lemon.Transform
 
             if(_datastore.Inputs.TryGetValue(name, out model))
             {
-                return model;
+                return model.Clone() as DataInputModel;
             }
 
             return null;
@@ -54,7 +50,7 @@ namespace Lemon.Transform
 
             if(_datastore.Outputs.TryGetValue(name, out model))
             {
-                return model;
+                return model.Clone() as DataOutputModel;
             }
 
             return null;

@@ -4,7 +4,7 @@ using System;
 
 namespace Lemon.Transform
 {
-    public class DataOutputModel : NamedParameterObjectModel
+    public class DataOutputModel : NamedParameterObjectModel, ICloneable
     {
         public string TargetType { get; set; }
 
@@ -21,6 +21,19 @@ namespace Lemon.Transform
         public override void RepalceWithNamedParameters(IDictionary<string, string> parameters)
         {
             ObjectName = RepalceWithNamedParameters(ObjectName, parameters);
+        }
+
+        public object Clone()
+        {
+            return new DataOutputModel
+            {
+                TargetType = TargetType,
+                ObjectName = ObjectName,
+                ColumnNames = ColumnNames,
+                Connection = Connection,
+                PrimaryKey = PrimaryKey,
+                IsUpsert = IsUpsert
+            };
         }
     }
 }
