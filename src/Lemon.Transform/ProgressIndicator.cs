@@ -1,41 +1,37 @@
-﻿using System;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
-    internal class ProgressIndicator
+    public class ProgressIndicator
     {
-        private int _unit;
+        private IDictionary<string, long> _dictionary = new Dictionary<string, long>();
 
-        private int _counter = 0;
-
-        private DateTime _start;
-
-        private DateTime _end;
-
-        public ProgressIndicator(int unit)
+        public long Increment(string key)
         {
-            _start = DateTime.Now;
-
-            _unit = unit;
-        }
-
-        public void Increment()
-        {
-            _counter = _counter + 1;
-
-            if(_counter % _unit == 0)
+            if (!_dictionary.ContainsKey(key))
             {
-                Console.Write("#");
+                lock (_dictionary)
+                {
+                    _dictionary.Add(key, 0);
+                }
             }
+
+            var count = _dictionary[key] + 1;
+
+            _dictionary[key] = count;
+
+            return count;
         }
 
-        public void Summary()
+        public  IEnumerable<KeyValuePair<string, long>> GetAllProgress()
         {
-            _end = DateTime.Now;
+            return _dictionary.ToList();
+        }
 
-            Console.WriteLine();
-
-            Console.WriteLine("Duration: {0}, total: {1}", _end - _start, _counter);
+        public void Clear()
+        {
+            _dictionary.Clear();
         }
     }
 }

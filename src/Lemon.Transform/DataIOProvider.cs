@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
@@ -14,13 +10,17 @@ namespace Lemon.Transform
 
         private IDictionary<string, string> _namedParameters;
 
-        public DataIOProvider(IDictionary<string, string> namedParameters = null)
+        private PipelineContext _context;
+
+        public DataIOProvider(PipelineContext context, IDictionary<string, string> namedParameters = null)
         {
             _store = new DataStore();
 
             _factory = new DataIOConstructor();
 
             _namedParameters = namedParameters;
+
+            _context = context;
         }
 
         public AbstractDataInput GetInput(string name)
@@ -32,7 +32,11 @@ namespace Lemon.Transform
                 model.RepalceWithNamedParameters(_namedParameters);
             }
 
-            return _factory.CreateDataInput(model);
+            var input = _factory.CreateDataInput(model);
+
+            input.Context = _context;
+
+            return input;
         }
 
         public AbstractDataOutput GetOutput(string name)
@@ -44,7 +48,11 @@ namespace Lemon.Transform
                 model.RepalceWithNamedParameters(_namedParameters);
             }
 
-            return _factory.CreateDataOutput(model);
+            var output  = _factory.CreateDataOutput(model);
+
+            output.Context = _context;
+
+            return output;
         }
     }
 }

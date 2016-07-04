@@ -9,15 +9,21 @@ namespace Lemon.Transform
     {
         private IDictionary<string, string> _namedParameters;
 
+        private ProgressIndicator _progressIndicator;
+
         private DataIOProvider _dataIOProvider;
 
         public DataIOProvider IO { get { return _dataIOProvider; } }
 
-        public PipelineContext(IDictionary<string, string> namedParameters = null)
+        public ProgressIndicator ProgressIndicator { get { return _progressIndicator; } }
+
+        public PipelineContext(ProgressIndicator progressIndicator, IDictionary<string, string> namedParameters = null)
         {
             _namedParameters = namedParameters;
 
-            _dataIOProvider = new DataIOProvider(_namedParameters);
+            _dataIOProvider = new DataIOProvider(this, _namedParameters);
+
+            _progressIndicator = progressIndicator;
         }
 
         /// <summary>

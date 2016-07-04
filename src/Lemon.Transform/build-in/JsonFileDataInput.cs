@@ -45,15 +45,7 @@ namespace Lemon.Transform
                     }
                     catch (Exception ex)
                     {
-                        var bak = Console.ForegroundColor;
-
-                        Console.ForegroundColor = ConsoleColor.Red;
-
-                        Console.WriteLine();
-
-                        Console.WriteLine(ex.Message);
-
-                        Console.ForegroundColor = bak;
+                        LogService.Default.Error("Json Data Input failed", ex);
                     }
                 }
             }

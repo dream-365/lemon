@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 
 namespace Lemon.Transform
@@ -91,13 +88,7 @@ namespace Lemon.Transform
                 Input(row);
             }catch(Exception ex)
             {
-                var backup = Console.ForegroundColor;
-
-                Console.ForegroundColor = ConsoleColor.Red;
-
-                Console.WriteLine(ex.Message);
-
-                Console.ForegroundColor = backup;
+                LogService.Default.Error("SQL Server data output failed", ex);
             }
             
         }

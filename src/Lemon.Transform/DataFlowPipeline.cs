@@ -14,6 +14,8 @@ namespace Lemon.Transform
             Finished = 2
         }
 
+        private ProgressIndicator _progressIndicator;
+
         private IList<Task> _compltetions;
 
         protected event Action OnStart;
@@ -27,6 +29,8 @@ namespace Lemon.Transform
             _status = Status.New;
 
             _compltetions = new List<Task>();
+
+            _progressIndicator = new ProgressIndicator();
         }
 
         protected void EnsureComplete(Task completion)
@@ -43,9 +47,13 @@ namespace Lemon.Transform
                 return;
             }
 
+            LogService.Default.Info("data pipeline is running");
+
             _status = Status.Running;
 
-            var entry = OnCreate(new PipelineContext(namedParameters));
+            _progressIndicator.Clear();
+
+            var entry = OnCreate(new PipelineContext(_progressIndicator, namedParameters));
 
             if(OnStart != null)
             {
@@ -54,9 +62,15 @@ namespace Lemon.Transform
 
             entry.Start();
 
+            LogService.Default.Info("wait the pipeline for comptetion");
+
             Task.WaitAll(_compltetions.ToArray());
 
+            _compltetions.Clear();
+
             _status = Status.Finished;
+
+            LogService.Default.Info("pipeline completed!");
         }
 
         public Task RunAsync(IDictionary<string, string> namedParameters = null)
@@ -65,6 +79,11 @@ namespace Lemon.Transform
             {
                 Run(namedParameters);
             });
+        }
+
+        public IEnumerable<KeyValuePair<string, long>> GetAllProgress()
+        {
+            return _progressIndicator.GetAllProgress();
         }
     }
 }

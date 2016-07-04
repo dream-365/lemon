@@ -13,11 +13,11 @@ namespace Demo001
 
             var input = context.IO.GetInput("test_data");
 
-            var output = new DebugOutput();
+            var output = new DebugOutput { Context = context };
 
-            var batchId = context.GetNamedParameterValue("batchId");
+            var batchId = Guid.NewGuid().ToString();
 
-            var batchIdAction = new AttachBatchIdAction("BatchId", batchId);
+            var batchIdAction = new AttachBatchIdAction("BatchId", batchId) {  Context = context };
 
             input.LinkTo(batchIdAction);
 

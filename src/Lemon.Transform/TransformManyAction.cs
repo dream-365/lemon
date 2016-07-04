@@ -12,6 +12,29 @@ namespace Lemon.Transform
     {
         private DF.TransformManyBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>> _transformBlock;
 
+        public PipelineContext Context { get; set; }
+
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_name))
+                {
+                    _name = this.GetType().Name + "_" + Guid.NewGuid().ToString();
+                }
+
+                return _name;
+            }
+
+            set
+            {
+                _name = value;
+            }
+        }
+
+
         public TransformManyAction()
         {
             var transform = new Func<DataRowWrapper<BsonDataRow>, IEnumerable<DataRowWrapper<BsonDataRow>>>(Transform);
@@ -45,6 +68,11 @@ namespace Lemon.Transform
 
             try
             {
+                if (Context != null)
+                {
+                    Context.ProgressIndicator.Increment(Name);
+                }
+
                 InternalTransform(data.Row, queue);
 
                 return queue.Select(m => new DataRowWrapper<BsonDataRow> { Success = true, Row = m });

@@ -10,9 +10,28 @@ namespace Lemon.Transform
     {
         private DF.TransformBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>> _transformBlock;
 
+        public PipelineContext Context { get; set; }
+
+        private string _name;
+
+        public string Name
+        {
+            get {
+                if(string.IsNullOrWhiteSpace(_name))
+                {
+                    _name = this.GetType().Name + "_" + Guid.NewGuid().ToString();
+                }
+
+                return _name;
+            }
+
+            set {
+                _name = value;
+            }
+        }
+
         public TransformSingleAction(int maxDegreeOfParallelism = 0)
         {
-
             var transform = new Func<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>>(InternalTransform);
 
             if(maxDegreeOfParallelism == 0)
@@ -52,6 +71,11 @@ namespace Lemon.Transform
 
         protected DataRowWrapper<BsonDataRow> InternalTransform(DataRowWrapper<BsonDataRow> data)
         {
+            if(Context != null)
+            {
+                Context.ProgressIndicator.Increment(Name);
+            }
+
             try
             {
                 var row = Transform(data.Row);
@@ -61,11 +85,12 @@ namespace Lemon.Transform
                     Success = true,
                     Row = row
                 };
-            }catch(Exception)
+            }catch(Exception ex)
             {
                 return new DataRowWrapper<BsonDataRow> {
                     Success = false,
-                    Row = data.Row
+                    Row = data.Row,
+                    Exception = ex
                 };
             }
         }
