@@ -70,6 +70,11 @@ namespace Lemon.Transform
 
             _status = Status.Finished;
 
+            if(OnComplete != null)
+            {
+                OnComplete();
+            }
+
             LogService.Default.Info("pipeline completed!");
         }
 
