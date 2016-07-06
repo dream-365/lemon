@@ -7,7 +7,7 @@ namespace Lemon.Transform
     /// </summary>
     public class PipelineContext
     {
-        private IDictionary<string, string> _namedParameters;
+        private IDictionary<string, string> _namedParameters = new Dictionary<string, string>();
 
         private ProgressIndicator _progressIndicator;
 
@@ -19,7 +19,10 @@ namespace Lemon.Transform
 
         public PipelineContext(ProgressIndicator progressIndicator, IDictionary<string, string> namedParameters = null)
         {
-            _namedParameters = namedParameters;
+            if(namedParameters != null)
+            {
+                _namedParameters = namedParameters;
+            }
 
             _dataIOProvider = new DataIOProvider(this, _namedParameters);
 

@@ -56,7 +56,7 @@ namespace Lemon.Transform
                 case BsonType.String: dotNetObject = value.AsString; break;
                 case BsonType.Double: dotNetObject = value.AsDouble; break;
                 case BsonType.Boolean: dotNetObject = value.AsBoolean; break;
-                case BsonType.DateTime: dotNetObject = value.ToUniversalTime(); break;
+                case BsonType.DateTime: dotNetObject = value.ToLocalTime(); break;
                 case BsonType.Null: dotNetObject = null; break;
                 default: throw new NotSupportedException(string.Format("the bson type [{0}] is not supported", value.BsonType));
             }

@@ -57,14 +57,22 @@
       "columnNames": [ "id", "name" ],
       "isUpsert": true,
       "primaryKey": "na"
-    },    
+    },
     "sql_tbl001": {
       "targetType": "mssql",
       "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=test;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
       "objectName": "tbl001",
-      "columnNames": ["id", "name"],
+      "columnNames": [ "id", "name" ],
       "isUpsert": true,
       "primaryKey": "id"
+    },
+    "sql_tbl002": {
+      "targetType": "mssql",
+      "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=test;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
+      "objectName": "timestamps",
+      "columnNames": ["Id", "Timestamp"],
+      "isUpsert": true,
+      "primaryKey": "Id"
     }
   }
 }

@@ -51,8 +51,10 @@
     <Compile Include="ConsoleOutput.cs" />
     <Compile Include="DatapipelineDemo2.cs" />
     <Compile Include="DataPipelineDemo3.cs" />
+    <Compile Include="DataPipelineDemo4.cs" />
     <Compile Include="FaultAction.cs" />
     <Compile Include="HelloDataPipeline.cs" />
+    <Compile Include="ListDataInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionBasicTransformAction.cs" />
