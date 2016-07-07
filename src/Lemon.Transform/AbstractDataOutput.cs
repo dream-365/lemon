@@ -61,7 +61,14 @@ namespace Lemon.Transform
                 Context.ProgressIndicator.Increment(Name);
             }
 
-            OnReceive(data.Row);
+            try
+            {
+                OnReceive(data.Row);
+            }
+            catch (Exception ex)
+            {
+                LogService.Default.Error(string.Format("{0} - failed", Name), ex);
+            }
         }
 
         protected abstract void OnReceive(BsonDataRow row);

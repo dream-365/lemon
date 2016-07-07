@@ -83,14 +83,7 @@ namespace Lemon.Transform
 
         protected override void OnReceive(BsonDataRow row)
         {
-            try
-            {
-                Input(row);
-            }catch(Exception ex)
-            {
-                LogService.Default.Error("SQL Server data output failed", ex);
-            }
-            
+            Input(row);
         }
     }
 }
