@@ -21,7 +21,7 @@
     "test_data": {
       "sourceType": "json",
       "objectName": "na",
-      "connection": "test_data.json",
+      "connection": "FilePath=test_data.json;Speed=2",
       "filter": "{}"
     }
   },

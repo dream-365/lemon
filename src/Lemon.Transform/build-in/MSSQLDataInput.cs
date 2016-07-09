@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -14,11 +15,39 @@ namespace Lemon.Transform
 
         private string _sql;
 
+        private bool _limitSpeed;
+
+        private long _speed;
+
+        private long _count;
+
         private IDictionary<string, object> _parameters;
 
         public MSSQLDataInput(DataInputModel model)
         {
-            _connectionString = model.Connection;
+            var dictionary = new Dictionary<string, string>();
+
+            var attributes = model.Connection.Split(';');
+
+            foreach (var attribute in attributes)
+            {
+                var splits = attribute.Split('=');
+
+                var key = splits[0];
+
+                var value = splits[1];
+
+                dictionary.Add(key, value);
+            }
+
+            _limitSpeed = dictionary.ContainsKey("Speed");
+
+            if(_limitSpeed)
+            {
+                dictionary.Remove("Speed");
+            }
+
+            _connectionString = string.Join(";", dictionary.Select(m => string.Format("{0}={1}", m.Key, m.Value)));
 
             _sql = SqlNamedQueryProvider.Instance.Get(model.ObjectName);
 
@@ -83,6 +112,13 @@ namespace Lemon.Transform
                 }
 
                 forEach(new BsonDataRow(document));
+
+                _count++;
+
+                if (_limitSpeed && (_count % _speed) == 0)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                }
             }
 
             reader.Close();
@@ -115,6 +151,8 @@ namespace Lemon.Transform
 
         public override void Start()
         {
+            _count = 0;
+
             ForEach(Post);
 
             Complete();

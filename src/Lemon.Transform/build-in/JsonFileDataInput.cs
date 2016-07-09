@@ -11,6 +11,12 @@ namespace Lemon.Transform
 
         private string _filePath;
 
+        private long _count;
+
+        private bool _limitSpeed;
+
+        private long _speed; 
+
         public string PrimaryKey
         {
             get
@@ -21,7 +27,29 @@ namespace Lemon.Transform
 
         public JsonFileDataInput(DataInputModel model)
         {
-            _filePath = model.Connection;
+            var dictionary = new Dictionary<string, string>();
+
+            var attributes = model.Connection.Split(';');
+
+            foreach (var attribute in attributes)
+            {
+                var temp = attribute.Split('=');
+
+                var key = temp[0];
+
+                var value = temp[1];
+
+                dictionary.Add(key, value);
+            }
+
+            _filePath = dictionary["FilePath"];
+
+            _limitSpeed = dictionary.ContainsKey("Speed");
+
+            if(_limitSpeed)
+            {
+                _speed = long.Parse(dictionary["Speed"]);
+            }
 
             _primaryKey = model.PrimaryKey;
         }
@@ -42,6 +70,13 @@ namespace Lemon.Transform
                         var document = BsonDocument.Parse(text);
 
                         forEach(new BsonDataRow(document));
+
+                        _count++;
+
+                        if(_limitSpeed && (_count % _speed) == 0)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -53,6 +88,8 @@ namespace Lemon.Transform
 
         public override void Start()
         {
+            _count = 0;
+
             ForEach(Post);
 
             Complete();

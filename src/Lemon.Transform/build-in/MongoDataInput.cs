@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lemon.Transform
@@ -13,9 +14,11 @@ namespace Lemon.Transform
 
         private string _collectionName;
 
+        private bool _limitSpeed;
+
         private IMongoCollection<BsonDocument> _collection;     
 
-        private const int BAT_SZIE = 1000;
+        private int _batchSize = 1000;
 
         private string _filter;
 
@@ -29,7 +32,29 @@ namespace Lemon.Transform
 
         public MongoDataInput(DataInputModel model)
         {
-            _connectionString = model.Connection;
+            var dictionary = new Dictionary<string, string>();
+
+            var attributes = model.Connection.Split(';');
+
+            foreach (var attribute in attributes)
+            {
+                var splits = attribute.Split('=');
+
+                var key = splits[0];
+
+                var value = splits[1];
+
+                dictionary.Add(key, value);
+            }
+
+            _connectionString = dictionary["Data Source"];
+
+            _limitSpeed = dictionary.ContainsKey("Speed");
+
+            if (_limitSpeed)
+            {
+                _batchSize = int.Parse(dictionary["Speed"]);
+            }
 
             var temp = model.ObjectName.Split('.');
 
@@ -50,17 +75,22 @@ namespace Lemon.Transform
             {
                 var list = _collection.Find(_filter)
                     .Skip(start)
-                    .Limit(BAT_SZIE + 1)
+                    .Limit(_batchSize + 1)
                     .ToList();
 
                 list.ForEach(m => forEach(new BsonDataRow(m)));
 
-                if (list.Count <= BAT_SZIE)
+                if (list.Count <= _batchSize)
                 {
                     hasMore = false;
                 }
 
-                start = start + BAT_SZIE;
+                start = start + _batchSize;
+
+                if(_limitSpeed)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                }
             }
         }
 
