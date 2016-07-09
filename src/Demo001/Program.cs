@@ -11,14 +11,24 @@ namespace Demo001
         {
             LemonTransform.UseDefaultSevices();
 
-            var pipeline = new DataPipelineDemo4();
+            var pipeline = new OutOfMemoryDataPipeline();
 
-            pipeline.Run();
+            var task = pipeline.RunAsync();
 
-            foreach(var kv in pipeline.GetAllProgress())
-            {
-                Console.WriteLine("{0}: {1}", kv.Key, kv.Value);
-            }
+            var timer = new Timer(10000);
+
+            timer.AutoReset = true;
+
+            timer.Elapsed += (sender, parameters) => {
+                foreach (var kv in pipeline.GetAllProgress())
+                {
+                    Console.WriteLine("{0}: {1}", kv.Key, kv.Value);
+                }
+            };
+
+            timer.Start();
+
+            task.Wait();
         }
     }
 }
