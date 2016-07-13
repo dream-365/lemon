@@ -9,6 +9,11 @@ namespace Lemon.Transform
 
         public long Increment(string key)
         {
+            return Increment(key, 1);
+        }
+
+        public long Increment(string key, long by)
+        {
             if (!_dictionary.ContainsKey(key))
             {
                 lock (_dictionary)
@@ -17,7 +22,7 @@ namespace Lemon.Transform
                 }
             }
 
-            var count = _dictionary[key] + 1;
+            var count = _dictionary[key] + by;
 
             _dictionary[key] = count;
 

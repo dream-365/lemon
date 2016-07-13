@@ -55,5 +55,42 @@ namespace Lemon.Transform
         {
             _namedParameters[key] = value;
         }
+
+        /// <summary>
+        /// attach the transform action to running context
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+
+        public TransformSingleAction Attach(TransformSingleAction action, string name = null)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                action.Name = name;
+            }
+
+            action.Context = this;
+
+            return action;
+        }
+
+        /// <summary>
+        /// attach the transform action to running context
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public TransformManyAction Attach(TransformManyAction action, string name = null)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                action.Name = name;
+            }
+
+            action.Context = this;
+
+            return action;
+        }
     }
 }

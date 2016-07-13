@@ -12,28 +12,6 @@ namespace Lemon.Transform
     {
         private DF.TransformManyBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>> _transformBlock;
 
-        public PipelineContext Context { get; set; }
-
-        private string _name;
-
-        public string Name
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_name))
-                {
-                    _name = this.GetType().Name + "_" + Guid.NewGuid().ToString();
-                }
-
-                return _name;
-            }
-
-            set
-            {
-                _name = value;
-            }
-        }
-
 
         public TransformManyAction()
         {
@@ -68,17 +46,20 @@ namespace Lemon.Transform
 
             try
             {
-                if (Context != null)
-                {
-                    Context.ProgressIndicator.Increment(Name);
-                }
+                Context.ProgressIndicator.Increment(string.Format("{0}.process", Name));
 
                 InternalTransform(data.Row, queue);
 
+                Context.ProgressIndicator.Increment(string.Format("{0}.output", Name), queue.Count);
+
                 return queue.Select(m => new DataRowWrapper<BsonDataRow> { Success = true, Row = m });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Context.ProgressIndicator.Increment(string.Format("{0}.error", Name));
+
+                LogService.Default.Error(string.Format("{0} trasform failed", Name), ex);
+
                 return new List<DataRowWrapper<BsonDataRow>>();
             }
         }

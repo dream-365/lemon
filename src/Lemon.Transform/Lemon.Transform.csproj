@@ -85,7 +85,6 @@
     <Compile Include="AbstractDataOutput.cs" />
     <Compile Include="BroadcastAction.cs" />
     <Compile Include="build-in\JsonFileDataInput.cs" />
-    <Compile Include="BaseTransformAction.cs" />
     <Compile Include="build-in\MongoDataInput.cs" />
     <Compile Include="build-in\MongoDataOutput.cs" />
     <Compile Include="build-in\MSSQLDataOutput.cs" />
@@ -106,11 +105,11 @@
     <Compile Include="Models\DataInputModel.cs" />
     <Compile Include="Models\DataOutputModel.cs" />
     <Compile Include="Models\NamedParameterObjectModel.cs" />
+    <Compile Include="PipelineObject.cs" />
     <Compile Include="ProgressIndicator.cs" />
     <Compile Include="build-in\SqlNamedQueryProvider.cs" />
     <Compile Include="build-in\MSSQLDataInput.cs" />
     <Compile Include="build-in\SQLInserOrUpdateQueryBuilder.cs" />
-    <Compile Include="CalculationColumnDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LinkObject.cs" />
     <Compile Include="TransformManyAction.cs" />

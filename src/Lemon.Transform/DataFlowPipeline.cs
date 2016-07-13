@@ -42,47 +42,54 @@ namespace Lemon.Transform
 
         public void Run(IDictionary<string, string> namedParameters = null)
         {
-            if(_status == Status.Running)
+            try
             {
-                return;
+                if (_status == Status.Running)
+                {
+                    return;
+                }
+
+                LogService.Default.Info("data pipeline is running");
+
+                _status = Status.Running;
+
+                _progressIndicator.Clear();
+
+                var entry = OnCreate(new PipelineContext(_progressIndicator, namedParameters));
+
+                if (OnStart != null)
+                {
+                    OnStart();
+                }
+
+                entry.Start();
+
+                LogService.Default.Info("wait the pipeline for comptetion");
+
+                Task.WaitAll(_compltetions.ToArray());
+
+                _compltetions.Clear();
+
+                _status = Status.Finished;
+
+                if (OnComplete != null)
+                {
+                    OnComplete();
+                }
+
+                LogService.Default.Info("pipeline completed!");
             }
-
-            LogService.Default.Info("data pipeline is running");
-
-            _status = Status.Running;
-
-            _progressIndicator.Clear();
-
-            var entry = OnCreate(new PipelineContext(_progressIndicator, namedParameters));
-
-            if(OnStart != null)
+            catch (Exception ex)
             {
-                OnStart();
+                LogService.Default.Error(string.Format("pipeline {0} is failed", GetType().Name), ex);
             }
-
-            entry.Start();
-
-            LogService.Default.Info("wait the pipeline for comptetion");
-
-            Task.WaitAll(_compltetions.ToArray());
-
-            _compltetions.Clear();
-
-            _status = Status.Finished;
-
-            if(OnComplete != null)
-            {
-                OnComplete();
-            }
-
-            LogService.Default.Info("pipeline completed!");
         }
 
         public Task RunAsync(IDictionary<string, string> namedParameters = null)
         {
             return Task.Run(() =>
             {
-                Run(namedParameters);
+                Run(namedParameters);                
             });
         }
 

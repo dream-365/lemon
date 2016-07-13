@@ -5,7 +5,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Lemon.Transform
 {
-    public abstract class LinkObject
+    public abstract class LinkObject : PipelineObject
     {
         internal abstract ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource();
 
