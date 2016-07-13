@@ -8,7 +8,7 @@
         {
             get
             {
-                lock (_context)
+                lock (this)
                 {
                     if (_context == null)
                     {
@@ -33,7 +33,7 @@
             {
                 if (string.IsNullOrWhiteSpace(_name))
                 {
-                    lock (_name)
+                    lock (this)
                     {
                         _name = this.GetType().Name + "_" + GetHashCode();
                     }
