@@ -13,15 +13,9 @@ namespace Demo001
 
             var input = context.IO.GetInput("test_data");
 
-            var output = new DebugOutput { Context = context };
+            var output = context.IO.GetOutput("sql_tbl001");
 
-            var batchId = Guid.NewGuid().ToString();
-
-            var batchIdAction = new AttachBatchIdAction("BatchId", batchId) {  Context = context };
-
-            input.LinkTo(batchIdAction);
-
-            batchIdAction.Link.SuccessTo(output).End();
+            input.LinkTo(output);
 
             EnsureComplete(output.Compltetion);
 

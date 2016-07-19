@@ -11,7 +11,7 @@ namespace Demo001
         {
             LemonTransform.UseDefaultSevices();
 
-            var pipeline = new OutOfMemoryDataPipeline();
+            var pipeline = new DatapipelineDemo2();
 
             var task = pipeline.RunAsync();
 

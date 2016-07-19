@@ -21,18 +21,8 @@ namespace Lemon.Transform
         {
             var sb = new StringBuilder();
 
-            sb.Append("IF EXISTS(SELECT * FROM [dbo].")
+            sb.Append("IF NOT EXISTS(SELECT * FROM [dbo].")
                 .Append("[" + _tableName + "]").Append(" WHERE [").Append(_primaryKey).Append("] = @").Append(_primaryKey).AppendLine(")");
-
-            sb.Append("UPDATE [dbo].").AppendLine("[" + _tableName + "]");
-
-            var sets = columns.Skip(1).Select(m => string.Format("[{0}] = @{0}", m));
-
-            sb.Append("SET ").AppendLine(string.Join(",", sets));
-
-            sb.Append("WHERE [").Append(_primaryKey).Append("] = @").AppendLine(_primaryKey);
-
-            sb.AppendLine("ELSE");
 
             sb.Append("INSERT INTO [dbo].")
                 .Append("[" + _tableName + "]")
@@ -42,6 +32,20 @@ namespace Lemon.Transform
             sb.Append("VALUES ")
                 .Append("(")
                 .Append(string.Join(",", columns.Select(m => string.Format("@{0}", m)))).AppendLine(")");
+
+
+            if (upsert)
+            {
+                sb.AppendLine("ELSE");
+
+                sb.Append("UPDATE [dbo].").AppendLine("[" + _tableName + "]");
+
+                var sets = columns.Skip(1).Select(m => string.Format("[{0}] = @{0}", m));
+
+                sb.Append("SET ").AppendLine(string.Join(",", sets));
+
+                sb.Append("WHERE [").Append(_primaryKey).Append("] = @").AppendLine(_primaryKey);
+            }
 
             return sb.ToString();
         }
