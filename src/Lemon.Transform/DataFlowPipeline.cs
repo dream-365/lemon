@@ -33,9 +33,26 @@ namespace Lemon.Transform
             _progressIndicator = new ProgressIndicator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="completion"></param>
+        [Obsolete("This method is obsolete. Call Waits instead.", false)]
         protected void EnsureComplete(Task completion)
         {
             _compltetions.Add(completion);
+        }
+
+        /// <summary>
+        /// waits the objects for completes
+        /// </summary>
+        /// <param name="objects"></param>
+        public void Waits(params LinkObject [] objects)
+        {
+            foreach(var obj in objects)
+            {
+                _compltetions.Add(obj.Compltetion);
+            } 
         }
 
         protected abstract AbstractDataInput OnCreate(PipelineContext context);
