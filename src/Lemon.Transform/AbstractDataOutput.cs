@@ -32,6 +32,11 @@ namespace Lemon.Transform
             }
         }
 
+        public virtual DataRowStatusContext GetDataRowStatusContext(string [] excludes)
+        {
+            throw new NotSupportedException();
+        }
+
         protected void OnReceive(DataRowWrapper<BsonDataRow> data)
         {
             Context.ProgressIndicator.Increment(string.Format("{0}.process", Name));

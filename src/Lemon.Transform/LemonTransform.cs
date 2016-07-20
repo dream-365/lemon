@@ -32,8 +32,8 @@ namespace Lemon.Transform
         {
             RegisterDataInput<MongoDataInput>("mongo");
             RegisterDataOutput<MongoDataOutput>("mongo");
-            RegisterDataInput<MSSQLDataInput>("mssql");
-            RegisterDataOutput<MSSQLDataOutput>("mssql");
+            RegisterDataInput<SqlServerDataInput>("mssql");
+            RegisterDataOutput<SqlServerDataOutput>("mssql");
             RegisterDataInput<JsonFileDataInput>("json");
             RegisterServcie<IDataStoreService, JsonDataStoreService>();
         }

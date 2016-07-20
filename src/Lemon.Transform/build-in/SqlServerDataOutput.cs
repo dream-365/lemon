@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
+using System.Linq;
 
 namespace Lemon.Transform
 {
-    public class MSSQLDataOutput : AbstractDataOutput, IDisposable
+    public class SqlServerDataOutput : AbstractDataOutput, IDisposable
     {
         private string _connectionString;
 
@@ -22,7 +23,7 @@ namespace Lemon.Transform
 
         private SQLInserOrUpdateQueryBuilder _builder;
 
-        public MSSQLDataOutput(DataOutputModel model)
+        public SqlServerDataOutput(DataOutputModel model)
         {
             _connectionString = model.Connection;
 
@@ -44,6 +45,26 @@ namespace Lemon.Transform
             _connection = new SqlConnection(_connectionString);
         }
 
+        public override DataRowStatusContext GetDataRowStatusContext(string[] excludes)
+        {
+            var columns = new List<string>();
+
+            foreach(var column in _columnNames)
+            {
+                if(column == _primaryKey || excludes.Any(exclue => exclue == column))
+                {
+                    continue;
+                }
+
+                columns.Add(column);
+            }
+
+            return new SqlServerRecordStatusContext(
+                    _connectionString,
+                    _tableName,
+                    new string[] { _primaryKey},
+                    columns.ToArray());
+        }
 
         private static object CastBsonValueToDotNetObject(BsonValue value)
         {
