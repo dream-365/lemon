@@ -1,6 +1,5 @@
 ﻿using Lemon.Transform;
 using System;
-using System.Collections.Generic;
 using System.Timers;
 
 namespace Demo001
@@ -11,7 +10,7 @@ namespace Demo001
         {
             LemonTransform.UseDefaultSevices();
 
-            var pipeline = new DatapipelineDemo2();
+            var pipeline = new UpdateOnChangeDemo();
 
             var task = pipeline.RunAsync();
 
@@ -29,6 +28,11 @@ namespace Demo001
             timer.Start();
 
             task.Wait();
+
+            foreach (var kv in pipeline.GetAllProgress())
+            {
+                Console.WriteLine("{0}: {1}", kv.Key, kv.Value);
+            }
         }
     }
 }
