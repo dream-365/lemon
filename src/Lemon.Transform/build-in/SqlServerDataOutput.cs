@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
@@ -23,6 +22,8 @@ namespace Lemon.Transform
 
         private SQLInserOrUpdateQueryBuilder _builder;
 
+        protected Func<BsonDataRow, bool> DetermineWriteOrNot;
+
         public SqlServerDataOutput(DataOutputModel model)
         {
             _connectionString = model.Connection;
@@ -33,6 +34,24 @@ namespace Lemon.Transform
 
             _columnNames = model.ColumnNames;
 
+            if(model.WriteOnChange != null && model.WriteOnChange.Enabled)
+            {
+                var context = BuildDataRowStatusContext(model.WriteOnChange.ExcludedColumNames);
+
+                DetermineWriteOrNot = (row) => {
+
+                    var status = context.Compare(row);
+
+                    return status != DataRowCompareStatus.NoChange;
+                };
+            }
+            else
+            {
+                DetermineWriteOrNot = (row) => {
+                    return true;
+                };
+            }
+            
             _builder = new SQLInserOrUpdateQueryBuilder(_tableName, _primaryKey);
 
             _sql = _builder.Build(model.ColumnNames, model.IsUpsert);
@@ -47,11 +66,16 @@ namespace Lemon.Transform
 
         public override DataRowStatusContext GetDataRowStatusContext(string[] excludes)
         {
+            return BuildDataRowStatusContext(excludes);
+        }
+
+        private DataRowStatusContext BuildDataRowStatusContext(string[] excludes)
+        {
             var columns = new List<string>();
 
-            foreach(var column in _columnNames)
+            foreach (var column in _columnNames)
             {
-                if(column == _primaryKey || excludes.Any(exclue => exclue == column))
+                if (column == _primaryKey || excludes.Any(exclue => exclue == column))
                 {
                     continue;
                 }
@@ -62,36 +86,22 @@ namespace Lemon.Transform
             return new SqlServerRecordStatusContext(
                     _connectionString,
                     _tableName,
-                    new string[] { _primaryKey},
+                    new string[] { _primaryKey },
                     columns.ToArray());
-        }
-
-        private static object CastBsonValueToDotNetObject(BsonValue value)
-        {
-            object dotNetObject;
-
-            switch (value.BsonType)
-            {
-                case BsonType.Int32: dotNetObject = value.AsInt32; break;
-                case BsonType.Int64: dotNetObject = value.AsInt64; break;
-                case BsonType.String: dotNetObject = value.AsString; break;
-                case BsonType.Double: dotNetObject = value.AsDouble; break;
-                case BsonType.Boolean: dotNetObject = value.AsBoolean; break;
-                case BsonType.DateTime: dotNetObject = value.ToLocalTime(); break;
-                case BsonType.Null: dotNetObject = null; break;
-                default: throw new NotSupportedException(string.Format("the bson type [{0}] is not supported", value.BsonType));
-            }
-
-            return dotNetObject;
         }
 
         private void Input(BsonDataRow inputRow)
         {
+            if(!DetermineWriteOrNot(inputRow))
+            {
+                return;
+            }
+
             var dict = new Dictionary<string, object>();
 
             foreach (var columName in _columnNames)
             {
-                dict.Add(columName, CastBsonValueToDotNetObject(inputRow.GetValue(columName)));
+                dict.Add(columName, CastUtil.Cast(inputRow.GetValue(columName)));
             }
 
             _connection.Execute(_sql, dict);

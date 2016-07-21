@@ -9,6 +9,8 @@ namespace Lemon.Transform
     {
         private ActionBlock<DataRowWrapper<BsonDataRow>> _actionBlock;
 
+        public Action<BsonDataRow> OnError;
+
         public AbstractDataOutput()
         {
             _actionBlock = new ActionBlock<DataRowWrapper<BsonDataRow>>(new Action<DataRowWrapper<BsonDataRow>>(OnReceive));
@@ -49,6 +51,11 @@ namespace Lemon.Transform
             }
             catch (Exception ex)
             {
+                if(OnError != null)
+                {
+                    OnError(data.Row);
+                }
+
                 Context.ProgressIndicator.Increment(string.Format("{0}.error", Name));
 
                 LogService.Default.Error(string.Format("{0} - failed", Name), ex);
