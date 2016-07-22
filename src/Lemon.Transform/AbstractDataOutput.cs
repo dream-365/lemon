@@ -11,9 +11,45 @@ namespace Lemon.Transform
 
         public Action<BsonDataRow> OnError;
 
+        public Action<BsonDataRow> BeforeWrite;
+
+        public Action<BsonDataRow> AfterWrite;
+
+        protected Func<BsonDataRow, bool> DetermineWriteOrNot;
+
         public AbstractDataOutput()
         {
             _actionBlock = new ActionBlock<DataRowWrapper<BsonDataRow>>(new Action<DataRowWrapper<BsonDataRow>>(OnReceive));
+
+            BeforeWrite = Dummy;
+
+            AfterWrite = Dummy;
+        }
+
+        private static void Dummy(BsonDataRow row) { }
+
+        protected Func<BsonDataRow, bool> BuildDetermineWriteOrNotFunction(WriteOnChangeConfiguration writeOnChange)
+        {
+            Func<BsonDataRow, bool> func = (row) => { return true; };
+
+            if (writeOnChange != null && writeOnChange.Enabled)
+            {
+                var context = BuildDataRowStatusContext(writeOnChange.ExcludedColumNames);
+
+                func = (row) => {
+
+                    var status = context.Compare(row);
+
+                    return status != DataRowCompareStatus.NoChange;
+                };
+            }
+
+            return func;
+        }
+
+        protected virtual DataRowStatusContext BuildDataRowStatusContext(string[] excludes)
+        {
+            throw new NotSupportedException();
         }
 
         internal override ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource()
@@ -34,20 +70,26 @@ namespace Lemon.Transform
             }
         }
 
-        public virtual DataRowStatusContext GetDataRowStatusContext(string [] excludes)
-        {
-            throw new NotSupportedException();
-        }
-
         protected void OnReceive(DataRowWrapper<BsonDataRow> data)
         {
             Context.ProgressIndicator.Increment(string.Format("{0}.process", Name));
 
             try
             {
-                OnReceive(data.Row);
+                if(DetermineWriteOrNot(data.Row))
+                {
+                    BeforeWrite(data.Row);
 
-                Context.ProgressIndicator.Increment(string.Format("{0}.output", Name));
+                    OnReceive(data.Row);
+
+                    Context.ProgressIndicator.Increment(string.Format("{0}.output", Name));
+
+                    AfterWrite(data.Row);
+                }
+                else
+                {
+                    Context.ProgressIndicator.Increment(string.Format("{0}.nochange", Name));
+                }  
             }
             catch (Exception ex)
             {

@@ -76,6 +76,8 @@ namespace Lemon.Transform
 
             if(WriteOnChange != null)
             {
+                clone.WriteOnChange = new WriteOnChangeConfiguration();
+
                 clone.WriteOnChange.Enabled = WriteOnChange.Enabled;
 
                 clone.WriteOnChange.ExcludedColumNames = WriteOnChange.ExcludedColumNames;

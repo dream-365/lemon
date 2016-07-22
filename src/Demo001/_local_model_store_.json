@@ -64,6 +64,10 @@
       "objectName": "tbl001",
       "columnNames": [ "id", "name" ],
       "isUpsert": true,
+      "writeOnChange": {
+        "enabled": true,
+        "excludedColumNames": [ ]
+      },
       "primaryKey": "id"
     },
     "sql_tbl002": {

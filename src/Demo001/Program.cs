@@ -10,7 +10,7 @@ namespace Demo001
         {
             LemonTransform.UseDefaultSevices();
 
-            var pipeline = new UpdateOnChangeDemo();
+            var pipeline = new WriteOnChangeDemo();
 
             var task = pipeline.RunAsync();
 
