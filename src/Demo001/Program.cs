@@ -8,7 +8,9 @@ namespace Demo001
     {
         static void Main(string[] args)
         {
-            LemonTransform.UseDefaultSevices();
+            GlobalConfiguration.Configure(config => {
+                config.UseDefaultSevices();
+            });
 
             var pipeline = new WriteOnChangeDemo();
 

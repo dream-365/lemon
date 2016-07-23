@@ -6,14 +6,18 @@ namespace Lemon.Transform
     {
         public AbstractDataInput CreateDataInput(DataInputModel model)
         {
-            return LemonTransform.Container.Resolve<AbstractDataInput>(
+            return GlobalConfiguration
+                    .TransformConfiguration
+                    .Container.Resolve<AbstractDataInput>(
                 model.SourceType + "_input", 
                 new { model = model });
         }
 
         public AbstractDataOutput CreateDataOutput(DataOutputModel model)
         {
-            return LemonTransform.Container.Resolve<AbstractDataOutput>(
+            return GlobalConfiguration
+                .TransformConfiguration
+                .Container.Resolve<AbstractDataOutput>(
                 model.TargetType + "_output",
                 new { model = model });
         }

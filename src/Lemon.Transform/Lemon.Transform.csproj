@@ -96,6 +96,7 @@
     <Compile Include="DataRowStatusContext.cs" />
     <Compile Include="DataStore.cs" />
     <Compile Include="FieldTypeMapping.cs" />
+    <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="LinkManagement.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Models\DataRowWrapper.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="build-in\DebugOutput.cs" />
     <Compile Include="interfaces\IDataStoreService.cs" />
     <Compile Include="build-in\JsonDataStoreService.cs" />
-    <Compile Include="LemonTransform.cs" />
+    <Compile Include="TransformConfiguration.cs" />
     <Compile Include="BsonDataRow.cs" />
     <Compile Include="Models\DataInputModel.cs" />
     <Compile Include="Models\DataOutputModel.cs" />

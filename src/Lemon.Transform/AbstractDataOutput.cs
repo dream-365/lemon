@@ -40,6 +40,17 @@ namespace Lemon.Transform
 
                     var status = context.Compare(row);
 
+                    #region debug section
+
+                    if(GlobalConfiguration.TransformConfiguration.Debug)
+                    {
+                        LogService.Default.Info(row.ToString());
+
+                        LogService.Default.Info(string.Format("status:", status));
+                    }
+
+                    #endregion
+
                     return status != DataRowCompareStatus.NoChange;
                 };
             }

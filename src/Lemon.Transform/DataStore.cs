@@ -8,7 +8,9 @@ namespace Lemon.Transform
 
         public DataStore()
         {
-            _service = LemonTransform.Container.Resolve<IDataStoreService>();
+            _service = GlobalConfiguration
+                .TransformConfiguration
+                .Container.Resolve<IDataStoreService>();
         }
 
         public DataInputModel GetDataInput(string name)
