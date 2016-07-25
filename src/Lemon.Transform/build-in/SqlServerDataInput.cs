@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -24,7 +22,7 @@ namespace Lemon.Transform
 
             _connectionString = model.Connection.ConnectionString;
 
-            _sql = SqlNamedQueryProvider.Instance.Get(model.Schema.ObjectName);
+            _sql = SqlNamedQueryProvider.Instance.Get(model.Object);
 
             _parameters = Newtonsoft.Json.JsonConvert.DeserializeObject<IDictionary<string, object>>(model.Filter);
 

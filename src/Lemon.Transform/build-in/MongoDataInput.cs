@@ -56,7 +56,7 @@ namespace Lemon.Transform
                 _batchSize = int.Parse(dictionary["Speed"]);
             }
 
-            var temp = model.Schema.ObjectName.Split('.');
+            var temp = model.Object.Split('.');
 
             _databaseName = temp[0];
 

@@ -6,6 +6,8 @@ namespace Lemon.Transform
     {
         public string Id { get; set; }
 
+        public string Object { get; set; }
+
         public DataConnection Connection { get; set; }
 
         public string ConnectionId { get; set; }

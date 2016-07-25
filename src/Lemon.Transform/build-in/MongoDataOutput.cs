@@ -23,7 +23,7 @@ namespace Lemon.Transform
 
             _connectionString = model.Connection.ConnectionString;
 
-            var temp = model.Schema.ObjectName.Split('.');
+            var temp = model.Object.Split('.');
 
             _databaseName = temp[0];
 

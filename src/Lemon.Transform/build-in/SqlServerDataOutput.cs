@@ -28,7 +28,7 @@ namespace Lemon.Transform
 
             _connectionString = model.Connection.ConnectionString;
 
-            _tableName = table.ObjectName;
+            _tableName = model.Object;
 
             _primaryKeys = table.PrimaryKeys;
 
