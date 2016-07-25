@@ -24,6 +24,8 @@ namespace Lemon.Transform
             BeforeWrite = Dummy;
 
             AfterWrite = Dummy;
+
+            DetermineWriteOrNot = (row) => { return true; };
         }
 
         private static void Dummy(BsonDataRow row) { }
