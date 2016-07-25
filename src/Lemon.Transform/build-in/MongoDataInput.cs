@@ -36,7 +36,10 @@ namespace Lemon.Transform
                         ? "{}"
                         : model.Filter;
 
-            _columnNames = model.Schema.Columns.Select(m => m.Name).ToArray();
+            if(model.Schema != null)
+            {
+                _columnNames = model.Schema.Columns.Select(m => m.Name).ToArray();
+            }         
 
             if(model.Parameters != null)
             {
@@ -72,22 +75,32 @@ namespace Lemon.Transform
 
             bool hasMore = true;
 
-            var firstColumnName = _columnNames.First();
+            ProjectionDefinition<BsonDocument> projection = null;
 
-            var projection = Builders<BsonDocument>.Projection.Include(firstColumnName);
-
-            foreach(var columnName in _columnNames.Skip(1))
+            if(_columnNames != null && _columnNames.Count() > 0)
             {
-                projection = projection.Include(columnName);
+                var firstColumnName = _columnNames.First();
+
+                projection = Builders<BsonDocument>.Projection.Include(firstColumnName);
+
+                foreach (var columnName in _columnNames.Skip(1))
+                {
+                    projection = projection.Include(columnName);
+                }
             }
-                                             
+                                   
             while (hasMore)
             {
-                var list = collection.Find(filter)
+                var find = collection.Find(filter)
                     .Skip(start)
-                    .Limit(_batchSize + 1)
-                    .Project(projection)
-                    .ToList();
+                    .Limit(_batchSize + 1);
+
+                if(projection != null)
+                {
+                    find = find.Project(projection);
+                }
+
+                var list = find.ToList();
 
                 list.ForEach(m => forEach(new BsonDataRow(m)));
 

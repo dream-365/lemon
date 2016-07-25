@@ -109,6 +109,11 @@ namespace Lemon.Transform
 
         private DataTableSchema FindSchemaById(string schemaId)
         {
+            if(string.IsNullOrWhiteSpace(schemaId))
+            {
+                return null;
+            }
+
             DataTableSchema schema;
 
             if(_datastore.Schemas.TryGetValue(schemaId, out schema))

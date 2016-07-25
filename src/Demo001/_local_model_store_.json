@@ -51,7 +51,7 @@
     "landing_questions": {
       "object": "landing.{{scope}}_threads",
       "connectionId": "mongo_local",
-      "schemaId": "basic_question",
+      "schemaId": null,
       "filter": null,
       "parameters": [
         {"name": "scope", "required": true}
