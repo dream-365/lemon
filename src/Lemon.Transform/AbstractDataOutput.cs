@@ -25,6 +25,8 @@ namespace Lemon.Transform
 
             AfterWrite = Dummy;
 
+            OnError = Dummy;
+
             DetermineWriteOrNot = (row) => { return true; };
         }
 
@@ -106,10 +108,7 @@ namespace Lemon.Transform
             }
             catch (Exception ex)
             {
-                if(OnError != null)
-                {
-                    OnError(data.Row);
-                }
+                OnError(data.Row);
 
                 Context.ProgressIndicator.Increment(string.Format("{0}.error", Name));
 
