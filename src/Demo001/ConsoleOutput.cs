@@ -15,7 +15,7 @@ namespace Demo001
 
         public ConsoleOutput(DataOutputModel model)
         {
-            _columnNames = model.ColumnNames.ToArray();
+            _columnNames = model.Schema.ColumnNames.ToArray();
         }
 
         public void Input(BsonDataRow inputRow)

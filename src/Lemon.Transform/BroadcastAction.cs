@@ -6,18 +6,18 @@ namespace Lemon.Transform
 {
     public class BroadcastAction : LinkObject
     {
-        private BroadcastBlock<DataRowWrapper<BsonDataRow>> _broadcastBlock;
+        private BroadcastBlock<DataRowTransformWrapper<BsonDataRow>> _broadcastBlock;
 
         public BroadcastAction()
         {
-            _broadcastBlock = new BroadcastBlock<DataRowWrapper<BsonDataRow>>(row => {
+            _broadcastBlock = new BroadcastBlock<DataRowTransformWrapper<BsonDataRow>>(row => {
                 return row;
             });
         }
 
-        internal override ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource()
+        internal override ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
         {
-            return _broadcastBlock as ISourceBlock<DataRowWrapper<BsonDataRow>>;
+            return _broadcastBlock as ISourceBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
         public override Task Compltetion
@@ -28,9 +28,9 @@ namespace Lemon.Transform
             }
         }
 
-        internal override ITargetBlock<DataRowWrapper<BsonDataRow>> AsTarget()
+        internal override ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget()
         {
-            return _broadcastBlock as ITargetBlock<DataRowWrapper<BsonDataRow>>;
+            return _broadcastBlock as ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Lemon.Transform
 
             if(_datastore.Inputs.TryGetValue(name, out model))
             {
-                return model.Clone() as DataInputModel;
+                return model;
             }
 
             return null;
@@ -50,7 +50,7 @@ namespace Lemon.Transform
 
             if(_datastore.Outputs.TryGetValue(name, out model))
             {
-                return model.Clone() as DataOutputModel;
+                return model;
             }
 
             return null;

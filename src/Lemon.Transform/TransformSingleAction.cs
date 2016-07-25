@@ -8,16 +8,16 @@ namespace Lemon.Transform
 {
     public abstract class TransformSingleAction : LinkObject
     {
-        private DF.TransformBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>> _transformBlock;
+        private DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>> _transformBlock;
 
 
         public TransformSingleAction(int maxDegreeOfParallelism = 0)
         {
-            var transform = new Func<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>>(InternalTransform);
+            var transform = new Func<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(InternalTransform);
 
             if(maxDegreeOfParallelism == 0)
             {
-                _transformBlock = new DF.TransformBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>>(transform);
+                _transformBlock = new DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform);
             }
             else
             {
@@ -26,18 +26,18 @@ namespace Lemon.Transform
                     MaxDegreeOfParallelism = maxDegreeOfParallelism
                 };
 
-                _transformBlock = new DF.TransformBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>>(transform, options);
+                _transformBlock = new DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform, options);
             }
         }
 
-        internal override DF.ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource()
+        internal override DF.ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
         {
-            return _transformBlock as DF.ISourceBlock<DataRowWrapper<BsonDataRow>>;
+            return _transformBlock as DF.ISourceBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
-        internal override DF.ITargetBlock<DataRowWrapper<BsonDataRow>> AsTarget()
+        internal override DF.ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget()
         {
-            return _transformBlock as DF.ITargetBlock<DataRowWrapper<BsonDataRow>>;
+            return _transformBlock as DF.ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
         public override Task Compltetion
@@ -50,7 +50,7 @@ namespace Lemon.Transform
 
         public abstract BsonDataRow Transform(BsonDataRow row);
 
-        protected DataRowWrapper<BsonDataRow> InternalTransform(DataRowWrapper<BsonDataRow> data)
+        protected DataRowTransformWrapper<BsonDataRow> InternalTransform(DataRowTransformWrapper<BsonDataRow> data)
         {
             Context.ProgressIndicator.Increment(string.Format("{0}.process", Name));
 
@@ -60,7 +60,7 @@ namespace Lemon.Transform
 
                 Context.ProgressIndicator.Increment(string.Format("{0}.output", Name));
 
-                return new DataRowWrapper<BsonDataRow>
+                return new DataRowTransformWrapper<BsonDataRow>
                 {
                     Success = true,
                     Row = row
@@ -71,7 +71,7 @@ namespace Lemon.Transform
 
                 LogService.Default.Error(string.Format("{0} transform failed", Name), ex);
 
-                return new DataRowWrapper<BsonDataRow> {
+                return new DataRowTransformWrapper<BsonDataRow> {
                     Success = false,
                     Row = data.Row,
                     Exception = ex

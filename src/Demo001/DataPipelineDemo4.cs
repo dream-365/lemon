@@ -21,7 +21,7 @@ namespace Demo001
 
             input.LinkTo(output);
 
-            EnsureComplete(output.Compltetion);
+            Waits(output);
 
             return input;
         }

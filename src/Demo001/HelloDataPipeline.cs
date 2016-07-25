@@ -24,9 +24,7 @@ namespace Demo001
 
             broadcast.Link.SuccessTo(output2).End();
 
-            EnsureComplete(output1.Compltetion);
-
-            EnsureComplete(output2.Compltetion);
+            Waits(output1, output2);
 
             return input;
         }

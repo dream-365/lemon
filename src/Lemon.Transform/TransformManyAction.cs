@@ -10,24 +10,24 @@ namespace Lemon.Transform
 {
     public abstract class TransformManyAction : LinkObject
     {
-        private DF.TransformManyBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>> _transformBlock;
+        private DF.TransformManyBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>> _transformBlock;
 
 
         public TransformManyAction()
         {
-            var transform = new Func<DataRowWrapper<BsonDataRow>, IEnumerable<DataRowWrapper<BsonDataRow>>>(Transform);
+            var transform = new Func<DataRowTransformWrapper<BsonDataRow>, IEnumerable<DataRowTransformWrapper<BsonDataRow>>>(Transform);
 
-            _transformBlock = new DF.TransformManyBlock<DataRowWrapper<BsonDataRow>, DataRowWrapper<BsonDataRow>>(transform);
+            _transformBlock = new DF.TransformManyBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform);
         }
 
-        internal override DF.ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource()
+        internal override DF.ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
         {
-            return _transformBlock as DF.ISourceBlock<DataRowWrapper<BsonDataRow>>;
+            return _transformBlock as DF.ISourceBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
-        internal override DF.ITargetBlock<DataRowWrapper<BsonDataRow>> AsTarget()
+        internal override DF.ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget()
         {
-            return _transformBlock as DF.ITargetBlock<DataRowWrapper<BsonDataRow>>;
+            return _transformBlock as DF.ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
         public override Task Compltetion
@@ -40,7 +40,7 @@ namespace Lemon.Transform
 
         protected abstract void InternalTransform(BsonDataRow row, ConcurrentQueue<BsonDataRow> queue);
 
-        private IEnumerable<DataRowWrapper<BsonDataRow>> Transform(DataRowWrapper<BsonDataRow> data)
+        private IEnumerable<DataRowTransformWrapper<BsonDataRow>> Transform(DataRowTransformWrapper<BsonDataRow> data)
         {
             var queue = new ConcurrentQueue<BsonDataRow>();
 
@@ -52,7 +52,7 @@ namespace Lemon.Transform
 
                 Context.ProgressIndicator.Increment(string.Format("{0}.output", Name), queue.Count);
 
-                return queue.Select(m => new DataRowWrapper<BsonDataRow> { Success = true, Row = m });
+                return queue.Select(m => new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = m });
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace Lemon.Transform
 
                 LogService.Default.Error(string.Format("{0} trasform failed", Name), ex);
 
-                return new List<DataRowWrapper<BsonDataRow>>();
+                return new List<DataRowTransformWrapper<BsonDataRow>>();
             }
         }
     }

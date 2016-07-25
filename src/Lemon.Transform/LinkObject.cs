@@ -7,9 +7,9 @@ namespace Lemon.Transform
 {
     public abstract class LinkObject : PipelineObject
     {
-        internal abstract ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource();
+        internal abstract ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource();
 
-        internal abstract ITargetBlock<DataRowWrapper<BsonDataRow>> AsTarget();
+        internal abstract ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget();
 
         private LinkManagement _linkManagement;
 
@@ -18,7 +18,7 @@ namespace Lemon.Transform
 
         public LinkObject()
         {
-            _linkManagement = new LinkManagement(new Lazy<ISourceBlock<DataRowWrapper<BsonDataRow>>>(AsSource));
+            _linkManagement = new LinkManagement(new Lazy<ISourceBlock<DataRowTransformWrapper<BsonDataRow>>>(AsSource));
         }
 
         public LinkManagement Link { get { return _linkManagement; } }

@@ -9,7 +9,7 @@ namespace Lemon.Transform
             return GlobalConfiguration
                     .TransformConfiguration
                     .Container.Resolve<AbstractDataInput>(
-                model.SourceType + "_input", 
+                model.Connection.ProviderName + "_input", 
                 new { model = model });
         }
 
@@ -18,7 +18,7 @@ namespace Lemon.Transform
             return GlobalConfiguration
                 .TransformConfiguration
                 .Container.Resolve<AbstractDataOutput>(
-                model.TargetType + "_output",
+                model.Connection.ProviderName + "_output",
                 new { model = model });
         }
     }

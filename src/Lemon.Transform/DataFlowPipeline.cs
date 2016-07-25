@@ -34,16 +34,6 @@ namespace Lemon.Transform
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="completion"></param>
-        [Obsolete("This method is obsolete. Call Waits instead.", false)]
-        protected void EnsureComplete(Task completion)
-        {
-            _compltetions.Add(completion);
-        }
-
-        /// <summary>
         /// waits the objects for completes
         /// </summary>
         /// <param name="objects"></param>

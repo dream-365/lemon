@@ -13,7 +13,7 @@ namespace Demo001
 
             userRanksInput.LinkTo(debugOutput);
 
-            EnsureComplete(debugOutput.Compltetion);
+            Waits(debugOutput);
 
             return userRanksInput;
         }

@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Lemon.Transform
+﻿namespace Lemon.Transform
 {
-    public class DataStore
+    public class DataSourcesRepository
     {
         private IDataStoreService  _service;
 
-        public DataStore()
+        public DataSourcesRepository()
         {
             _service = GlobalConfiguration
                 .TransformConfiguration

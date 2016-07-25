@@ -2,7 +2,7 @@
 
 namespace Lemon.Transform.Models
 {
-    public class DataRowWrapper<TRow>
+    public class DataRowTransformWrapper<TRow>
     {
         public TRow Row { get; set; }
 

@@ -7,7 +7,7 @@ namespace Lemon.Transform
 {
     public abstract class AbstractDataOutput : LinkObject
     {
-        private ActionBlock<DataRowWrapper<BsonDataRow>> _actionBlock;
+        private ActionBlock<DataRowTransformWrapper<BsonDataRow>> _actionBlock;
 
         public Action<BsonDataRow> OnError;
 
@@ -19,7 +19,7 @@ namespace Lemon.Transform
 
         public AbstractDataOutput()
         {
-            _actionBlock = new ActionBlock<DataRowWrapper<BsonDataRow>>(new Action<DataRowWrapper<BsonDataRow>>(OnReceive));
+            _actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(new Action<DataRowTransformWrapper<BsonDataRow>>(OnReceive));
 
             BeforeWrite = Dummy;
 
@@ -63,14 +63,14 @@ namespace Lemon.Transform
             throw new NotSupportedException();
         }
 
-        internal override ISourceBlock<DataRowWrapper<BsonDataRow>> AsSource()
+        internal override ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
         {
             throw new NotSupportedException();
         }
 
-        internal override ITargetBlock<DataRowWrapper<BsonDataRow>> AsTarget()
+        internal override ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget()
         {
-            return _actionBlock as ITargetBlock<DataRowWrapper<BsonDataRow>>;
+            return _actionBlock as ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
         public override Task Compltetion
@@ -81,7 +81,7 @@ namespace Lemon.Transform
             }
         }
 
-        protected void OnReceive(DataRowWrapper<BsonDataRow> data)
+        protected void OnReceive(DataRowTransformWrapper<BsonDataRow> data)
         {
             Context.ProgressIndicator.Increment(string.Format("{0}.process", Name));
 

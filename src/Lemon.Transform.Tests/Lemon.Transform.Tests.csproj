@@ -65,11 +65,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CountAction.cs" />
-    <Compile Include="FakeDataInput.cs" />
-    <Compile Include="FakeDataOutput.cs" />
-    <Compile Include="FakeDataStoreService.cs" />
-    <Compile Include="MongoDataInputTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

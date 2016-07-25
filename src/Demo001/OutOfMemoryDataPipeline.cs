@@ -21,7 +21,7 @@ namespace Demo001
 
             slowAction.Link.SuccessTo(debug);
 
-            EnsureComplete(debug.Compltetion);
+            Waits(debug);
 
             return input;
         }

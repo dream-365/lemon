@@ -1,38 +1,29 @@
-﻿using System.Collections.Generic;
-
-namespace Lemon.Transform
+﻿namespace Lemon.Transform
 {
     public class DataIOProvider
     {
-        private DataStore _store;
+        private DataSourcesRepository _repository;
 
         private DataIOConstructor _factory;
 
-        private IDictionary<string, string> _namedParameters;
-
         private PipelineContext _context;
 
-        public DataIOProvider(PipelineContext context, IDictionary<string, string> namedParameters = null)
+        public DataIOProvider(PipelineContext context)
         {
-            _store = new DataStore();
+            _repository = new DataSourcesRepository();
 
             _factory = new DataIOConstructor();
-
-            _namedParameters = namedParameters;
 
             _context = context;
         }
 
         public AbstractDataInput GetInput(string name)
         {
-            var model = _store.GetDataInput(name);
-
-            if (_namedParameters != null)
-            {
-                model.RepalceWithNamedParameters(_namedParameters);
-            }
+            var model = _repository.GetDataInput(name);
 
             var input = _factory.CreateDataInput(model);
+
+            input.Name = name;
 
             input.Context = _context;
 
@@ -41,14 +32,11 @@ namespace Lemon.Transform
 
         public AbstractDataOutput GetOutput(string name)
         {
-            var model = _store.GetDataOutput(name);
-
-            if (_namedParameters != null)
-            {
-                model.RepalceWithNamedParameters(_namedParameters);
-            }
+            var model = _repository.GetDataOutput(name);
 
             var output  = _factory.CreateDataOutput(model);
+
+            output.Name = name;
 
             output.Context = _context;
 

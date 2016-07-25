@@ -7,17 +7,17 @@ namespace Lemon.Transform
 {
     public class LinkManagement
     {
-        private Lazy<ISourceBlock<DataRowWrapper<BsonDataRow>>> _source;
+        private Lazy<ISourceBlock<DataRowTransformWrapper<BsonDataRow>>> _source;
 
-        private IList<ITargetBlock<DataRowWrapper<BsonDataRow>>> _targets;
+        private IList<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>> _targets;
 
         private bool _linkInitialized = false;
 
-        public LinkManagement(Lazy<ISourceBlock<DataRowWrapper<BsonDataRow>>> source)
+        public LinkManagement(Lazy<ISourceBlock<DataRowTransformWrapper<BsonDataRow>>> source)
         {
             _source = source;
 
-            _targets = new List<ITargetBlock<DataRowWrapper<BsonDataRow>>>();
+            _targets = new List<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>>();
         }
 
         public LinkManagement SuccessTo(LinkObject linkObject)
@@ -63,7 +63,7 @@ namespace Lemon.Transform
 
         public void End()
         {
-            _source.Value.LinkTo(DataflowBlock.NullTarget<DataRowWrapper<BsonDataRow>>());
+            _source.Value.LinkTo(DataflowBlock.NullTarget<DataRowTransformWrapper<BsonDataRow>>());
         }
 
 

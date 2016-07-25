@@ -19,11 +19,11 @@ namespace Lemon.Transform
 
         public MongoDataOutput(DataOutputModel model)
         {
-            _columnNames = model.ColumnNames;
+            _columnNames = model.Schema.ColumnNames;
 
-            _connectionString = model.Connection;
+            _connectionString = model.Connection.ConnectionString;
 
-            var temp = model.ObjectName.Split('.');
+            var temp = model.Schema.ObjectName.Split('.');
 
             _databaseName = temp[0];
 

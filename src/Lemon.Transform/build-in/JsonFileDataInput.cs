@@ -7,7 +7,7 @@ namespace Lemon.Transform
 {
     public class JsonFileDataInput : AbstractDataInput
     {
-        private string _primaryKey;
+        private string[] _primaryKeys;
 
         private string _filePath;
 
@@ -17,11 +17,11 @@ namespace Lemon.Transform
 
         private long _speed; 
 
-        public string PrimaryKey
+        public string[] PrimaryKeys
         {
             get
             {
-                return _primaryKey;
+                return _primaryKeys;
             }
         }
 
@@ -29,7 +29,8 @@ namespace Lemon.Transform
         {
             var dictionary = new Dictionary<string, string>();
 
-            var attributes = model.Connection.Split(';');
+            var attributes = model.Connection
+                                  .ConnectionString.Split(';');
 
             foreach (var attribute in attributes)
             {
@@ -51,7 +52,7 @@ namespace Lemon.Transform
                 _speed = long.Parse(dictionary["Speed"]);
             }
 
-            _primaryKey = model.PrimaryKey;
+            _primaryKeys = model.Schema.PrimaryKeys;
         }
 
         public void ForEach(Action<BsonDataRow> forEach)

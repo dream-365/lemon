@@ -6,7 +6,7 @@ namespace Lemon.Transform
 {
     public abstract class AbstractDataInput : PipelineObject
     {
-        private ITargetBlock<DataRowWrapper<BsonDataRow>> _targetBlock;
+        private ITargetBlock<DataRowTransformWrapper<BsonDataRow>> _targetBlock;
 
         public void LinkTo(LinkObject target)
         {
@@ -17,7 +17,7 @@ namespace Lemon.Transform
         {
             Context.ProgressIndicator.Increment(Name);
 
-            _targetBlock.Post(new DataRowWrapper<BsonDataRow> { Success = true, Row = row });
+            _targetBlock.Post(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row });
         }
 
         protected void Complete()

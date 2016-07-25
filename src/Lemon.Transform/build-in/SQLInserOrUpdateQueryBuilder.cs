@@ -8,13 +8,13 @@ namespace Lemon.Transform
     {
         private string _tableName;
 
-        private string _primaryKey;
+        private string [] _primaryKeys;
 
-        public SQLInserOrUpdateQueryBuilder(string tableName, string primaryKey)
+        public SQLInserOrUpdateQueryBuilder(string tableName, string[] primaryKeys)
         {
             _tableName = tableName;
 
-            _primaryKey = primaryKey;
+            _primaryKeys = primaryKeys;
         }
 
         public string Build(IEnumerable<string> columns, bool upsert = true)
@@ -22,7 +22,18 @@ namespace Lemon.Transform
             var sb = new StringBuilder();
 
             sb.Append("IF NOT EXISTS(SELECT * FROM [dbo].")
-                .Append("[" + _tableName + "]").Append(" WHERE [").Append(_primaryKey).Append("] = @").Append(_primaryKey).AppendLine(")");
+                .Append("[" + _tableName + "]");
+
+            var firstPrimaryKey = _primaryKeys.FirstOrDefault();
+
+            sb.Append(" WHERE [").Append(firstPrimaryKey).Append("] = @").Append(firstPrimaryKey);
+
+            foreach(var primaryKey in _primaryKeys.Skip(1))
+            {
+                sb.Append(" AND ").Append("[").Append(primaryKey).Append("] = @").Append(primaryKey);
+            }
+
+            sb.AppendLine(")");
 
             sb.Append("INSERT INTO [dbo].")
                 .Append("[" + _tableName + "]")
@@ -32,7 +43,6 @@ namespace Lemon.Transform
             sb.Append("VALUES ")
                 .Append("(")
                 .Append(string.Join(",", columns.Select(m => string.Format("@{0}", m)))).AppendLine(")");
-
 
             if (upsert)
             {
@@ -44,7 +54,12 @@ namespace Lemon.Transform
 
                 sb.Append("SET ").AppendLine(string.Join(",", sets));
 
-                sb.Append("WHERE [").Append(_primaryKey).Append("] = @").AppendLine(_primaryKey);
+                sb.Append(" WHERE [").Append(firstPrimaryKey).Append("] = @").Append(firstPrimaryKey);
+
+                foreach (var primaryKey in _primaryKeys.Skip(1))
+                {
+                    sb.Append(" AND ").Append("[").Append(primaryKey).Append("] = @").Append(primaryKey);
+                }
             }
 
             return sb.ToString();

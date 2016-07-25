@@ -29,9 +29,7 @@ namespace Demo001
 
             broadcast.Link.SuccessTo(mssqlOutput).End();
 
-            EnsureComplete(consoleOutput.Compltetion);
-
-            EnsureComplete(mssqlOutput.Compltetion);
+            Waits(consoleOutput, mssqlOutput);
 
             return input;
         }

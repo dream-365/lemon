@@ -24,7 +24,7 @@ namespace Lemon.Transform
                 _namedParameters = namedParameters;
             }
 
-            _dataIOProvider = new DataIOProvider(this, _namedParameters);
+            _dataIOProvider = new DataIOProvider(this);
 
             _progressIndicator = progressIndicator;
         }

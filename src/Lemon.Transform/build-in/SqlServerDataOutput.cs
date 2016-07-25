@@ -12,7 +12,7 @@ namespace Lemon.Transform
 
         private string _tableName;
 
-        private string _primaryKey;
+        private string[] _primaryKeys;
 
         private IEnumerable<string> _columnNames;
 
@@ -24,17 +24,19 @@ namespace Lemon.Transform
 
         public SqlServerDataOutput(DataOutputModel model)
         {
-            _connectionString = model.Connection;
+            var table = model.Schema;
 
-            _tableName = model.ObjectName;
+            _connectionString = model.Connection.ConnectionString;
 
-            _primaryKey = model.PrimaryKey;
+            _tableName = table.ObjectName;
 
-            _columnNames = model.ColumnNames;
+            _primaryKeys = table.PrimaryKeys;
+
+            _columnNames = table.ColumnNames;
             
-            _builder = new SQLInserOrUpdateQueryBuilder(_tableName, _primaryKey);
+            _builder = new SQLInserOrUpdateQueryBuilder(_tableName, _primaryKeys);
 
-            _sql = _builder.Build(model.ColumnNames, model.IsUpsert);
+            _sql = _builder.Build(model.Schema.ColumnNames, model.IsUpsert);
 
             DetermineWriteOrNot = BuildDetermineWriteOrNotFunction(model.WriteOnChange);
 
@@ -52,7 +54,8 @@ namespace Lemon.Transform
 
             foreach (var column in _columnNames)
             {
-                if (column == _primaryKey || excludes.Any(exclue => exclue == column))
+                if (_primaryKeys.Any(exclude => exclude == column) || 
+                    excludes.Any(exclue => exclue == column))
                 {
                     continue;
                 }
@@ -63,7 +66,7 @@ namespace Lemon.Transform
             return new SqlServerRecordStatusContext(
                     _connectionString,
                     _tableName,
-                    new string[] { _primaryKey },
+                    _primaryKeys,
                     columns.ToArray());
         }
 

@@ -34,7 +34,7 @@ namespace Lemon.Transform
         {
             var dictionary = new Dictionary<string, string>();
 
-            var attributes = model.Connection.Split(';');
+            var attributes = model.Connection.ConnectionString.Split(';');
 
             foreach (var attribute in attributes)
             {
@@ -56,7 +56,7 @@ namespace Lemon.Transform
                 _batchSize = int.Parse(dictionary["Speed"]);
             }
 
-            var temp = model.ObjectName.Split('.');
+            var temp = model.Schema.ObjectName.Split('.');
 
             _databaseName = temp[0];
 
