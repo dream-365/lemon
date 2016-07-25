@@ -4,6 +4,8 @@ namespace Lemon.Transform
 {
     public class DataOutputModel
     {
+        public string Name { get; set; }
+
         public string Object { get; set; }
 
         public DataConnection Connection { get; set; }

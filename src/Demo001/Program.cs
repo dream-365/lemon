@@ -1,5 +1,6 @@
 ﻿using Lemon.Transform;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 
 namespace Demo001
@@ -12,9 +13,11 @@ namespace Demo001
                 config.UseDefaultSevices();
             });
 
-            var pipeline = new WriteOnChangeDemo();
+            var pipeline = new MongoToDebugDemo();
 
-            var task = pipeline.RunAsync();
+            var task = pipeline.RunAsync(new Dictionary<string, string> {
+                {"scope", "powerbi" }
+            });
 
             var timer = new Timer(10000);
 
@@ -30,6 +33,10 @@ namespace Demo001
             timer.Start();
 
             task.Wait();
+
+            var status = task.Result;
+
+            Console.WriteLine("Status: " + status);
 
             foreach (var kv in pipeline.GetAllProgress())
             {

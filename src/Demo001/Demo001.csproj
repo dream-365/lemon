@@ -47,20 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttachBatchIdAction.cs" />
-    <Compile Include="CompareStatusAction.cs" />
-    <Compile Include="ConsoleOutput.cs" />
-    <Compile Include="DatapipelineDemo2.cs" />
-    <Compile Include="DataPipelineDemo3.cs" />
-    <Compile Include="DataPipelineDemo4.cs" />
-    <Compile Include="FaultAction.cs" />
-    <Compile Include="HelloDataPipeline.cs" />
+    <Compile Include="JsonToSqlServerDemo.cs" />
+    <Compile Include="MongoToDebugDemo.cs" />
+    <Compile Include="SqlQueryToDebugDemo.cs" />
     <Compile Include="InfiniteDataInput.cs" />
     <Compile Include="ListDataInput.cs" />
     <Compile Include="OutOfMemoryDataPipeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimplePipeline.cs" />
     <Compile Include="SlowAction.cs" />
     <Compile Include="WriteOnChangeDemo.cs" />
     <Compile Include="UserActiviesTransformAction.cs" />
@@ -74,7 +68,9 @@
     <None Include="test_data.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="_local_model_store_.json" />
+    <None Include="_local_model_store_.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="_local_model_store_old.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

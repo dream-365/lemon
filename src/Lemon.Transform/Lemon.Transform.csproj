@@ -109,7 +109,7 @@
     <Compile Include="PipelineContext.cs" />
     <Compile Include="build-in\DebugOutput.cs" />
     <Compile Include="interfaces\IDataStoreService.cs" />
-    <Compile Include="build-in\JsonDataStoreService.cs" />
+    <Compile Include="build-in\JsonDataSourcesRepository.cs" />
     <Compile Include="TransformConfiguration.cs" />
     <Compile Include="BsonDataRow.cs" />
     <Compile Include="Models\DataInputModel.cs" />

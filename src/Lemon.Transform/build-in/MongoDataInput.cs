@@ -14,47 +14,17 @@ namespace Lemon.Transform
 
         private string _collectionName;
 
-        private bool _limitSpeed;
-
-        private IMongoCollection<BsonDocument> _collection;     
+        private string[] _columnNames;
 
         private int _batchSize = 1000;
 
         private string _filter;
 
-        public string PrimaryKey
-        {
-            get
-            {
-                return "_id";
-            }
-        }
+        private IDictionary<string, object> _parameters = new Dictionary<string, object>();
 
         public MongoDataInput(DataInputModel model)
         {
-            var dictionary = new Dictionary<string, string>();
-
-            var attributes = model.Connection.ConnectionString.Split(';');
-
-            foreach (var attribute in attributes)
-            {
-                var splits = attribute.Split('=');
-
-                var key = splits[0];
-
-                var value = splits[1];
-
-                dictionary.Add(key, value);
-            }
-
-            _connectionString = dictionary["Data Source"];
-
-            _limitSpeed = dictionary.ContainsKey("Speed");
-
-            if (_limitSpeed)
-            {
-                _batchSize = int.Parse(dictionary["Speed"]);
-            }
+            _connectionString = model.Connection.ConnectionString;
 
             var temp = model.Object.Split('.');
 
@@ -62,20 +32,61 @@ namespace Lemon.Transform
 
             _collectionName = temp[1];
 
-            _filter = model.Filter;
+            _filter = string.IsNullOrWhiteSpace(model.Filter)
+                        ? "{}"
+                        : model.Filter;
+
+            _columnNames = model.Schema.Columns.Select(m => m.Name).ToArray();
+
+            if(model.Parameters != null)
+            {
+                foreach (var parameter in model.Parameters)
+                {
+                    _parameters.Add(parameter.Name, parameter.Value);
+                }
+            } 
         }
 
         private void ForEach(Action<BsonDataRow> forEach)
         {
+            var parameters = FillParameters(_parameters);
+
+            string collectionName = _collectionName;
+
+            string filter = _filter;
+
+            foreach (var parameter in parameters)
+            {
+                filter = filter.Replace("{{" + parameter.Key + "}}", parameter.Value as string);
+
+                collectionName = collectionName.Replace("{{" + parameter.Key + "}}", parameter.Value as string);
+            }
+
+            var client = new MongoClient(_connectionString);
+
+            var database = client.GetDatabase(_databaseName);
+
+            var collection = database.GetCollection<BsonDocument>(collectionName);
+
             var start = 0;
 
             bool hasMore = true;
 
+            var firstColumnName = _columnNames.First();
+
+            var projection = Builders<BsonDocument>.Projection.Include(firstColumnName);
+
+            foreach(var columnName in _columnNames.Skip(1))
+            {
+                projection = projection.Include(columnName);
+            }
+                                             
             while (hasMore)
             {
-                var list = _collection.Find(_filter)
+                var list = collection.Find(filter)
                     .Skip(start)
                     .Limit(_batchSize + 1)
+                    .Project(projection)
                     .ToList();
 
                 list.ForEach(m => forEach(new BsonDataRow(m)));
@@ -86,27 +97,11 @@ namespace Lemon.Transform
                 }
 
                 start = start + _batchSize;
-
-                if(_limitSpeed)
-                {
-                    System.Threading.Thread.Sleep(1000);
-                }
             }
-        }
-
-        private void Connect()
-        {
-            var client = new MongoClient(_connectionString);
-
-            var database = client.GetDatabase(_databaseName);
-
-            _collection = database.GetCollection<BsonDocument>(_collectionName);
         }
 
         public override void Start()
         {
-            Connect();
-
             ForEach(Post);
 
             Complete();

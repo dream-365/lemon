@@ -5,15 +5,16 @@ using System;
 
 namespace Lemon.Transform
 {
+    public enum PipelineStatus
+    {
+        New = 0,
+        Running = 1,
+        Finished = 2,
+        Failed = 3
+    }
+
     public abstract class DataFlowPipeline
     {
-        private enum Status
-        {
-            New = 0,
-            Running = 1,
-            Finished = 2
-        }
-
         private ProgressIndicator _progressIndicator;
 
         private IList<Task> _compltetions;
@@ -22,11 +23,11 @@ namespace Lemon.Transform
 
         protected event Action OnComplete;
 
-        private Status _status;
+        private PipelineStatus _status;
 
         public DataFlowPipeline()
         {
-            _status = Status.New;
+            _status = PipelineStatus.New;
 
             _compltetions = new List<Task>();
 
@@ -47,18 +48,18 @@ namespace Lemon.Transform
 
         protected abstract AbstractDataInput OnCreate(PipelineContext context);
 
-        public void Run(IDictionary<string, string> namedParameters = null)
+        public PipelineStatus Run(IDictionary<string, string> namedParameters = null)
         {
             try
             {
-                if (_status == Status.Running)
+                if (_status == PipelineStatus.Running)
                 {
-                    return;
+                    return _status;
                 }
 
                 LogService.Default.Info("data pipeline is running");
 
-                _status = Status.Running;
+                _status = PipelineStatus.Running;
 
                 _progressIndicator.Clear();
 
@@ -77,7 +78,7 @@ namespace Lemon.Transform
 
                 _compltetions.Clear();
 
-                _status = Status.Finished;
+                _status = PipelineStatus.Finished;
 
                 if (OnComplete != null)
                 {
@@ -88,15 +89,19 @@ namespace Lemon.Transform
             }
             catch (Exception ex)
             {
+                _status = PipelineStatus.Failed;
+
                 LogService.Default.Error(string.Format("pipeline {0} is failed", GetType().Name), ex);
             }
+
+            return _status;
         }
 
-        public Task RunAsync(IDictionary<string, string> namedParameters = null)
+        public Task<PipelineStatus> RunAsync(IDictionary<string, string> namedParameters = null)
         {
             return Task.Run(() =>
             {
-                Run(namedParameters);                
+                return Run(namedParameters);                
             });
         }
 
