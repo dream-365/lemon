@@ -56,41 +56,26 @@ namespace Lemon.Transform
             _namedParameters[key] = value;
         }
 
-        /// <summary>
-        /// attach the transform action to running context
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
 
-        public TransformSingleAction Attach(TransformSingleAction action, string name = null)
+        /// <summary>
+        /// attach the link object to current context
+        /// </summary>
+        /// <typeparam name="TObject">link object type</typeparam>
+        /// <param name="obj">object</param>
+        /// <param name="name">specify the name in context</param>
+        /// <returns>attached object</returns>
+        public TObject Attach<TObject>(
+            TObject obj,
+            string name = null) where TObject : PipelineObject
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
-                action.Name = name;
+                obj.Name = name;
             }
 
-            action.Context = this;
+            obj.Context = this;
 
-            return action;
-        }
-
-        /// <summary>
-        /// attach the transform action to running context
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public TransformManyAction Attach(TransformManyAction action, string name = null)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                action.Name = name;
-            }
-
-            action.Context = this;
-
-            return action;
+            return obj;
         }
     }
 }
