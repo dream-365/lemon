@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Lemon.Transform
 {
-    public class JsonDataStoreService : IDataStoreService
+    public class JsonDataStoreService : IDataSourcesRepository
     {
         private DataStoreModel _datastore;
 

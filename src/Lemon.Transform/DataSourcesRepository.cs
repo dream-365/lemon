@@ -2,13 +2,13 @@
 {
     public class DataSourcesRepository
     {
-        private IDataStoreService  _service;
+        private IDataSourcesRepository  _service;
 
         public DataSourcesRepository()
         {
             _service = GlobalConfiguration
                 .TransformConfiguration
-                .Container.Resolve<IDataStoreService>();
+                .Container.Resolve<IDataSourcesRepository>();
         }
 
         public DataInputModel GetDataInput(string name)

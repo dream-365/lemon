@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lemon.Transform
+﻿namespace Lemon.Transform
 {
-    public interface IDataStoreService
+    public interface IDataSourcesRepository
     {
         DataInputModel GetDataInput(string name);
 

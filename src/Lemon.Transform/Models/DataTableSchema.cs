@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Lemon.Transform.Models
+﻿namespace Lemon.Transform.Models
 {
     public class DataTableSchema
     {
