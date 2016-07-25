@@ -2,8 +2,6 @@
 {
     public class DataConnection
     {
-        public string Id { get; set; }
-
         public string Name { get; set; }
 
         public string ProviderName { get; set; }

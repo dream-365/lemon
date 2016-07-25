@@ -74,7 +74,8 @@
     <None Include="test_data.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="_local_model_store_.json">
+    <None Include="_local_model_store_.json" />
+    <None Include="_local_model_store_old.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

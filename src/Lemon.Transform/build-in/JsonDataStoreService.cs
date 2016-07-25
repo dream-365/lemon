@@ -1,22 +1,47 @@
-﻿using Newtonsoft.Json;
+﻿using Lemon.Transform.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.IO;
 
 namespace Lemon.Transform
 {
-    public class JsonDataStoreService : IDataSourcesRepository
+    internal class JsonDataInputModel
+    {
+        public string Name { get; set; }
+
+        public string Object { get; set; }
+
+        public string ConnectionId { get; set; }
+
+        public string SchemaId { get; set; }
+
+        public string Filter { get; set; }
+
+        public NamedParameter[] Parameters { get; set; }
+    }
+
+    internal class JsonDataOutputMoel
+    {
+
+    }
+
+    public class JsonDataSourcesRepository : IDataSourcesRepository
     {
         private DataStoreModel _datastore;
 
         private class DataStoreModel
         {
-            public Dictionary<string, DataInputModel> Inputs { get; set; }
+            public Dictionary<string, DataConnection> Connections { get; set; }
 
-            public Dictionary<string, DataOutputModel> Outputs { get; set; }
+            public Dictionary<string, DataTableSchema> Schemas { get; set; }
+
+            public Dictionary<string, JsonDataInputModel> Inputs { get; set; }
+
+            public Dictionary<string, JsonDataOutputMoel> Outputs { get; set; }
         }
 
-        public JsonDataStoreService()
+        public JsonDataSourcesRepository()
         {
             if(_datastore == null)
             {

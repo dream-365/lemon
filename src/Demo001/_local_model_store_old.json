@@ -1,0 +1,82 @@
+﻿{
+  "inputs": {
+    "office_365_threads": {
+      "sourceType": "mongo",
+      "objectName": "landing.office_365_threads",
+      "connection": "mongodb://localhost:27017",
+      "filter": "{}"
+    },
+    "msdn_user_ranks": {
+      "sourceType": "mssql",
+      "objectName": "msdn_user_ranks",
+      "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=eas_data_hub;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
+      "filter": "{startDate: '{{startDate}}', endDate: '{{endDate}}'}"
+    },
+    "landing_threads": {
+      "sourceType": "mongo",
+      "objectName": "dev_landing.{{scope}}_threads",
+      "connection": "mongodb://localhost:27017",
+      "filter": "{}"
+    },    
+    "test_data": {
+      "sourceType": "json",
+      "objectName": "na",
+      "connection": "FilePath=test_data.json;Speed=2",
+      "filter": "{}"
+    }
+  },
+  "outputs": {
+    "output_test": {
+      "targetType": "mongo",
+      "connection": "mongodb://localhost:27017",
+      "objectName": "landing.output_test",
+      "columnNames": [ "_id", "questionId", "title", "createdOn", "createdBy" ],
+      "isUpsert": true,
+      "primaryKey": "_id"
+    },
+    "user_activity": {
+      "targetType": "mongo",
+      "connection": "mongodb://localhost:27017",
+      "objectName": "landing.user_activities2",
+      "columnNames": [ "_id", "userId", "action", "time", "effectOn", "timestamp" ],
+      "isUpsert": true,
+      "primaryKey": "_id"
+    },
+    "console_user_activity": {
+      "targetType": "console",
+      "connection": "na",
+      "objectName": "na",
+      "columnNames": [ "_id", "userId" ],
+      "isUpsert": true,
+      "primaryKey": "na"
+    },
+    "console_test": {
+      "targetType": "console",
+      "connection": "na",
+      "objectName": "na",
+      "columnNames": [ "id", "name" ],
+      "isUpsert": true,
+      "primaryKey": "na"
+    },
+    "sql_tbl001": {
+      "targetType": "mssql",
+      "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=test;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
+      "objectName": "tbl001",
+      "columnNames": [ "id", "name" ],
+      "isUpsert": true,
+      "writeOnChange": {
+        "enabled": true,
+        "excludedColumNames": [ ]
+      },
+      "primaryKey": "id"
+    },
+    "sql_tbl002": {
+      "targetType": "mssql",
+      "connection": "Data Source=MININT-QVPS4A4;Initial Catalog=test;Persist Security Info=True;User ID=dev;Password=$dv$pas3sAz",
+      "objectName": "timestamps",
+      "columnNames": ["Id", "Timestamp"],
+      "isUpsert": true,
+      "primaryKey": "Id"
+    }
+  }
+}
