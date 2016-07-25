@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -52,7 +53,10 @@ namespace Lemon.Transform
                 _speed = long.Parse(dictionary["Speed"]);
             }
 
-            _primaryKeys = model.Schema.PrimaryKeys;
+            _primaryKeys = model.Schema.Columns
+                            .Where(c => c.IsKey)
+                            .Select(c => c.Name)
+                            .ToArray();
         }
 
         public void ForEach(Action<BsonDataRow> forEach)

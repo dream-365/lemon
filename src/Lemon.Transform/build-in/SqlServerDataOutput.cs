@@ -30,13 +30,17 @@ namespace Lemon.Transform
 
             _tableName = model.Object;
 
-            _primaryKeys = table.PrimaryKeys;
+            _primaryKeys = table.Columns.Where(c => c.IsKey)
+                            .Select(c => c.Name)
+                            .ToArray(); ;
 
-            _columnNames = table.ColumnNames;
+            _columnNames = table.Columns
+                            .Select(c => c.Name)
+                            .ToArray();
             
             _builder = new SQLInserOrUpdateQueryBuilder(_tableName, _primaryKeys);
 
-            _sql = _builder.Build(model.Schema.ColumnNames, model.IsUpsert);
+            _sql = _builder.Build(model.Schema.Columns.Select(c => c.Name), model.IsUpsert);
 
             DetermineWriteOrNot = BuildDetermineWriteOrNotFunction(model.WriteOnChange);
 

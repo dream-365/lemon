@@ -1,4 +1,6 @@
-﻿namespace Lemon.Transform.Models
+﻿using System.Collections.Generic;
+
+namespace Lemon.Transform.Models
 {
     public class DataTableSchema
     {
@@ -6,8 +8,6 @@
 
         public string Name { get; set; }
 
-        public string[] ColumnNames { get; set; }
-
-        public string[] PrimaryKeys { get; set; }
+        public virtual ICollection<DataColumn> Columns { get; set; }
     }
 }

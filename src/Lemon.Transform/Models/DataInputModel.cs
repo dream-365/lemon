@@ -1,4 +1,5 @@
 ﻿using Lemon.Transform.Models;
+using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
@@ -8,16 +9,16 @@ namespace Lemon.Transform
 
         public string Object { get; set; }
 
-        public DataConnection Connection { get; set; }
+        public virtual DataConnection Connection { get; set; }
 
         public string ConnectionId { get; set; }
 
-        public DataTableSchema Schema {get; set;}
+        public virtual DataTableSchema Schema {get; set;}
 
         public string SchemaId { get; set; }
 
         public string Filter { get; set; }
 
-        public NamedParameter[] Parameters { get; set; }
+        public virtual ICollection<NamedParameter> Parameters { get; set; }
     }
 }

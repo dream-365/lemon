@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -19,7 +20,9 @@ namespace Lemon.Transform
 
         public MongoDataOutput(DataOutputModel model)
         {
-            _columnNames = model.Schema.ColumnNames;
+            _columnNames = model.Schema.Columns
+                            .Select(c => c.Name)
+                            .ToArray(); ;
 
             _connectionString = model.Connection.ConnectionString;
 

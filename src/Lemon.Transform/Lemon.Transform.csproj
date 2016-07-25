@@ -94,6 +94,7 @@
     <Compile Include="DataIOConstructor.cs" />
     <Compile Include="DataIOProvider.cs" />
     <Compile Include="DataRowStatusContext.cs" />
+    <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\DataTableSchema.cs" />
     <Compile Include="DataSourcesRepository.cs" />
