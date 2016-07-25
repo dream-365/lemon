@@ -8,6 +8,6 @@ namespace Lemon.Transform.Models
 
         public string Name { get; set; }
 
-        public virtual ICollection<DataColumn> Columns { get; set; }
+        public DataColumn[] Columns { get; set; }
     }
 }
