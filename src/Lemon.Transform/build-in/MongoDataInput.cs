@@ -20,7 +20,7 @@ namespace Lemon.Transform
 
         private string _filter;
 
-        private IDictionary<string, object> _parameters = new Dictionary<string, object>();
+        private IDictionary<string, string> _parameters = new Dictionary<string, string>();
 
         public MongoDataInput(DataInputModel model)
         {

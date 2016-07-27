@@ -16,7 +16,7 @@ namespace Lemon.Transform
 
         private long _count;
 
-        private IDictionary<string, object> _parameters = new Dictionary<string, object>();
+        private IDictionary<string, string> _parameters = new Dictionary<string, string>();
 
         public SqlServerDataInput(DataInputModel model)
         {

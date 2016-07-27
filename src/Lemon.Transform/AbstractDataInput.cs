@@ -26,7 +26,7 @@ namespace Lemon.Transform
             _targetBlock.Complete();
         }
 
-        protected Dictionary<string, object> FillParameters(IDictionary<string, object> defaultParameters)
+        protected Dictionary<string, object> FillParameters(IDictionary<string, string> defaultParameters)
         {
             var parameters = new Dictionary<string, object>();
 
@@ -36,7 +36,7 @@ namespace Lemon.Transform
 
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    parameters[key] = value;
+                    parameters[key] = new ValueExpression(value).Value;
                 }
                 else if (defaultParameters[key] != null)
                 {
