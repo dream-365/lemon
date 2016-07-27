@@ -1,10 +1,11 @@
 ﻿using Lemon.Transform;
+using System.Collections.Generic;
 
 namespace Demo001
 {
     public class InfiniteDataInput : AbstractDataInput
     {
-        public override void Start()
+        public override void Start(IDictionary<string, object> parameters = null)
         {
             long index = 0;
 

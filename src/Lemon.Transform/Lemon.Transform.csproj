@@ -106,6 +106,7 @@
     <Compile Include="Models\NamedParameter.cs" />
     <Compile Include="Models\WriteOnChangeConfiguration.cs" />
     <Compile Include="ObjectType.cs" />
+    <Compile Include="ParametersInfo.cs" />
     <Compile Include="PipelineContext.cs" />
     <Compile Include="build-in\DebugOutput.cs" />
     <Compile Include="interfaces\IDataStoreService.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="TransformManyAction.cs" />
     <Compile Include="TransformSingleAction.cs" />
     <Compile Include="TransformColumnDefinition.cs" />
-    <Compile Include="ValueExpression.cs" />
+    <Compile Include="Models\ValueExpression.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

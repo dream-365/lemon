@@ -4,8 +4,7 @@
     {
         public string Name { get; set; }
 
-        public string Value { get; set; }
+        public ValueObject DefaultValue { get; set; }
 
-        public bool Required { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace Lemon.Transform
             }
         }
 
-        public override void Start()
+        public override void Start(IDictionary<string, object> parameters = null)
         {
             ForEach(Post);
 

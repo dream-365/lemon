@@ -20,8 +20,6 @@ namespace Lemon.Transform
 
         private string _filter;
 
-        private IDictionary<string, string> _parameters = new Dictionary<string, string>();
-
         public MongoDataInput(DataInputModel model)
         {
             _connectionString = model.Connection.ConnectionString;
@@ -39,31 +37,81 @@ namespace Lemon.Transform
             if(model.Schema != null)
             {
                 _columnNames = model.Schema.Columns.Select(m => m.Name).ToArray();
-            }         
+            }
 
             if(model.Parameters != null)
             {
-                foreach (var parameter in model.Parameters)
-                {
-                    _parameters.Add(parameter.Name, parameter.Value);
-                }
-            } 
+                PrametersInfo.RegisterParameters(model.Parameters);
+            }
         }
 
-        private void ForEach(Action<BsonDataRow> forEach)
+        /// <summary>
+        /// apply parameter expressions to mongo
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private string ApplyParameters(string text, IDictionary<string, object> parameters)
         {
-            var parameters = FillParameters(_parameters);
-
-            string collectionName = _collectionName;
-
-            string filter = _filter;
-
-            foreach (var parameter in parameters)
+            foreach(var parameter in parameters)
             {
-                filter = filter.Replace("{{" + parameter.Key + "}}", parameter.Value as string);
+                string expression = null;
 
-                collectionName = collectionName.Replace("{{" + parameter.Key + "}}", parameter.Value as string);
+                if(parameter.Value.GetType() == typeof(DateTime))
+                {
+                    var utc = ((DateTime)parameter.Value).ToUniversalTime();
+
+                    expression = string.Format("new ISODate('{0:O}')", utc);
+                }
+                else if (parameter.Value.GetType() == typeof(string))
+                {
+                    expression = string.Format("'{0}'", parameter.Value);
+                }else if (parameter.Value.GetType() == typeof(int))
+                {
+                    expression = parameter.Value.ToString();
+                }
+
+                if(expression == null)
+                {
+                    throw new ArgumentException("parameter type [" + parameter.Value.GetType() + "] is not supported for mongo");
+                }
+
+                text = text.Replace("@" + parameter.Key, expression);
             }
+
+            return text;
+        }
+
+        /// <summary>
+        /// excute the expression, only the string type paramaters will apply this
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private string ExecuteExpressions(string text, IDictionary<string, object> parameters)
+        {
+            foreach(var parameter in parameters)
+            {
+                if(parameter.Value.GetType() == typeof(string))
+                {
+                    text = text.Replace("{{" + parameter.Key + "}}", parameter.Value as string);
+                }
+            }
+
+            return text;
+        }
+
+        private void Execute(Action<BsonDataRow> forEach, IDictionary<string, object> parameters)
+        {
+            var executeParameters = PrametersInfo.ValidateParameters(parameters);
+
+            string collectionName = executeParameters == null
+                                    ? _collectionName
+                                    : ExecuteExpressions(_collectionName, executeParameters);
+
+            string filter = executeParameters == null 
+                        ? _filter
+                        : ApplyParameters(_filter, executeParameters);
 
             var client = new MongoClient(_connectionString);
 
@@ -113,9 +161,9 @@ namespace Lemon.Transform
             }
         }
 
-        public override void Start()
+        public override void Start(IDictionary<string, object> parameters = null)
         {
-            ForEach(Post);
+            Execute(Post, parameters);
 
             Complete();
         }

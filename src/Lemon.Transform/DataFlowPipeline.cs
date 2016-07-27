@@ -48,7 +48,7 @@ namespace Lemon.Transform
 
         protected abstract AbstractDataInput OnCreate(PipelineContext context);
 
-        public PipelineStatus Run(IDictionary<string, string> namedParameters = null)
+        public PipelineStatus Run(IDictionary<string, object> namedParameters = null)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Lemon.Transform
                     OnStart();
                 }
 
-                entry.Start();
+                entry.Start(namedParameters);
 
                 LogService.Default.Info("wait the pipeline for comptetion");
 
@@ -97,7 +97,7 @@ namespace Lemon.Transform
             return _status;
         }
 
-        public Task<PipelineStatus> RunAsync(IDictionary<string, string> namedParameters = null)
+        public Task<PipelineStatus> RunAsync(IDictionary<string, object> namedParameters = null)
         {
             return Task.Run(() =>
             {

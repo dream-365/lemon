@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Lemon.Transform
 {
+    /// <summary>
+    /// Microsoft SQL Server data input
+    /// </summary>
     public class SqlServerDataInput : AbstractDataInput, IDisposable
     {
         private SqlConnection _connection;
@@ -22,13 +25,32 @@ namespace Lemon.Transform
         {
             _connectionString = model.Connection.ConnectionString;
 
+            _sql = BuildSqlText(model);
+
+            _connection = new SqlConnection(_connectionString);
+
+            if(model.Parameters != null)
+            {
+                PrametersInfo.RegisterParameters(model.Parameters);
+            }
+        }
+
+        /// <summary>
+        /// Build T-SQL text from the data input model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private static string BuildSqlText(DataInputModel model)
+        {
+            string sql = null;
+
             var indexOfFirstColon = model.Object.IndexOf(':');
 
             var objectType = model.Object.Substring(0, indexOfFirstColon).Trim();
 
             var objectContent = model.Object.Substring(indexOfFirstColon + 1).Trim();
 
-            if(objectType == "table")
+            if (objectType == "table")
             {
                 var sb = new StringBuilder();
 
@@ -36,27 +58,27 @@ namespace Lemon.Transform
 
                 sb.AppendLine("SELECT [" + firstColumnName + "]");
 
-                foreach(var column in model.Schema.Columns.Skip(1))
+                foreach (var column in model.Schema.Columns.Skip(1))
                 {
                     sb.AppendLine(",[" + column.Name + "]");
                 }
 
                 sb.AppendLine("FROM [" + objectContent + "]");
 
-                if(!string.IsNullOrWhiteSpace(model.Filter))
+                if (!string.IsNullOrWhiteSpace(model.Filter))
                 {
                     sb.AppendLine(model.Filter);
                 }
 
-                _sql = sb.ToString();
+                sql = sb.ToString();
             }
-            else if(objectType == "sqlfile")
+            else if (objectType == "sqlfile")
             {
-                var sql = SqlNamedQueryProvider.Instance.Get(objectContent);
+                var tempSql = SqlNamedQueryProvider.Instance.Get(objectContent);
 
-                if(!string.IsNullOrWhiteSpace(model.Filter))
+                if (!string.IsNullOrWhiteSpace(model.Filter))
                 {
-                    _sql = "SELECT * FROM (" + sql + ") [generated_sql_temp] " + model.Filter;
+                    sql = "SELECT * FROM (" + tempSql + ") [generated_sql_temp] " + model.Filter;
                 }
             }
             else
@@ -64,23 +86,25 @@ namespace Lemon.Transform
                 throw new NotSupportedException("object type " + objectType + " is not supported by Microsoft.SqlServer intput");
             }
 
-            foreach(var parameter in model.Parameters)
-            {
-                _parameters.Add(parameter.Name, parameter.Value);
-            }
-
-            _connection = new SqlConnection(_connectionString);
+            return sql;
         }
-        
-        public void ForEach(Action<BsonDataRow> forEach)
+
+        /// <summary>
+        /// excute the data reader
+        /// </summary>
+        /// <param name="forEach"></param>
+        public void Excute(Action<BsonDataRow> forEach, IDictionary<string, object> parameters)
         {
-            var parameters = FillParameters(_parameters);
+            var executeParameters = PrametersInfo.ValidateParameters(parameters);
 
             SqlCommand command = new SqlCommand(_sql, _connection);
 
-            foreach (var parameter in parameters)
+            if(executeParameters != null)
             {
-                command.Parameters.Add(new SqlParameter(parameter.Key, parameter.Value));
+                foreach (var parameter in executeParameters)
+                {
+                    command.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
             }
 
             _connection.Open();
@@ -99,11 +123,15 @@ namespace Lemon.Transform
             reader.Close();
         }
 
-        public override void Start()
+        /// <summary>
+        /// start the data reader with parameters
+        /// </summary>
+        /// <param name="parameters"></param>
+        public override void Start(IDictionary<string, object> parameters = null)
         {
             _count = 0;
 
-            ForEach(Post);
+            Excute(Post, parameters);
 
             Complete();
         }

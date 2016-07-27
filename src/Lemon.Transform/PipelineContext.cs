@@ -7,7 +7,7 @@ namespace Lemon.Transform
     /// </summary>
     public class PipelineContext
     {
-        private IDictionary<string, string> _namedParameters = new Dictionary<string, string>();
+        private IDictionary<string, object> _namedParameters = new Dictionary<string, object>();
 
         private ProgressIndicator _progressIndicator;
 
@@ -17,7 +17,7 @@ namespace Lemon.Transform
 
         public ProgressIndicator ProgressIndicator { get { return _progressIndicator; } }
 
-        public PipelineContext(ProgressIndicator progressIndicator, IDictionary<string, string> namedParameters = null)
+        public PipelineContext(ProgressIndicator progressIndicator, IDictionary<string, object> namedParameters = null)
         {
             if(namedParameters != null)
             {
@@ -34,9 +34,9 @@ namespace Lemon.Transform
         /// </summary>
         /// <param name="key">key to access the parameter value</param>
         /// <returns></returns>
-        public string GetNamedParameterValue(string key)
+        public object GetNamedParameterValue(string key)
         {
-            string value;
+            object value;
 
             if(_namedParameters.TryGetValue(key, out value))
             {

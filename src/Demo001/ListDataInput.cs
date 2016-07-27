@@ -12,7 +12,7 @@ namespace Demo001
             _rows = rows;
         }
 
-        public override void Start()
+        public override void Start(IDictionary<string, object> parameters = null)
         {
             foreach(var row in _rows)
             {
