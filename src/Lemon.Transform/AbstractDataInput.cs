@@ -15,6 +15,11 @@ namespace Lemon.Transform
             _targetBlock = target.AsTarget();
         }
 
+        public void SetDefaultParameterValue(string name, object value)
+        {
+            PrametersInfo.SetParameterDefultValue(name, value);
+        }
+
         protected void Post(BsonDataRow row)
         {
             Context.ProgressIndicator.Increment(Name);

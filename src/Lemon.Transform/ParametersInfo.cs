@@ -17,6 +17,16 @@ namespace Lemon.Transform
         }
 
         /// <summary>
+        /// set the default parameter value
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetParameterDefultValue(string name, object value)
+        {
+            _registeredParametersWithDefaultValue[name] = value;
+        }
+
+        /// <summary>
         /// register prameters to parameter info with default values
         /// </summary>
         /// <param name="parameters"></param>

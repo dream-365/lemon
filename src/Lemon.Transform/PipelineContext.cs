@@ -5,7 +5,7 @@ namespace Lemon.Transform
     /// <summary>
     /// Pipeline context: provide the context information for data pipeline
     /// </summary>
-    public class PipelineContext
+    public class PipelineContext 
     {
         private IDictionary<string, object> _namedParameters = new Dictionary<string, object>();
 
@@ -51,7 +51,7 @@ namespace Lemon.Transform
         /// </summary>
         /// <param name="key">key to set</param>
         /// <param name="value">value to set</param>
-        public void SetNamedParameterValue(string key, string value)
+        public void SetNamedParameterValue(string key, object value)
         {
             _namedParameters[key] = value;
         }
