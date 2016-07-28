@@ -9,15 +9,11 @@ namespace Lemon.Transform
     /// <summary>
     /// Microsoft SQL Server data input
     /// </summary>
-    public class SqlServerDataInput : AbstractDataInput, IDisposable
+    public class SqlServerDataInput : AbstractDataInput
     {
-        private SqlConnection _connection;
-
         private string _connectionString;
 
         private string _sql;
-
-        private long _count;
 
         private IDictionary<string, string> _parameters = new Dictionary<string, string>();
 
@@ -26,8 +22,6 @@ namespace Lemon.Transform
             _connectionString = model.Connection.ConnectionString;
 
             _sql = BuildSqlText(model);
-
-            _connection = new SqlConnection(_connectionString);
 
             if(model.Parameters != null)
             {
@@ -80,6 +74,10 @@ namespace Lemon.Transform
                 {
                     sql = "SELECT * FROM (" + tempSql + ") [generated_sql_temp] " + model.Filter;
                 }
+                else
+                {
+                    sql = tempSql;
+                }
             }
             else
             {
@@ -95,32 +93,33 @@ namespace Lemon.Transform
         /// <param name="forEach"></param>
         public void Excute(Action<BsonDataRow> forEach, IDictionary<string, object> parameters)
         {
-            var executeParameters = PrametersInfo.ValidateParameters(parameters);
-
-            SqlCommand command = new SqlCommand(_sql, _connection);
-
-            if(executeParameters != null)
+            using (var connection = new SqlConnection(_connectionString))
             {
-                foreach (var parameter in executeParameters)
+                var executeParameters = PrametersInfo.ValidateParameters(parameters);
+
+                SqlCommand command = new SqlCommand(_sql, connection);
+
+                if (executeParameters != null)
                 {
-                    command.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                    foreach (var parameter in executeParameters)
+                    {
+                        command.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                    }
                 }
+
+                connection.Open();
+
+                FieldTypeMappingCache cache = new FieldTypeMappingCache();
+
+                SqlDataRowReader reader = new SqlDataRowReader(command.ExecuteReader(), cache);
+
+                while (reader.Read())
+                {
+                    forEach(reader.GetDataRow());
+                }
+
+                reader.Close();
             }
-
-            _connection.Open();
-
-            FieldTypeMappingCache cache = new FieldTypeMappingCache();
-
-            SqlDataRowReader reader = new SqlDataRowReader(command.ExecuteReader(), cache);
-
-            while (reader.Read())
-            {
-                forEach(reader.GetDataRow());
-
-                _count++;
-            }
-
-            reader.Close();
         }
 
         /// <summary>
@@ -129,16 +128,9 @@ namespace Lemon.Transform
         /// <param name="parameters"></param>
         public override void Start(IDictionary<string, object> parameters = null)
         {
-            _count = 0;
-
             Excute(Post, parameters);
 
             Complete();
-        }
-
-        public void Dispose()
-        {
-            _connection.Close();
         }
     }
 }

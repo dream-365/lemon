@@ -1,4 +1,5 @@
 ﻿using Lemon.Transform;
+using System;
 
 namespace Demo001
 {
@@ -7,6 +8,9 @@ namespace Demo001
         protected override AbstractDataInput OnCreate(PipelineContext context)
         {
             var input = context.IO.GetInput("landing_questions");
+
+            input.SetDefaultParameterValue("start", DateTime.Parse("2000-1-1"));
+            input.SetDefaultParameterValue("start", DateTime.Now);
 
             var debug = new DebugOutput();
 
