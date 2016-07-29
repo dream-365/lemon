@@ -15,7 +15,7 @@ namespace Demo001
 
             var pipeline = new MongoToDebugDemo();
 
-            var task = pipeline.RunAsync(new Dictionary<string, string> {
+            var task = pipeline.RunAsync(new Dictionary<string, object> {
                 {"scope", "powerbi" }
             });
 

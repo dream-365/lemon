@@ -42,16 +42,7 @@ namespace Lemon.Transform
 
                     var status = context.Compare(row);
 
-                    #region debug section
-
-                    if(GlobalConfiguration.TransformConfiguration.Debug)
-                    {
-                        LogService.Default.Info(row.ToString());
-
-                        LogService.Default.Info(string.Format("status:", status));
-                    }
-
-                    #endregion
+                    LogService.Default.Info(string.Format("status: {0}", status));
 
                     return status != DataRowCompareStatus.NoChange;
                 };
@@ -89,6 +80,8 @@ namespace Lemon.Transform
 
             try
             {
+                LogService.Default.Info(string.Format("input: {0}", data.Row.ToString()));
+
                 if(DetermineWriteOrNot(data.Row))
                 {
                     BeforeWrite(data.Row);

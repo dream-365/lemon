@@ -31,6 +31,16 @@
                 return DataRowCompareStatus.New;
             }
 
+            #region debug section
+
+            if (GlobalConfiguration.TransformConfiguration.Debug)
+            {
+                LogService.Default.Info(string.Format("source:{0}", row.ToString()));
+
+                LogService.Default.Info(string.Format("target:{0}",targetRow.ToString()));
+            }
+            #endregion
+
             foreach (var column in ColumnsToCompare)
             {
                 if (!row.GetValue(column).Equals(targetRow.GetValue(column)))

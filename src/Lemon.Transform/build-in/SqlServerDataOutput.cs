@@ -76,11 +76,6 @@ namespace Lemon.Transform
 
         private void Input(BsonDataRow inputRow)
         {
-            if(!DetermineWriteOrNot(inputRow))
-            {
-                return;
-            }
-
             var dict = new Dictionary<string, object>();
 
             foreach (var columName in _columnNames)
