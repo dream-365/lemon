@@ -11,16 +11,16 @@ namespace Lemon.Transform
 
         internal abstract ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget();
 
-        private LinkManagement _linkManagement;
+        private LinkObjectRouter _linkManagement;
 
         public abstract Task Compltetion { get;}
 
 
         public LinkObject()
         {
-            _linkManagement = new LinkManagement(new Lazy<ISourceBlock<DataRowTransformWrapper<BsonDataRow>>>(AsSource));
+            _linkManagement = new LinkObjectRouter(this);
         }
 
-        public LinkManagement Link { get { return _linkManagement; } }
+        public LinkObjectRouter Link { get { return _linkManagement; } }
     }
 }

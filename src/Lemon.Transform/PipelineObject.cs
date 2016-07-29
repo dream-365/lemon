@@ -2,7 +2,20 @@
 {
     public abstract class PipelineObject
     {
+        private ConnectionNode _node;
+
+        public PipelineObject()
+        {
+            _node = new ConnectionNode(Name);
+        }
+
         private PipelineContext _context;
+
+        public ConnectionNode Node {
+            get {
+                return _node;
+            }
+        }
 
         public PipelineContext Context
         {

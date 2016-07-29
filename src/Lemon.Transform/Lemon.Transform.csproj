@@ -90,6 +90,7 @@
     <Compile Include="build-in\SqlDataRowReader.cs" />
     <Compile Include="build-in\SqlServerDataOutput.cs" />
     <Compile Include="CastUtil.cs" />
+    <Compile Include="ConnectionNode.cs" />
     <Compile Include="DataFlowPipeline.cs" />
     <Compile Include="DataIOConstructor.cs" />
     <Compile Include="DataIOProvider.cs" />
@@ -100,10 +101,11 @@
     <Compile Include="DataSourcesRepository.cs" />
     <Compile Include="FieldTypeMapping.cs" />
     <Compile Include="GlobalConfiguration.cs" />
-    <Compile Include="LinkManagement.cs" />
+    <Compile Include="LinkObjectRouter.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Models\DataRowTransformWrapper.cs" />
     <Compile Include="Models\NamedParameter.cs" />
+    <Compile Include="Models\ProgressStateItem.cs" />
     <Compile Include="Models\WriteOnChangeConfiguration.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="ParametersInfo.cs" />

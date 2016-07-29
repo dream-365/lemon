@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoNothingAction.cs" />
     <Compile Include="JsonToSqlServerDemo.cs" />
     <Compile Include="MongoToDebugDemo.cs" />
+    <Compile Include="ProgressAwarePipeline.cs" />
     <Compile Include="SqlQueryToDebugDemo.cs" />
     <Compile Include="InfiniteDataInput.cs" />
     <Compile Include="ListDataInput.cs" />

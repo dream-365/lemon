@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using System.Timers;
+using Lemon.Transform.Models;
 
 namespace Lemon.Transform
 {
@@ -23,7 +25,13 @@ namespace Lemon.Transform
 
         protected event Action OnComplete;
 
+        private Timer _timer = new Timer(1000);
+
         private PipelineStatus _status;
+
+        private ConnectionNode _rootNode;
+
+        protected ConnectionNode RootNode { get { return _rootNode; } }
 
         public DataFlowPipeline()
         {
@@ -32,6 +40,57 @@ namespace Lemon.Transform
             _compltetions = new List<Task>();
 
             _progressIndicator = new ProgressIndicator();
+
+            OnStart += DataFlowPipeline_OnStart;
+
+            OnComplete += DataFlowPipeline_OnComplete;
+
+            _timer.AutoReset = true;
+
+            _timer.Elapsed += TimeIntervalCallback; ;
+        }
+
+        private void TimeIntervalCallback(object sender, ElapsedEventArgs e)
+        {
+            OnProgressChange(GetState());
+        }
+
+        protected virtual void OnProgressChange(IEnumerable<ProgressStateItem> progress)
+        {
+
+        }
+
+        public IEnumerable<ProgressStateItem> GetState()
+        {
+            IList<ProgressStateItem> items = new List<ProgressStateItem>();
+
+            foreach(var kv in _progressIndicator.GetAllProgress())
+            {
+                var temp = kv.Key.Split('.');
+
+                var item = new ProgressStateItem
+                {
+                    ActionName = temp[0],
+
+                    PortName = temp.Length > 1 ? temp[1] : "default",
+
+                    Count = kv.Value
+                };
+
+                items.Add(item);
+            }
+
+            return items;
+        }
+
+        private void DataFlowPipeline_OnComplete()
+        {
+            _timer.Stop();
+        }
+
+        private void DataFlowPipeline_OnStart()
+        {
+            _timer.Start();
         }
 
         /// <summary>
@@ -65,6 +124,8 @@ namespace Lemon.Transform
 
                 var entry = OnCreate(new PipelineContext(_progressIndicator, namedParameters));
 
+                _rootNode = entry.Node;
+
                 if (OnStart != null)
                 {
                     OnStart();
@@ -75,6 +136,8 @@ namespace Lemon.Transform
                 LogService.Default.Info("wait the pipeline for comptetion");
 
                 Task.WaitAll(_compltetions.ToArray());
+
+                _rootNode = null;
 
                 _compltetions.Clear();
 
@@ -105,6 +168,7 @@ namespace Lemon.Transform
             });
         }
 
+        [Obsolete]
         public IEnumerable<KeyValuePair<string, long>> GetAllProgress()
         {
             return _progressIndicator.GetAllProgress();

@@ -29,7 +29,7 @@ namespace Lemon.Transform
             return count;
         }
 
-        public  IEnumerable<KeyValuePair<string, long>> GetAllProgress()
+        public IEnumerable<KeyValuePair<string, long>> GetAllProgress()
         {
             return _dictionary.ToList();
         }
