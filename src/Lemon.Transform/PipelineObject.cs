@@ -4,19 +4,28 @@
     {
         private ConnectionNode _node;
 
-        public PipelineObject()
-        {
-            _node = new ConnectionNode(Name);
-        }
-
         private PipelineContext _context;
 
+        /// <summary>
+        /// create the node if it does not exist
+        /// </summary>
         public ConnectionNode Node {
             get {
-                return _node;
+                lock(this)
+                {
+                   if(_node == null)
+                    {
+                        _node = new ConnectionNode(Name);
+                    }
+
+                    return _node;
+                }
             }
         }
 
+        /// <summary>
+        /// create the context if it does not exist
+        /// </summary>
         public PipelineContext Context
         {
             get

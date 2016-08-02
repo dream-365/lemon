@@ -11,7 +11,23 @@ namespace Demo001
     {
         protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            throw new NotImplementedException();
+            var input = context.Attach(new JsonFileDataInput("test_data.json"));
+
+            var debug = context.Attach(new DebugOutput(), "debug_output");
+
+            var output = context.IO.GetOutput("sql_data_output");
+
+            var broadCast = new BroadcastAction();
+
+            input.LinkTo(broadCast);
+
+            broadCast.Link.SuccessTo(debug);
+
+            broadCast.Link.SuccessTo(output);
+
+            Waits(output);
+
+            return input;
         }
 
         protected override void 
@@ -44,13 +60,30 @@ namespace Demo001
             base.OnProgressChange(progress);
         }
 
+        /// <summary>
+        /// Recursively printting the status
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <param name="node"></param>
+        /// <param name="indentation"></param>
         private void PrintState(IDictionary<string, string> dict, ConnectionNode node, string indentation)
         {
-            Console.WriteLine("{0}:{1}", node.Name, dict[node.Name]);
-
-            foreach(var childNode in node.ChildrenNodes)
+            try
             {
-                PrintState(dict, childNode, indentation + "  ");
+                var childIndentation = (node.Visible ? indentation + "  " : indentation);
+
+                if(node.Visible)
+                {
+                    Console.WriteLine("{0}->{1}:{2}", indentation, node.Name, dict[node.Name]);
+                }
+
+                foreach (var childNode in node.ChildrenNodes)
+                {
+                    PrintState(dict, childNode, childIndentation);
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }

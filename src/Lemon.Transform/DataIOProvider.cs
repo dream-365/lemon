@@ -23,9 +23,7 @@
 
             var input = _factory.CreateDataInput(model);
 
-            input.Name = name;
-
-            input.Context = _context;
+            _context.Attach(input, name);
 
             return input;
         }
@@ -36,9 +34,7 @@
 
             var output  = _factory.CreateDataOutput(model);
 
-            output.Name = name;
-
-            output.Context = _context;
+            _context.Attach(output, name);
 
             return output;
         }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
-    public class ConnectionNode
+    public class ConnectionNode : IComparable, IComparable<ConnectionNode>
     {
         private string _name;
+
+        public bool Visible { get; set; }
 
         public ConnectionNode Parent { get; private set; }
 
@@ -43,6 +43,28 @@ namespace Lemon.Transform
             _childrenNodes.Add(childNode);
 
             return childNode;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if(obj == null)
+            {
+                return 1;
+            }
+
+            var node = obj as ConnectionNode;
+
+            if(node == null)
+            {
+                throw new ArgumentException("Object is not a Connection Node");
+            }
+
+            return CompareTo(node);
+        }
+
+        public int CompareTo(ConnectionNode other)
+        {
+            return Name.CompareTo(other.Name);
         }
     }
 }

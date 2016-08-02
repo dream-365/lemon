@@ -128,7 +128,6 @@
     <Compile Include="SqlServerRecordStatusContext.cs" />
     <Compile Include="TransformManyAction.cs" />
     <Compile Include="TransformSingleAction.cs" />
-    <Compile Include="TransformColumnDefinition.cs" />
     <Compile Include="Models\ValueExpression.cs" />
   </ItemGroup>
   <ItemGroup>

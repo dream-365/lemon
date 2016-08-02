@@ -11,6 +11,8 @@ namespace Lemon.Transform
         public BroadcastAction()
         {
             _broadcastBlock = new BroadcastBlock<DataRowTransformWrapper<BsonDataRow>>(row => {
+                Context.ProgressIndicator.Increment(string.Format("{0}.process", Name));
+
                 return row;
             });
         }

@@ -75,6 +75,8 @@ namespace Lemon.Transform
 
             obj.Context = this;
 
+            obj.Node.Visible = true;
+
             return obj;
         }
     }

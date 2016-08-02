@@ -86,6 +86,8 @@ namespace Lemon.Transform
         private void DataFlowPipeline_OnComplete()
         {
             _timer.Stop();
+
+            OnProgressChange(GetState());
         }
 
         private void DataFlowPipeline_OnStart()
@@ -136,8 +138,6 @@ namespace Lemon.Transform
                 LogService.Default.Info("wait the pipeline for comptetion");
 
                 Task.WaitAll(_compltetions.ToArray());
-
-                _rootNode = null;
 
                 _compltetions.Clear();
 

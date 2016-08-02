@@ -6,7 +6,7 @@ namespace Demo001
     {
         protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            var input = new JsonFileDataInput(@"test_data.json");
+            var input = new JsonFileDataInput("test_data.json");
 
             var output = context.IO.GetOutput("sql_data_output");
 

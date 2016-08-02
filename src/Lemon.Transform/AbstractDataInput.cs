@@ -13,6 +13,8 @@ namespace Lemon.Transform
         public void LinkTo(LinkObject target)
         {
             _targetBlock = target.AsTarget();
+
+            Node.AddChildNode(target.Node);
         }
 
         public void SetDefaultParameterValue(string name, object value)
