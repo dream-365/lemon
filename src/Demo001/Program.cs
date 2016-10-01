@@ -12,12 +12,12 @@ namespace Demo001
             GlobalConfiguration.Configure(config => {
                 config.UseDefaultSevices();
                 config.RegisterServcie<IDataSourceService, JsonDataSourceService>();
-                config.BoundedCapacity = 5;
+                config.BoundedCapacity = 1000;
             });
 
             var pipeline = new OutOfMemoryDataPipeline();
 
-            pipeline.Run();
+            var status = pipeline.RunAsync().Result;
         }
     }
 }

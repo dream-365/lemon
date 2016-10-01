@@ -2,6 +2,7 @@
 using System.Threading.Tasks.Dataflow;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
 namespace Lemon.Transform
 {
@@ -11,8 +12,7 @@ namespace Lemon.Transform
 
         public AbstractDataInput()
         {
-            _bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(
-                new DataflowBlockOptions { BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 10000 });
+            _bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(new DataflowBlockOptions { BoundedCapacity = 5 });
         }
 
         protected ParametersInfo PrametersInfo = new ParametersInfo();
@@ -23,11 +23,17 @@ namespace Lemon.Transform
             PrametersInfo.SetParameterDefultValue(name, value);
         }
 
-        protected void Send(BsonDataRow row)
+        protected async Task<bool> SendAsync(BsonDataRow row)
         {
             Context.ProgressIndicator.Increment(Name);
 
-            _bufferBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row }).Wait();
+            Console.WriteLine("buffer_count: " + _bufferBlock.Count);
+
+            var result = await _bufferBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row });
+
+            Console.WriteLine("{0}-{1}", result, row.GetValue("id"));
+
+            return result;
         }
 
         public override Task Compltetion
@@ -56,6 +62,6 @@ namespace Lemon.Transform
             return _bufferBlock as ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
-        public abstract void Start(IDictionary<string, object> parameters = null);
+        public abstract Task StartAsync(IDictionary<string, object> parameters = null);
     }
 }

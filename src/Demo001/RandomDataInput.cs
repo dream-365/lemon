@@ -1,5 +1,7 @@
 ﻿using Lemon.Transform;
 using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 
 namespace Demo001
 {
@@ -14,20 +16,21 @@ namespace Demo001
             _max = max ?? DEFAULT_MAX;
         }
 
-        public override void Start(IDictionary<string, object> parameters = null)
+
+        public override async Task StartAsync(IDictionary<string, object> parameters = null)
         {
             long index = 0;
 
             var text = "";
 
-            for(int i = 0; i < 1024; i++)
+            for (int i = 0; i < 1024; i++)
             {
                 text += i;
             }
 
             int len = text.Length;
 
-            while(index < _max)
+            while (index < _max)
             {
                 char[] characters = new char[len];
 
@@ -35,7 +38,7 @@ namespace Demo001
 
                 var str = new string(characters);
 
-                Send(new BsonDataRow(new MongoDB.Bson.BsonDocument {
+                await SendAsync(new BsonDataRow(new MongoDB.Bson.BsonDocument {
                     {"id",  index},
                     {"text", str}
                 }));

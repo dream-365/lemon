@@ -31,3 +31,5 @@
 /src/Lemon.Transform.Extension/obj
 /src/Lemon.Transform.Extension/bin
 *.nupkg
+/src/DataFlowDemo/bin/Debug
+/src/DataFlowDemo/obj/Debug

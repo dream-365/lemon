@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
@@ -14,7 +15,7 @@ namespace Lemon.Transform
             _filePath = filePath;
         }
 
-        public void ForEach(Action<BsonDataRow> forEach)
+        public async Task ForEach(Func<BsonDataRow, Task<bool>> forEach)
         {
             using (var fs = new FileStream(_filePath, FileMode.Open, FileAccess.Read))
             using (var sr = new StreamReader(fs))
@@ -29,7 +30,7 @@ namespace Lemon.Transform
 
                         var document = BsonDocument.Parse(text);
 
-                        forEach(new BsonDataRow(document));
+                        await forEach(new BsonDataRow(document));
                     }
                     catch (Exception ex)
                     {
@@ -39,9 +40,9 @@ namespace Lemon.Transform
             }
         }
 
-        public override void Start(IDictionary<string, object> parameters = null)
+        public override async Task StartAsync(IDictionary<string, object> parameters = null)
         {
-            ForEach(Send);
+            await ForEach(SendAsync);
 
             Complete();
         }

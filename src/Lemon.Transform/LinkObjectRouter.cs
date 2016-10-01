@@ -13,15 +13,9 @@ namespace Lemon.Transform
     {
         private LinkObject _sourceLinkObject;
 
-        private IList<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>> _targets;
-
-        private bool _linkInitialized = false;
-
         public LinkObjectRouter(LinkObject sourceLinkObject)
         {
             _sourceLinkObject = sourceLinkObject;
-
-            _targets = new List<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>>();
         }
 
         public void BroadCast(params LinkObject[] linkObjects)
@@ -35,7 +29,7 @@ namespace Lemon.Transform
                 }
             }, new ExecutionDataflowBlockOptions
             {
-                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 1000
+                BoundedCapacity = ExecutionDataflowBlockOptions.Unbounded
             });
 
             _sourceLinkObject.AsSource().LinkTo(actionBlock);
@@ -64,13 +58,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public LinkObjectRouter SuccessTo(LinkObject linkObject)
         {
-            InitializeLink();
-
             var target = linkObject.AsTarget();
 
             _sourceLinkObject.AsSource().LinkTo(target, data => data.Success);
-
-            _targets.Add(target);
 
             _sourceLinkObject.Node.AddChildNode(linkObject.Node);
 
@@ -85,13 +75,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public LinkObjectRouter SuccessTo(LinkObject linkObject, Predicate<BsonDataRow> predicate)
         {
-            InitializeLink();
-
             var target = linkObject.AsTarget();
 
-            _sourceLinkObject.AsSource().LinkTo(target, data => data.Success && predicate(data.Row));
-
-            _targets.Add(target);
+            _sourceLinkObject.AsSource().LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true }, data => data.Success && predicate(data.Row));
 
             _sourceLinkObject.Node.AddChildNode(linkObject.Node);
 
@@ -105,13 +91,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public LinkObjectRouter ErrorTo(LinkObject linkObject)
         {
-            InitializeLink();
-
             var target = linkObject.AsTarget();
 
             _sourceLinkObject.AsSource().LinkTo(target, data => !data.Success);
-
-            _targets.Add(target);
 
             _sourceLinkObject.Node.AddChildNode(linkObject.Node);
 
@@ -125,44 +107,6 @@ namespace Lemon.Transform
         public void End()
         {
             _sourceLinkObject.AsSource().LinkTo(DataflowBlock.NullTarget<DataRowTransformWrapper<BsonDataRow>>());
-        }
-
-        /// <summary>
-        /// bind the on complete event
-        /// </summary>
-        private void InitializeLink()
-        {
-            if (_linkInitialized)
-            {
-                return;
-            }
-
-            try
-            {
-                if (_sourceLinkObject == null)
-                {
-                    return;
-                }
-
-                _sourceLinkObject.AsSource().Completion.ContinueWith(t => {
-                    foreach (var target in _targets)
-                    {
-                        if(t.Exception != null)
-                        {
-                            target.Fault(t.Exception);
-                        }else
-                        {
-                            target.Complete();
-                        }
-                    }
-                });
-
-                _linkInitialized = true;
-            }
-            catch (System.NotSupportedException)
-            {
-                // if not support as source, skip the complete chain
-            }
         }
     }
 }

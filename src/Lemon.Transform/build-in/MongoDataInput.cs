@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
@@ -101,7 +102,7 @@ namespace Lemon.Transform
             return text;
         }
 
-        private void Execute(Action<BsonDataRow> forEach, IDictionary<string, object> parameters)
+        private async Task Execute(Func<BsonDataRow, Task<bool>> forEach, IDictionary<string, object> parameters)
         {
             var executeParameters = PrametersInfo.ValidateParameters(parameters);
 
@@ -148,11 +149,9 @@ namespace Lemon.Transform
                     find = find.Project(projection);
                 }
 
-                var list = find.ToList();
+                await find.ForEachAsync(async m => await forEach(new BsonDataRow(m)));
 
-                list.ForEach(m => forEach(new BsonDataRow(m)));
-
-                if (list.Count <= _batchSize)
+                if (find.Count() < _batchSize)
                 {
                     hasMore = false;
                 }
@@ -161,9 +160,9 @@ namespace Lemon.Transform
             }
         }
 
-        public override void Start(IDictionary<string, object> parameters = null)
+        public override async Task StartAsync(IDictionary<string, object> parameters = null)
         {
-            Execute(Send, parameters);
+            await Execute(SendAsync, parameters);
 
             Complete();
         }

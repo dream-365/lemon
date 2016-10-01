@@ -15,7 +15,7 @@ namespace Lemon.Transform
 
             var options = new DF.ExecutionDataflowBlockOptions
             {
-                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 1000
+                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? DF.ExecutionDataflowBlockOptions.Unbounded
             };
 
             if (maxDegreeOfParallelism == 0)
