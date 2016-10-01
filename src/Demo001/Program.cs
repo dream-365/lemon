@@ -1,4 +1,5 @@
 ﻿using Lemon.Transform;
+using LemonDemo;
 using System;
 using System.Collections.Generic;
 using System.Timers;
@@ -9,15 +10,31 @@ namespace Demo001
     {
         static void Main(string[] args)
         {
-            GlobalConfiguration.Configure(config => {
-                config.UseDefaultSevices();
-                config.RegisterServcie<IDataSourceService, JsonDataSourceService>();
-                config.BoundedCapacity = 1000;
-            });
+            var pipeline = new Pipeline();
 
-            var pipeline = new OutOfMemoryDataPipeline();
+            pipeline.BoundedCapacity = 5;
 
-            var status = pipeline.RunAsync().Result;
+            var action1 = new PrefixTransformBlock("a");
+
+            var action2 = new PrefixTransformBlock("b");
+
+            var action3 = new PrefixTransformBlock("c");
+
+            var writer1 = new ConsoleDataWriter("W1", 100);
+            var writer2 = new ConsoleDataWriter("W2");
+
+            var broadcast = pipeline.Source(new RandomDataReader(100))
+                    .Next(action1)
+                    .Next(action2)
+                    .Next(action3)
+                    .Broadcast();
+
+            broadcast.Branch().Next(action1).Output(writer1);
+            broadcast.Branch().Next(action2).Output(writer2);
+
+            var exe = pipeline.Build();
+
+            exe.RunAsync(null).Wait();
         }
     }
 }

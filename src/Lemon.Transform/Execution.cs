@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Lemon.Transform
+{
+    public class Execution : IExecute
+    {
+        private Func<IDictionary<string, object>, Task<bool>> _block;
+
+        public Execution(Func<IDictionary<string, object>, Task<bool>> block)
+        {
+            _block = block;
+        }
+
+        public Task<bool> RunAsync(IDictionary<string, object> namedParameters)
+        {
+            return _block(namedParameters);
+        }
+    }
+}

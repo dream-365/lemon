@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="AbstractDataInput.cs" />
     <Compile Include="AbstractDataOutput.cs" />
+    <Compile Include="BroadCastActionChain.cs" />
     <Compile Include="build-in\JsonFileDataInput.cs" />
     <Compile Include="build-in\MongoDataInput.cs" />
     <Compile Include="build-in\MongoDataOutput.cs" />
@@ -94,6 +95,10 @@
     <Compile Include="DataIOConstructor.cs" />
     <Compile Include="DataIOProvider.cs" />
     <Compile Include="DataRowStatusContext.cs" />
+    <Compile Include="Execution.cs" />
+    <Compile Include="IDataWriter.cs" />
+    <Compile Include="IDataReader.cs" />
+    <Compile Include="interfaces\IExecute.cs" />
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\DataTableSchema.cs" />
@@ -106,12 +111,16 @@
     <Compile Include="Models\NamedParameter.cs" />
     <Compile Include="Models\ProgressStateItem.cs" />
     <Compile Include="Models\WriteOnChangeConfiguration.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="ParametersInfo.cs" />
+    <Compile Include="Pipeline.cs" />
     <Compile Include="PipelineContext.cs" />
     <Compile Include="build-in\DebugOutput.cs" />
     <Compile Include="interfaces\IDataSourceService.cs" />
     <Compile Include="build-in\JsonDataSourceService.cs" />
+    <Compile Include="TransformActionChain.cs" />
+    <Compile Include="TransformBlock.cs" />
     <Compile Include="TransformConfiguration.cs" />
     <Compile Include="BsonDataRow.cs" />
     <Compile Include="Models\DataInputModel.cs" />
@@ -126,6 +135,7 @@
     <Compile Include="LinkObject.cs" />
     <Compile Include="SqlServerRecordStatusContext.cs" />
     <Compile Include="TransformManyAction.cs" />
+    <Compile Include="TransformManyBlock.cs" />
     <Compile Include="TransformSingleAction.cs" />
     <Compile Include="Models\ValueExpression.cs" />
   </ItemGroup>
