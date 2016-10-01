@@ -2,7 +2,7 @@
 {
     public class DataIOProvider
     {
-        private DataSourcesRepository _repository;
+        private DataSourceService _repository;
 
         private DataIOConstructor _factory;
 
@@ -10,7 +10,7 @@
 
         public DataIOProvider(PipelineContext context)
         {
-            _repository = new DataSourcesRepository();
+            _repository = new DataSourceService();
 
             _factory = new DataIOConstructor();
 

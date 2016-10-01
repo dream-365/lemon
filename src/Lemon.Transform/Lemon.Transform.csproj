@@ -98,7 +98,7 @@
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\DataTableSchema.cs" />
-    <Compile Include="DataSourcesRepository.cs" />
+    <Compile Include="DataSourceService.cs" />
     <Compile Include="FieldTypeMapping.cs" />
     <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="LinkObjectRouter.cs" />
@@ -111,8 +111,8 @@
     <Compile Include="ParametersInfo.cs" />
     <Compile Include="PipelineContext.cs" />
     <Compile Include="build-in\DebugOutput.cs" />
-    <Compile Include="interfaces\IDataStoreService.cs" />
-    <Compile Include="build-in\JsonDataSourcesRepository.cs" />
+    <Compile Include="interfaces\IDataSourceService.cs" />
+    <Compile Include="build-in\JsonDataSourceService.cs" />
     <Compile Include="TransformConfiguration.cs" />
     <Compile Include="BsonDataRow.cs" />
     <Compile Include="Models\DataInputModel.cs" />

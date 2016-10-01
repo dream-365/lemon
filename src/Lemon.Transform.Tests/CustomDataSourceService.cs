@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lemon.Transform.Extension
+namespace Lemon.Transform.Tests
 {
-    public class RepositoryByEntityFramwork : IDataSourceService
+    public class CustomDataSourceService : IDataSourceService
     {
         public DataInputModel GetDataInput(string name)
         {

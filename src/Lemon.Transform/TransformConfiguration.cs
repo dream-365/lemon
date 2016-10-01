@@ -48,7 +48,7 @@ namespace Lemon.Transform
             RegisterDataInput<SqlServerDataInput>("Microsoft.SqlServer");
             RegisterDataOutput<SqlServerDataOutput>("Microsoft.SqlServer");
             RegisterDataInput<JsonFileDataInput>("json");
-            RegisterServcie<IDataSourcesRepository, JsonDataSourcesRepository>();
+            // RegisterServcie<IDataSourceService, JsonDataSourceService>();
         }
 
         internal WindsorContainer Container {
