@@ -128,7 +128,7 @@ namespace Lemon.Transform
         /// <param name="parameters"></param>
         public override void Start(IDictionary<string, object> parameters = null)
         {
-            Excute(Post, parameters);
+            Excute(Send, parameters);
 
             Complete();
         }

@@ -22,11 +22,12 @@ namespace Lemon.Transform
             PrametersInfo.SetParameterDefultValue(name, value);
         }
 
-        protected void Post(BsonDataRow row)
+        protected void Send(BsonDataRow row)
         {
             Context.ProgressIndicator.Increment(Name);
 
-            _targetBlock.Post(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row });
+            _targetBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row })
+                        .Wait();
         }
 
         /// <summary>

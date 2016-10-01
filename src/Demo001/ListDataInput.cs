@@ -16,7 +16,7 @@ namespace Demo001
         {
             foreach(var row in _rows)
             {
-                Post(row);
+                Send(row);
             }
 
             Complete();

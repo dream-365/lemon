@@ -1,7 +1,6 @@
-﻿using Lemon.Transform;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Demo001
+namespace Lemon.Transform.Tests
 {
     public class InfiniteDataInput : AbstractDataInput
     {

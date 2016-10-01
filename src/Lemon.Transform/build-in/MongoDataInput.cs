@@ -163,7 +163,7 @@ namespace Lemon.Transform
 
         public override void Start(IDictionary<string, object> parameters = null)
         {
-            Execute(Post, parameters);
+            Execute(Send, parameters);
 
             Complete();
         }
