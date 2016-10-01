@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks.Dataflow;
+using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -25,10 +26,12 @@ namespace Lemon.Transform
 
         public void BroadCast(params LinkObject[] linkObjects)
         {
+            var targets = linkObjects.Select(m => m.AsTarget());
+
             var actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(async item => {
-                foreach(var linkObject in linkObjects)
+                foreach(var target in targets)
                 {
-                    await linkObject.AsTarget().SendAsync(item);
+                    await target.SendAsync(item);
                 }
             }, new ExecutionDataflowBlockOptions
             {
@@ -47,6 +50,11 @@ namespace Lemon.Transform
                     linkObject.AsTarget().Complete();
                 }
             });
+
+            foreach(var linkObject in linkObjects)
+            {
+                _sourceLinkObject.Node.AddChildNode(linkObject.Node);
+            }
         }
 
         /// <summary>
