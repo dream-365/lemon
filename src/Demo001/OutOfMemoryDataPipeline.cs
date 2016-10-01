@@ -6,17 +6,19 @@ namespace Demo001
     {
         protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            var input = new InfiniteDataInput { Context = context };
+            var input = new RandomDataInput(10) { Context = context };
 
             var slowAction = new SlowAction { Context = context };
 
             var debug = new DebugOutput { Context = context };
 
-            input.Link.SuccessTo(slowAction).End();
+            var dummy = new DummyOutput { Context = context };
 
-            slowAction.Link.SuccessTo(debug);
+            input.Link.BroadCast(slowAction, dummy);
 
-            Waits(debug);
+            slowAction.Link.SuccessTo(debug).End();
+
+            Waits(debug, dummy);
 
             return input;
         }

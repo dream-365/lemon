@@ -11,7 +11,8 @@ namespace Lemon.Transform
 
         public AbstractDataInput()
         {
-            _bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(new DataflowBlockOptions { BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 10000 });
+            _bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(
+                new DataflowBlockOptions { BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 10000 });
         }
 
         protected ParametersInfo PrametersInfo = new ParametersInfo();

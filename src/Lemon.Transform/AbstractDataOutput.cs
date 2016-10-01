@@ -19,7 +19,12 @@ namespace Lemon.Transform
 
         public AbstractDataOutput()
         {
-            _actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(new Action<DataRowTransformWrapper<BsonDataRow>>(OnReceive));
+            var options = new ExecutionDataflowBlockOptions
+            {
+                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 1000
+            };
+
+            _actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(new Action<DataRowTransformWrapper<BsonDataRow>>(OnReceive), options);
 
             BeforeWrite = Dummy;
 

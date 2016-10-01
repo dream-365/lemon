@@ -6,7 +6,7 @@ namespace Demo001
     {
         public override BsonDataRow Transform(BsonDataRow row)
         {
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(1000);
 
             return row;
         }

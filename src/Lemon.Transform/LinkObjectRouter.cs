@@ -23,6 +23,32 @@ namespace Lemon.Transform
             _targets = new List<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>>();
         }
 
+        public void BroadCast(params LinkObject[] linkObjects)
+        {
+            var actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(async item => {
+                foreach(var linkObject in linkObjects)
+                {
+                    await linkObject.AsTarget().SendAsync(item);
+                }
+            }, new ExecutionDataflowBlockOptions
+            {
+                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 1000
+            });
+
+            _sourceLinkObject.AsSource().LinkTo(actionBlock);
+
+            _sourceLinkObject.AsSource().Completion.ContinueWith(task => {
+                actionBlock.Complete();
+            });
+
+            actionBlock.Completion.ContinueWith(task => {
+                foreach (var linkObject in linkObjects)
+                {
+                    linkObject.AsTarget().Complete();
+                }
+            });
+        }
+
         /// <summary>
         /// default success route
         /// </summary>
@@ -113,7 +139,13 @@ namespace Lemon.Transform
                 _sourceLinkObject.AsSource().Completion.ContinueWith(t => {
                     foreach (var target in _targets)
                     {
-                        target.Complete();
+                        if(t.Exception != null)
+                        {
+                            target.Fault(t.Exception);
+                        }else
+                        {
+                            target.Complete();
+                        }
                     }
                 });
 

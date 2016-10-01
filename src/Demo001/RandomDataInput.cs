@@ -3,8 +3,17 @@ using System.Collections.Generic;
 
 namespace Demo001
 {
-    public class InfiniteDataInput : AbstractDataInput
+    public class RandomDataInput : AbstractDataInput
     {
+        private const long DEFAULT_MAX = 1000;
+
+        private long _max;
+
+        public RandomDataInput(long? max = null)
+        {
+            _max = max ?? DEFAULT_MAX;
+        }
+
         public override void Start(IDictionary<string, object> parameters = null)
         {
             long index = 0;
@@ -18,7 +27,7 @@ namespace Demo001
 
             int len = text.Length;
 
-            while(true)
+            while(index < _max)
             {
                 char[] characters = new char[len];
 
@@ -30,7 +39,11 @@ namespace Demo001
                     {"id",  index},
                     {"text", str}
                 }));
+
+                index++;
             }
+
+            Complete();
         }
     }
 }
