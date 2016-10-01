@@ -1,21 +1,21 @@
 ﻿using Lemon.Transform.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
-    public abstract class AbstractDataInput : PipelineObject
+    public abstract class AbstractDataInput : LinkObject
     {
-        private ITargetBlock<DataRowTransformWrapper<BsonDataRow>> _targetBlock;
+        private BufferBlock<DataRowTransformWrapper<BsonDataRow>> _bufferBlock;
+
+        public AbstractDataInput()
+        {
+            _bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(new DataflowBlockOptions { BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 10000 });
+        }
 
         protected ParametersInfo PrametersInfo = new ParametersInfo();
 
-        public void LinkTo(LinkObject target)
-        {
-            _targetBlock = target.AsTarget();
-
-            Node.AddChildNode(target.Node);
-        }
 
         public void SetDefaultParameterValue(string name, object value)
         {
@@ -26,15 +26,33 @@ namespace Lemon.Transform
         {
             Context.ProgressIndicator.Increment(Name);
 
-            _targetBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row }).Wait();
+            _bufferBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row }).Wait();
+        }
+
+        public override Task Compltetion
+        {
+            get
+            {
+                return _bufferBlock.Completion;
+            }
         }
 
         /// <summary>
-        /// singal the completion of data input
+        /// signal complete
         /// </summary>
-        protected void Complete()
+        public void Complete ()
         {
-            _targetBlock.Complete();
+            _bufferBlock.Complete();
+        }
+
+        internal override ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
+        {
+            return _bufferBlock as ISourceBlock<DataRowTransformWrapper<BsonDataRow>>;
+        }
+
+        internal override ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget()
+        {
+            return _bufferBlock as ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
         }
 
         public abstract void Start(IDictionary<string, object> parameters = null);

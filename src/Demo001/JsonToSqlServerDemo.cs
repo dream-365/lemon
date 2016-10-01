@@ -10,7 +10,7 @@ namespace Demo001
 
             var output = context.IO.GetOutput("sql_data_output");
 
-            input.LinkTo(output);
+            input.Link.SuccessTo(output).End();
 
             Waits(output);
 

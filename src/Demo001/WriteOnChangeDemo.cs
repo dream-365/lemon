@@ -16,7 +16,7 @@ namespace Demo001
                 Console.WriteLine(row.ToString());
             };
 
-            input.LinkTo(output);
+            input.Link.SuccessTo(output).End();
 
             Waits(output);
 

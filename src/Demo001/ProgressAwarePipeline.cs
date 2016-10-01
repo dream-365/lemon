@@ -19,7 +19,7 @@ namespace Demo001
 
             var broadCast = new BroadcastAction();
 
-            input.LinkTo(broadCast);
+            input.Link.SuccessTo(broadCast).End();
 
             broadCast.Link.SuccessTo(debug);
 

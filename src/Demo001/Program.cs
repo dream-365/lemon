@@ -11,17 +11,12 @@ namespace Demo001
         {
             GlobalConfiguration.Configure(config => {
                 config.UseDefaultSevices();
+                config.RegisterServcie<IDataSourceService, JsonDataSourceService>();
             });
 
-            var pipeline = new ProgressAwarePipeline();
+            var pipeline = new OutOfMemoryDataPipeline();
 
-            var task = pipeline.RunAsync(new Dictionary<string, object> {
-                {"scope", "powerbi" }
-            });
-
-            task.Wait();
-
-            Console.WriteLine("status: {0}", task.Result);
+            pipeline.Run();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Demo001
 
             var debug = new DebugOutput { Context = context };
 
-            input.LinkTo(slowAction);
+            input.Link.SuccessTo(slowAction).End();
 
             slowAction.Link.SuccessTo(debug);
 

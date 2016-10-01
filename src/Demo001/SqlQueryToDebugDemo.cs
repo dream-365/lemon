@@ -10,7 +10,7 @@ namespace Demo001
 
             var output = new DebugOutput();
 
-            input.LinkTo(output);
+            input.Link.SuccessTo(output).End();
 
             Waits(output);
 
