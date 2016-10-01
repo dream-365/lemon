@@ -19,6 +19,8 @@ namespace Lemon.Transform
             }
         }
 
+        public int? BoundedCapacity { get; set; }
+
         public void RegisterServcie<TService, TImplement>() where TImplement : TService where TService : class
         {
             _container.Register(Component.For<TService>().ImplementedBy<TImplement>());

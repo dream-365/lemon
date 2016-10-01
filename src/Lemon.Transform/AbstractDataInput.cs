@@ -26,8 +26,7 @@ namespace Lemon.Transform
         {
             Context.ProgressIndicator.Increment(Name);
 
-            _targetBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row })
-                        .Wait();
+            _targetBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row }).Wait();
         }
 
         /// <summary>

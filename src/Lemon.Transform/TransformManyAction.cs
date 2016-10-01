@@ -17,7 +17,12 @@ namespace Lemon.Transform
         {
             var transform = new Func<DataRowTransformWrapper<BsonDataRow>, IEnumerable<DataRowTransformWrapper<BsonDataRow>>>(Transform);
 
-            _transformBlock = new DF.TransformManyBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform);
+            var options = new DF.ExecutionDataflowBlockOptions
+            {
+                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? 1000
+            };
+
+            _transformBlock = new DF.TransformManyBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform, options);
         }
 
         internal override DF.ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
