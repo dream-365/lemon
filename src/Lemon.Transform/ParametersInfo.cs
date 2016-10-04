@@ -59,9 +59,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public IDictionary<string, object> ValidateParameters(IDictionary<string, object> values)
         {
-            if(values == null && _registeredParametersWithDefaultValue.Count > 0)
+            if(values == null)
             {
-                throw new ArgumentNullException("parameter(s) are required to execute");
+                values = new Dictionary<string, object>();
             }
 
             var parameters = new Dictionary<string, object>();
