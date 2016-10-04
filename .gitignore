@@ -28,3 +28,8 @@
 /src/Lemon.Transform.Tests/obj
 /src/Demo001/bin
 /src/Demo001/obj
+/src/DataFlowDemo/obj/Release
+*.nupkg
+*.user
+/src/Lemon.Transform.Extension/bin
+/src/Lemon.Transform.Extension/obj
