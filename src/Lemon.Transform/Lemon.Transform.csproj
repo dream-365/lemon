@@ -81,20 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractDataInput.cs" />
-    <Compile Include="AbstractDataOutput.cs" />
     <Compile Include="BroadCastActionChain.cs" />
-    <Compile Include="build-in\JsonFileDataInput.cs" />
-    <Compile Include="build-in\MongoDataInput.cs" />
-    <Compile Include="build-in\MongoDataOutput.cs" />
-    <Compile Include="build-in\SqlDataRowReader.cs" />
-    <Compile Include="build-in\SqlServerDataOutput.cs" />
     <Compile Include="CastUtil.cs" />
-    <Compile Include="ConnectionNode.cs" />
-    <Compile Include="DataFlowPipeline.cs" />
-    <Compile Include="DataIOConstructor.cs" />
-    <Compile Include="DataIOProvider.cs" />
-    <Compile Include="DataRowStatusContext.cs" />
     <Compile Include="Execution.cs" />
     <Compile Include="IDataWriter.cs" />
     <Compile Include="IDataReader.cs" />
@@ -105,7 +93,6 @@
     <Compile Include="DataSourceService.cs" />
     <Compile Include="FieldTypeMapping.cs" />
     <Compile Include="GlobalConfiguration.cs" />
-    <Compile Include="LinkObjectRouter.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Models\DataRowTransformWrapper.cs" />
     <Compile Include="Models\NamedParameter.cs" />
@@ -116,7 +103,6 @@
     <Compile Include="ParametersInfo.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="PipelineContext.cs" />
-    <Compile Include="build-in\DebugOutput.cs" />
     <Compile Include="interfaces\IDataSourceService.cs" />
     <Compile Include="build-in\JsonDataSourceService.cs" />
     <Compile Include="TransformActionChain.cs" />
@@ -126,17 +112,9 @@
     <Compile Include="Models\DataInputModel.cs" />
     <Compile Include="Models\DataOutputModel.cs" />
     <Compile Include="Models\NamedParameterObjectModel.cs" />
-    <Compile Include="PipelineObject.cs" />
     <Compile Include="ProgressIndicator.cs" />
-    <Compile Include="build-in\SqlNamedQueryProvider.cs" />
-    <Compile Include="build-in\SqlServerDataInput.cs" />
-    <Compile Include="build-in\SQLInserOrUpdateQueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LinkObject.cs" />
-    <Compile Include="SqlServerRecordStatusContext.cs" />
-    <Compile Include="TransformManyAction.cs" />
     <Compile Include="TransformManyBlock.cs" />
-    <Compile Include="TransformSingleAction.cs" />
     <Compile Include="Models\ValueExpression.cs" />
   </ItemGroup>
   <ItemGroup>

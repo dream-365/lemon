@@ -26,31 +26,8 @@ namespace Lemon.Transform
             _container.Register(Component.For<TService>().ImplementedBy<TImplement>());
         }
 
-        public void RegisterDataInput<TDataInput>(string name) where TDataInput : AbstractDataInput
-        {
-            _container.Register(Component.For<AbstractDataInput>().Named(name + "_input")
-                .LifeStyle
-                .Transient
-                .ImplementedBy<TDataInput>());
-
-        }
-
-        public void RegisterDataOutput<TDataOutput>(string name) where TDataOutput : AbstractDataOutput
-        {
-            _container.Register(Component.For<AbstractDataOutput>().Named(name + "_output")
-                .LifeStyle
-                .Transient
-                .ImplementedBy<TDataOutput>());
-        }
-
         public void UseDefaultSevices()
         {
-            RegisterDataInput<MongoDataInput>("mongo");
-            RegisterDataOutput<MongoDataOutput>("mongo");
-            RegisterDataInput<SqlServerDataInput>("Microsoft.SqlServer");
-            RegisterDataOutput<SqlServerDataOutput>("Microsoft.SqlServer");
-            RegisterDataInput<JsonFileDataInput>("json");
-            // RegisterServcie<IDataSourceService, JsonDataSourceService>();
         }
 
         internal WindsorContainer Container {

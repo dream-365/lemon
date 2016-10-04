@@ -11,10 +11,6 @@ namespace Lemon.Transform
 
         private ProgressIndicator _progressIndicator;
 
-        private DataIOProvider _dataIOProvider;
-
-        public DataIOProvider IO { get { return _dataIOProvider; } }
-
         public ProgressIndicator ProgressIndicator { get { return _progressIndicator; } }
 
         public PipelineContext(ProgressIndicator progressIndicator, IDictionary<string, object> namedParameters = null)
@@ -23,8 +19,6 @@ namespace Lemon.Transform
             {
                 _namedParameters = namedParameters;
             }
-
-            _dataIOProvider = new DataIOProvider(this);
 
             _progressIndicator = progressIndicator;
         }
@@ -54,30 +48,6 @@ namespace Lemon.Transform
         public void SetNamedParameterValue(string key, object value)
         {
             _namedParameters[key] = value;
-        }
-
-
-        /// <summary>
-        /// attach the link object to current context
-        /// </summary>
-        /// <typeparam name="TObject">link object type</typeparam>
-        /// <param name="obj">object</param>
-        /// <param name="name">specify the name in context</param>
-        /// <returns>attached object</returns>
-        public TObject Attach<TObject>(
-            TObject obj,
-            string name = null) where TObject : PipelineObject
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                obj.Name = name;
-            }
-
-            obj.Context = this;
-
-            obj.Node.Visible = true;
-
-            return obj;
         }
     }
 }

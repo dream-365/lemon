@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{536E12EC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LemonDemo", "Demo001\LemonDemo.csproj", "{7D11A52B-865A-4969-8ED9-E2E047574770}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Transform.Extension", "Lemon.Transform.Extension\Lemon.Transform.Extension.csproj", "{768FFF5D-2692-49CA-87B7-D1FC71926157}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataFlowDemo", "DataFlowDemo\DataFlowDemo.csproj", "{B12BBD40-871C-4905-BB72-A50F42F2A6C7}"
 EndProject
 Global
@@ -35,10 +33,6 @@ Global
 		{7D11A52B-865A-4969-8ED9-E2E047574770}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D11A52B-865A-4969-8ED9-E2E047574770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D11A52B-865A-4969-8ED9-E2E047574770}.Release|Any CPU.Build.0 = Release|Any CPU
-		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
