@@ -65,6 +65,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CustomDataSourceService.cs" />
+    <Compile Include="DataSourceServiceRegisterTest.cs" />
+    <Compile Include="InfiniteDataInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

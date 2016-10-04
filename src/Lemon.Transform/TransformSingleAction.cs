@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DF = System.Threading.Tasks.Dataflow;
-using System.Threading.Tasks.Dataflow;
 using Lemon.Transform.Models;
 
 namespace Lemon.Transform
@@ -10,21 +9,22 @@ namespace Lemon.Transform
     {
         private DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>> _transformBlock;
 
-
         public TransformSingleAction(int maxDegreeOfParallelism = 0)
         {
             var transform = new Func<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(InternalTransform);
 
-            if(maxDegreeOfParallelism == 0)
+            var options = new DF.ExecutionDataflowBlockOptions
             {
-                _transformBlock = new DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform);
+                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? DF.ExecutionDataflowBlockOptions.Unbounded
+            };
+
+            if (maxDegreeOfParallelism == 0)
+            {
+                _transformBlock = new DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform, options);
             }
             else
             {
-                var options = new ExecutionDataflowBlockOptions
-                {
-                    MaxDegreeOfParallelism = maxDegreeOfParallelism
-                };
+                options.MaxDegreeOfParallelism = maxDegreeOfParallelism;
 
                 _transformBlock = new DF.TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transform, options);
             }

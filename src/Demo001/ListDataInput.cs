@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Lemon.Transform;
+using System.Threading.Tasks;
 
 namespace Demo001
 {
@@ -12,11 +13,11 @@ namespace Demo001
             _rows = rows;
         }
 
-        public override void Start(IDictionary<string, object> parameters = null)
+        public override async Task StartAsync(IDictionary<string, object> parameters = null)
         {
             foreach(var row in _rows)
             {
-                Post(row);
+                await SendAsync(row);
             }
 
             Complete();

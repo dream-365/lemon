@@ -19,6 +19,8 @@ namespace Lemon.Transform
             }
         }
 
+        public int? BoundedCapacity { get; set; }
+
         public void RegisterServcie<TService, TImplement>() where TImplement : TService where TService : class
         {
             _container.Register(Component.For<TService>().ImplementedBy<TImplement>());
@@ -48,7 +50,7 @@ namespace Lemon.Transform
             RegisterDataInput<SqlServerDataInput>("Microsoft.SqlServer");
             RegisterDataOutput<SqlServerDataOutput>("Microsoft.SqlServer");
             RegisterDataInput<JsonFileDataInput>("json");
-            RegisterServcie<IDataSourcesRepository, JsonDataSourcesRepository>();
+            // RegisterServcie<IDataSourceService, JsonDataSourceService>();
         }
 
         internal WindsorContainer Container {

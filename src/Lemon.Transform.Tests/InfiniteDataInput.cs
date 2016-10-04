@@ -1,7 +1,6 @@
-﻿using Lemon.Transform;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Demo001
+namespace Lemon.Transform.Tests
 {
     public class InfiniteDataInput : AbstractDataInput
     {
@@ -26,7 +25,7 @@ namespace Demo001
 
                 var str = new string(characters);
 
-                Post(new BsonDataRow(new MongoDB.Bson.BsonDocument {
+                Send(new BsonDataRow(new MongoDB.Bson.BsonDocument {
                     {"id",  index},
                     {"text", str}
                 }));

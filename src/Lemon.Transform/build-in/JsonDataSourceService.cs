@@ -32,7 +32,7 @@ namespace Lemon.Transform
         public WriteOnChangeConfiguration WriteOnChange { get; set; }
     }
 
-    public class JsonDataSourcesRepository : IDataSourcesRepository
+    public class JsonDataSourceService : IDataSourceService
     {
         private DataStoreModel _datastore;
 
@@ -47,7 +47,7 @@ namespace Lemon.Transform
             public Dictionary<string, DataOutputModelProxy> Outputs { get; set; }
         }
 
-        public JsonDataSourcesRepository()
+        public JsonDataSourceService()
         {
             if(_datastore == null)
             {

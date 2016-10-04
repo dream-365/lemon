@@ -1,4 +1,5 @@
 ﻿using Lemon.Transform;
+using System.Threading.Tasks;
 
 namespace Demo001
 {
@@ -6,7 +7,7 @@ namespace Demo001
     {
         public override BsonDataRow Transform(BsonDataRow row)
         {
-            System.Threading.Thread.Sleep(3000);
+            Task.Delay(1000).Wait();
 
             return row;
         }

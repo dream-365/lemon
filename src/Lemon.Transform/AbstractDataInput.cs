@@ -1,42 +1,67 @@
 ﻿using Lemon.Transform.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
 
 namespace Lemon.Transform
 {
-    public abstract class AbstractDataInput : PipelineObject
+    public abstract class AbstractDataInput : LinkObject
     {
-        private ITargetBlock<DataRowTransformWrapper<BsonDataRow>> _targetBlock;
+        private BufferBlock<DataRowTransformWrapper<BsonDataRow>> _bufferBlock;
+
+        public AbstractDataInput()
+        {
+            _bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(new DataflowBlockOptions { BoundedCapacity = 5 });
+        }
 
         protected ParametersInfo PrametersInfo = new ParametersInfo();
 
-        public void LinkTo(LinkObject target)
-        {
-            _targetBlock = target.AsTarget();
-
-            Node.AddChildNode(target.Node);
-        }
 
         public void SetDefaultParameterValue(string name, object value)
         {
             PrametersInfo.SetParameterDefultValue(name, value);
         }
 
-        protected void Post(BsonDataRow row)
+        protected async Task<bool> SendAsync(BsonDataRow row)
         {
             Context.ProgressIndicator.Increment(Name);
 
-            _targetBlock.Post(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row });
+            Console.WriteLine("buffer_count: " + _bufferBlock.Count);
+
+            var result = await _bufferBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Success = true, Row = row });
+
+            Console.WriteLine("{0}-{1}", result, row.GetValue("id"));
+
+            return result;
+        }
+
+        public override Task Compltetion
+        {
+            get
+            {
+                return _bufferBlock.Completion;
+            }
         }
 
         /// <summary>
-        /// singal the completion of data input
+        /// signal complete
         /// </summary>
-        protected void Complete()
+        public void Complete ()
         {
-            _targetBlock.Complete();
+            _bufferBlock.Complete();
         }
 
-        public abstract void Start(IDictionary<string, object> parameters = null);
+        internal override ISourceBlock<DataRowTransformWrapper<BsonDataRow>> AsSource()
+        {
+            return _bufferBlock as ISourceBlock<DataRowTransformWrapper<BsonDataRow>>;
+        }
+
+        internal override ITargetBlock<DataRowTransformWrapper<BsonDataRow>> AsTarget()
+        {
+            return _bufferBlock as ITargetBlock<DataRowTransformWrapper<BsonDataRow>>;
+        }
+
+        public abstract Task StartAsync(IDictionary<string, object> parameters = null);
     }
 }

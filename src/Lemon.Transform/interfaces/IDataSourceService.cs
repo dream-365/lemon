@@ -1,6 +1,6 @@
 ﻿namespace Lemon.Transform
 {
-    public interface IDataSourcesRepository
+    public interface IDataSourceService
     {
         DataInputModel GetDataInput(string name);
 

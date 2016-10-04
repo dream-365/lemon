@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Transform", "Lemon.Transform\Lemon.Transform.csproj", "{1A0E7840-4D1D-4226-8931-C1DAEDEAE0D5}"
 EndProject
@@ -11,9 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Transform.Tests", "Le
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{536E12EC-EDE1-46B3-A595-F877CA6F1D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo001", "Demo001\Demo001.csproj", "{7D11A52B-865A-4969-8ED9-E2E047574770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LemonDemo", "Demo001\LemonDemo.csproj", "{7D11A52B-865A-4969-8ED9-E2E047574770}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.Transform.Extension", "Lemon.Transform.Extension\Lemon.Transform.Extension.csproj", "{768FFF5D-2692-49CA-87B7-D1FC71926157}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataFlowDemo", "DataFlowDemo\DataFlowDemo.csproj", "{B12BBD40-871C-4905-BB72-A50F42F2A6C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{768FFF5D-2692-49CA-87B7-D1FC71926157}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12BBD40-871C-4905-BB72-A50F42F2A6C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +50,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D9B686B8-2CA8-4DD3-A42A-0B1D323D6EF6} = {C622153A-F255-4487-8B1E-F879A2E9C258}
 		{7D11A52B-865A-4969-8ED9-E2E047574770} = {536E12EC-EDE1-46B3-A595-F877CA6F1D82}
+		{B12BBD40-871C-4905-BB72-A50F42F2A6C7} = {536E12EC-EDE1-46B3-A595-F877CA6F1D82}
 	EndGlobalSection
 EndGlobal

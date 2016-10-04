@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks.Dataflow;
+using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -12,15 +13,42 @@ namespace Lemon.Transform
     {
         private LinkObject _sourceLinkObject;
 
-        private IList<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>> _targets;
-
-        private bool _linkInitialized = false;
-
         public LinkObjectRouter(LinkObject sourceLinkObject)
         {
             _sourceLinkObject = sourceLinkObject;
+        }
 
-            _targets = new List<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>>();
+        public void BroadCast(params LinkObject[] linkObjects)
+        {
+            var targets = linkObjects.Select(m => m.AsTarget());
+
+            var actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(async item => {
+                foreach(var target in targets)
+                {
+                    await target.SendAsync(item);
+                }
+            }, new ExecutionDataflowBlockOptions
+            {
+                BoundedCapacity = ExecutionDataflowBlockOptions.Unbounded
+            });
+
+            _sourceLinkObject.AsSource().LinkTo(actionBlock);
+
+            _sourceLinkObject.AsSource().Completion.ContinueWith(task => {
+                actionBlock.Complete();
+            });
+
+            actionBlock.Completion.ContinueWith(task => {
+                foreach (var linkObject in linkObjects)
+                {
+                    linkObject.AsTarget().Complete();
+                }
+            });
+
+            foreach(var linkObject in linkObjects)
+            {
+                _sourceLinkObject.Node.AddChildNode(linkObject.Node);
+            }
         }
 
         /// <summary>
@@ -30,13 +58,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public LinkObjectRouter SuccessTo(LinkObject linkObject)
         {
-            InitializeLink();
-
             var target = linkObject.AsTarget();
 
             _sourceLinkObject.AsSource().LinkTo(target, data => data.Success);
-
-            _targets.Add(target);
 
             _sourceLinkObject.Node.AddChildNode(linkObject.Node);
 
@@ -51,13 +75,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public LinkObjectRouter SuccessTo(LinkObject linkObject, Predicate<BsonDataRow> predicate)
         {
-            InitializeLink();
-
             var target = linkObject.AsTarget();
 
-            _sourceLinkObject.AsSource().LinkTo(target, data => data.Success && predicate(data.Row));
-
-            _targets.Add(target);
+            _sourceLinkObject.AsSource().LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true }, data => data.Success && predicate(data.Row));
 
             _sourceLinkObject.Node.AddChildNode(linkObject.Node);
 
@@ -71,13 +91,9 @@ namespace Lemon.Transform
         /// <returns></returns>
         public LinkObjectRouter ErrorTo(LinkObject linkObject)
         {
-            InitializeLink();
-
             var target = linkObject.AsTarget();
 
             _sourceLinkObject.AsSource().LinkTo(target, data => !data.Success);
-
-            _targets.Add(target);
 
             _sourceLinkObject.Node.AddChildNode(linkObject.Node);
 
@@ -91,38 +107,6 @@ namespace Lemon.Transform
         public void End()
         {
             _sourceLinkObject.AsSource().LinkTo(DataflowBlock.NullTarget<DataRowTransformWrapper<BsonDataRow>>());
-        }
-
-        /// <summary>
-        /// bind the on complete event
-        /// </summary>
-        private void InitializeLink()
-        {
-            if (_linkInitialized)
-            {
-                return;
-            }
-
-            try
-            {
-                if (_sourceLinkObject == null)
-                {
-                    return;
-                }
-
-                _sourceLinkObject.AsSource().Completion.ContinueWith(t => {
-                    foreach (var target in _targets)
-                    {
-                        target.Complete();
-                    }
-                });
-
-                _linkInitialized = true;
-            }
-            catch (System.NotSupportedException)
-            {
-                // if not support as source, skip the complete chain
-            }
         }
     }
 }

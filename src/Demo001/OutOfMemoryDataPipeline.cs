@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lemon.Transform;
+﻿using Lemon.Transform;
 
 namespace Demo001
 {
@@ -11,15 +6,15 @@ namespace Demo001
     {
         protected override AbstractDataInput OnCreate(PipelineContext context)
         {
-            var input = new InfiniteDataInput { Context = context };
-
-            var slowAction = new SlowAction { Context = context };
+            var input = new RandomDataInput(300000) { Context = context };
 
             var debug = new DebugOutput { Context = context };
 
-            input.LinkTo(slowAction);
+            var slowAction = context.Attach(new SlowAction());
 
-            slowAction.Link.SuccessTo(debug);
+            input.Link.SuccessTo(slowAction).End();
+
+            slowAction.Link.SuccessTo(debug).End();
 
             Waits(debug);
 

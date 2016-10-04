@@ -19,7 +19,9 @@ namespace Lemon.Transform
 
         public AbstractDataOutput()
         {
-            _actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(new Action<DataRowTransformWrapper<BsonDataRow>>(OnReceive));
+            _actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(new Action<DataRowTransformWrapper<BsonDataRow>>(OnReceive), new ExecutionDataflowBlockOptions {
+                BoundedCapacity = GlobalConfiguration.TransformConfiguration.BoundedCapacity ?? ExecutionDataflowBlockOptions.Unbounded
+            });
 
             BeforeWrite = Dummy;
 
@@ -80,8 +82,6 @@ namespace Lemon.Transform
 
             try
             {
-                LogService.Default.Info(string.Format("input: {0}", data.Row.ToString()));
-
                 if(DetermineWriteOrNot(data.Row))
                 {
                     BeforeWrite(data.Row);
@@ -99,10 +99,7 @@ namespace Lemon.Transform
             }
             catch (Exception ex)
             {
-                if(OnError != null)
-                {
-                    OnError(data.Row);
-                }
+                OnError(data.Row);
 
                 Context.ProgressIndicator.Increment(string.Format("{0}.error", Name));
 

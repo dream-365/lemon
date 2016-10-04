@@ -14,7 +14,7 @@ namespace Demo001
 
             var debug = new DebugOutput();
 
-            input.LinkTo(debug);
+            input.Link.SuccessTo(debug).End();
 
             Waits(debug);
 

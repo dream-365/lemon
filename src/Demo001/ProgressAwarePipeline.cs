@@ -17,13 +17,7 @@ namespace Demo001
 
             var output = context.IO.GetOutput("sql_data_output");
 
-            var broadCast = new BroadcastAction();
-
-            input.LinkTo(broadCast);
-
-            broadCast.Link.SuccessTo(debug);
-
-            broadCast.Link.SuccessTo(output);
+            input.Link.BroadCast(debug, output);
 
             Waits(output);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
@@ -91,7 +92,7 @@ namespace Lemon.Transform
         /// excute the data reader
         /// </summary>
         /// <param name="forEach"></param>
-        public void Excute(Action<BsonDataRow> forEach, IDictionary<string, object> parameters)
+        public async Task Excute(Func<BsonDataRow, Task<bool>> forEach, IDictionary<string, object> parameters)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -115,7 +116,7 @@ namespace Lemon.Transform
 
                 while (reader.Read())
                 {
-                    forEach(reader.GetDataRow());
+                    await forEach(reader.GetDataRow());
                 }
 
                 reader.Close();
@@ -126,9 +127,9 @@ namespace Lemon.Transform
         /// start the data reader with parameters
         /// </summary>
         /// <param name="parameters"></param>
-        public override void Start(IDictionary<string, object> parameters = null)
+        public override async Task StartAsync(IDictionary<string, object> parameters = null)
         {
-            Excute(Post, parameters);
+            await Excute(SendAsync, parameters);
 
             Complete();
         }
