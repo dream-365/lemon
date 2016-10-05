@@ -14,7 +14,7 @@ namespace Lemon.Transform
             _current = current;
         }
 
-        public TransformActionChain Next<TSource, TTarget>(ITransformBlock<TSource, TTarget> block)
+        public TransformActionChain Transform<TSource, TTarget>(ITransformBlock<TSource, TTarget> block)
         {
             var transformNode = new TransformNode<TSource, TTarget>
             {
@@ -44,7 +44,7 @@ namespace Lemon.Transform
             return this;
         }
 
-        public TransformActionChain NextToMany<TSource, TTarget>(ITransformManyBlock<TSource, TTarget> block)
+        public TransformActionChain TransformMany<TSource, TTarget>(ITransformManyBlock<TSource, TTarget> block)
         {
             var transformManyNode = new TransformManyNode<TSource, TTarget>
             {

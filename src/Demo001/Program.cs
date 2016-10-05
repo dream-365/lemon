@@ -24,7 +24,7 @@ namespace Demo001
             var writer2 = new ConsoleDataWriter<IDictionary<string, object>>("W2");
 
             pipeline.DataSource(new RandomDataReader(100))
-                    .Next(action1)
+                    .Transform(action1)
                     .Output(writer1);
 
             var exe = pipeline.Build();
