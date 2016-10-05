@@ -2,16 +2,19 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks;
+using Lemon.Transform.Exceptions;
 
 namespace Lemon.Transform.Tests
 {
     /// <summary>
-    /// Summary description for PipelineTest
+    /// Summary description for DataflowBlockReflectionWrapperTest
     /// </summary>
     [TestClass]
-    public class PipelineTest
+    public class DataflowBlockReflectionWrapperTest
     {
-        public PipelineTest()
+        public DataflowBlockReflectionWrapperTest()
         {
             //
             // TODO: Add constructor logic here
@@ -59,31 +62,27 @@ namespace Lemon.Transform.Tests
         #endregion
 
         [TestMethod]
-        public void BuildPipeline()
+        [ExpectedException(typeof(NotImplementedException))]
+        public void NonSourceBlockLinkTo()
         {
-            var pipeline = new Pipeline();
+            var actionBlock = new ActionBlock<int>((item) => { Task.Delay(100).Wait(); Console.WriteLine("action: {0}", item); }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
 
-            var action1 = new PrefixTransformBlock("a");
+            var wrapper = new DataflowBlockReflectionWrapper(actionBlock);
 
-            var action2 = new PrefixTransformBlock("b");
+            wrapper.LinkTo(new object(), null);
+        }
 
-            var action3 = new PrefixTransformBlock("c");
+        [TestMethod]
+        [ExpectedException(typeof(BlockLinkException))]
+        public void TypeMismatchLinkTo()
+        {
+            var bufferBlock = new BufferBlock<int>(new DataflowBlockOptions { BoundedCapacity = 100 });
 
-            var writer1 = new ConsoleDataWriter();
-            var writer2 = new ConsoleDataWriter();
+            var actionBlock = new ActionBlock<string>((item) => { Task.Delay(100).Wait(); Console.WriteLine("action: {0}", item); }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
 
-            var broadcast = pipeline.DataSource(new RandomDataReader())
-                    .Next(action1)
-                    .Next(action2)
-                    .Next(action3)
-                    .Broadcast();
+            var wrapper = new DataflowBlockReflectionWrapper(bufferBlock);
 
-            broadcast.Branch().Next(action1).Output(writer1);
-            broadcast.Branch().Next(action2).Output(writer2);
-
-            var exe = pipeline.Build();
-
-            exe.RunAsync(null).Wait();
+            wrapper.LinkTo(actionBlock, new DataflowLinkOptions {  PropagateCompletion = true } );
         }
     }
 }

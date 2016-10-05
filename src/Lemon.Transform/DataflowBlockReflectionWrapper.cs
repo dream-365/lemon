@@ -9,6 +9,8 @@ namespace Lemon.Transform
     {
         private const string TARGET_BLOCK_INTERFACE_NAME = "ITargetBlock";
 
+        private const string SOURCE_BLOCK_INTERFACE_NAME = "ISourceBlock";
+
         private object _block;
 
         private MethodExecutorBuilder.MethodExecutor _sendMethodExecutor;
@@ -25,9 +27,19 @@ namespace Lemon.Transform
 
         public IDisposable LinkTo(object targetBlock, DataflowLinkOptions options)
         {
-            if(targetBlock.GetType() == typeof(DataflowBlockReflectionWrapper))
+            if (targetBlock.GetType() == typeof(DataflowBlockReflectionWrapper))
             {
                 return LinkTo(targetBlock as DataflowBlockReflectionWrapper, options);
+            }
+
+            var sourceInterfaceType = _block.GetType()
+                .GetInterfaces()
+                .Where(m => m.Name.StartsWith(SOURCE_BLOCK_INTERFACE_NAME))
+                .FirstOrDefault();
+
+            if (sourceInterfaceType == null)
+            {
+                throw new NotImplementedException(string.Format("type {0} does not implemented {1} interface", _block.GetType(), SOURCE_BLOCK_INTERFACE_NAME));
             }
 
             var targetInterfaceType = targetBlock.GetType()
@@ -35,9 +47,18 @@ namespace Lemon.Transform
                                         .Where(m => m.Name.StartsWith(TARGET_BLOCK_INTERFACE_NAME))
                                         .FirstOrDefault();
 
-            if(targetInterfaceType == null)
+            if (targetInterfaceType == null)
             {
-                throw new ArgumentException("the target type does not implemented the ITargetBlock interface");
+                throw new NotImplementedException(string.Format("type {0} does not implemented {1} interface", targetBlock.GetType(), TARGET_BLOCK_INTERFACE_NAME));
+            }
+
+            var sourceRecordType = sourceInterfaceType.GetGenericArguments().FirstOrDefault();
+
+            var targetRecordType = targetInterfaceType.GetGenericArguments().FirstOrDefault();
+
+            if(sourceRecordType != targetRecordType)
+            {
+                throw new Exceptions.BlockLinkException(string.Format("can not link type {0} to type {1}", sourceRecordType, targetRecordType));
             }
 
             var method = _block.GetType().GetMethod("LinkTo", new Type[] { targetInterfaceType, typeof(DataflowLinkOptions) });
@@ -45,7 +66,6 @@ namespace Lemon.Transform
             return (IDisposable)method.Invoke(_block, new object[] { targetBlock, options });
         }
 
-        
         public Task<bool> SendAsync(object message)
         {
             if(_sendMethodExecutor == null)
@@ -66,5 +86,6 @@ namespace Lemon.Transform
         }
 
         public Task Completion { get { return _block.GetType().GetProperty("Completion").GetValue(_block) as Task; } }
+
     }
 }
