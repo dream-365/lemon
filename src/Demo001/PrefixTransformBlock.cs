@@ -1,9 +1,11 @@
 ﻿using Lemon.Transform;
 using Lemon.Transform.Models;
+using System.Collections.Generic;
+using System;
 
 namespace LemonDemo
 {
-    public class PrefixTransformBlock : ITransformBlock
+    public class PrefixTransformBlock : ITransformBlock<IDictionary<string, object>, IDictionary<string, object>>
     {
         private string _prefix;
 
@@ -12,19 +14,11 @@ namespace LemonDemo
             _prefix = prefix;
         }
 
-        public DataRowTransformWrapper<BsonDataRow> Transform(DataRowTransformWrapper<BsonDataRow> data)
+        public IDictionary<string, object> Transform(IDictionary<string, object> record)
         {
-            var prefix = data.Row.GetValue("prefix");
+            record["prefix"] = _prefix;
 
-            if(prefix == MongoDB.Bson.BsonNull.Value)
-            {
-                data.Row.SetValue("prefix", _prefix);
-            }else if(prefix.BsonType == MongoDB.Bson.BsonType.String)
-            {
-                data.Row.SetValue("prefix", _prefix + ":" + prefix.AsString);
-            }
-
-            return data;
+            return record;
         }
     }
 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Lemon.Transform
 {
-    public interface ITransformManyBlock
+    public interface ITransformManyBlock<TSource, TTarget>
     {
-        IEnumerable<DataRowTransformWrapper<BsonDataRow>> Transform(DataRowTransformWrapper<BsonDataRow> data);
+        IEnumerable<TTarget> Transform(TSource record);
     }
 }

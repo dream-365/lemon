@@ -1,46 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 namespace DataFlowDemo
 {
+
+    public interface ISouceNode
+    {
+        Type SourceType { get; }
+    }
+
+    public class Node<T> : ISouceNode
+    {
+        private Type _sourceType;
+
+        public Node()
+        {
+            _sourceType = typeof(T);
+        }
+
+        public Type SourceType
+        {
+            get
+            {
+                return _sourceType;
+            }
+        }
+    }
+
+
     class Program
     {
+        private delegate object LinkToExecutor(object instance, object[] parameters);
+
         static void Main(string[] args)
         {
-            var bufferBlock = new BufferBlock<int>(new DataflowBlockOptions { BoundedCapacity = 100 });
+            var node = new Node<int>();
 
-            var transformBlock = new TransformBlock<int, int>(item => { return item + 10000; }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
+            Type sourceType = typeof(ISouceNode).GetProperty("SourceType").GetValue(node) as Type;
 
-            var actionBlock = new ActionBlock<int>((item) => { Task.Delay(100).Wait(); Console.WriteLine("action: {0}", item); }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
+            var bufferBlockClass = typeof(BufferBlock<>).MakeGenericType(sourceType);
 
-            bufferBlock.LinkTo(transformBlock, new DataflowLinkOptions { PropagateCompletion = true });
+            var actionBlockClass = typeof(ActionBlock<>).MakeGenericType(sourceType);
 
-            transformBlock.LinkTo(actionBlock, new DataflowLinkOptions { PropagateCompletion = true });
+            // DataflowLinkOptions linkOptions
 
+            var sourceBlockType = typeof(ISourceBlock<>).MakeGenericType(sourceType);
 
-            //Task.Run(() => {
-            //    while (true)
-            //    {
-            //        int value = bufferBlock.Receive();
+            var targetBlockType = typeof(ITargetBlock<>).MakeGenericType(sourceType);
 
-            //        actionBlock.SendAsync(value).Wait();
-            //    }
-            //});
+            var bufferBlockInstance = Activator.CreateInstance(bufferBlockClass);
+
+            var actionBlockInstance = Activator.CreateInstance(actionBlockClass, new object [] {
+                new Action<int>((val)=> {
+                    Console.WriteLine(val);
+                })
+            });
+
+            var method = sourceBlockType.GetMethod("LinkTo", new Type[] { targetBlockType,  typeof(DataflowLinkOptions) } );
+
+            var sendAsyncMethod = typeof(DataflowBlock).GetMethods().Where(m => m.Name.Equals("SendAsync")).First();
+
+            sendAsyncMethod = sendAsyncMethod.MakeGenericMethod(sourceType);
+
+            var executor = MethodExecutorBuilder.Build(method);
+
+            var sendExecutor = MethodExecutorBuilder.Build(sendAsyncMethod);
+
+            executor(bufferBlockInstance, new[] { actionBlockInstance, new DataflowLinkOptions { PropagateCompletion = true } });
 
             for (int i = 0; i < 1000; i++)
             {
-                var success = bufferBlock.SendAsync(i).Result;
+                // var success = bufferBlock.SendAsync(i).Result;
 
-                Console.WriteLine(i + ":" + success);
+                var task = sendExecutor(null, new object[] { bufferBlockInstance, i }) as Task<bool>;
+
+                task.Wait();
             }
 
-            bufferBlock.Complete();
-
-            actionBlock.Completion.Wait();
+            System.Threading.Thread.Sleep(10000000);
         }
     }
 }

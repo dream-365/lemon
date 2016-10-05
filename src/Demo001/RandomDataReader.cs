@@ -1,8 +1,10 @@
 ﻿using Lemon.Transform;
+using System.Collections.Generic;
+using System;
 
 namespace LemonDemo
 {
-    public class RandomDataReader : IDataReader<BsonDataRow>
+    public class RandomDataReader : IDataReader<IDictionary<string, object>>
     {
         private bool _end = false;
 
@@ -10,28 +12,26 @@ namespace LemonDemo
 
         private long _max = int.MaxValue;
 
-        public bool End
-        {
-            get
-            {
-                return _end;
-            }
-        }
-
         public RandomDataReader(int max)
         {
             _max = max;
         }
 
-        public BsonDataRow Read()
+        public IDictionary<string, object> Read()
         {
-            var row = new BsonDataRow(new MongoDB.Bson.BsonDocument {
-                    {"id",  _index++}
-                });
+            var row = new Dictionary<string, object>
+            {
+                {"id", _index }
+            };
 
             _end = _index > _max;
 
             return row;
+        }
+
+        bool IDataReader<IDictionary<string, object>>.End()
+        {
+            return _end;
         }
     }
 }

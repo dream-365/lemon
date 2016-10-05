@@ -25,59 +25,136 @@ namespace Lemon.Transform
         public NodeType NodeType { get; protected set; }
     }
 
-    public class SourceNode : Node
+    public class DataSourceNode<TSource> : Node, ISource
     {
-        public SourceNode()
+        private Type _sourceType;
+
+        public DataSourceNode()
         {
             NodeType = NodeType.SourceNode;
+
+            _sourceType = typeof(TSource);
         }
 
-        public IDataReader<BsonDataRow> Reader { get; set; }
+        public IDataReader<TSource> Reader { get; set; }
 
         public Node Next { get; set; }
+
+        public Type SourceType
+        {
+            get
+            {
+                return _sourceType;
+            }
+        }
     }
 
-    public class TransformNode : Node
+    public class TransformNode<TSource, TTarget> : Node, ISource, ITarget
     {
+        private Type _souceType;
+
+        private Type _targetType;
+
         public TransformNode ()
         {
             NodeType = NodeType.TransformNode;
+
+            _souceType = typeof(TSource);
+
+            _targetType = typeof(TTarget);
         }
 
-        public Func<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>> Block;
+        public Func<TSource, TTarget> Block { get; set; }
+
+        public Func<TSource, TTarget> GetBlock()
+        {
+            return Block;
+        }
 
         public Node Prev { get; set; }
 
         public Node Next { get; set; }
+
+        public Type SourceType
+        {
+            get
+            {
+                return _souceType;
+            }
+        }
+
+        public Type TargetType
+        {
+            get
+            {
+                return _targetType;
+            }
+        }
     }
 
-    public class TransformManyNode : Node
+    public class TransformManyNode<TSource, TTarget> : Node, ISource, ITarget
     {
+        private Type _souceType;
+
+        private Type _targetType;
+
         public TransformManyNode()
         {
             NodeType = NodeType.TransformManyNode;
+
+            _souceType = typeof(TSource);
+
+            _targetType = typeof(TTarget);
         }
 
-        public Func<DataRowTransformWrapper<BsonDataRow>, IEnumerable<DataRowTransformWrapper<BsonDataRow>>> Block;
+        public Func<TSource, IEnumerable<TTarget>> Block;
 
         public Node Prev { get; set; }
 
         public Node Next { get; set; }
+
+        public Type SourceType
+        {
+            get
+            {
+                return _souceType;
+            }
+        }
+
+        public Type TargetType
+        {
+            get
+            {
+                return _targetType;
+            }
+        }
     }
 
-    public class ActionNode : Node
+    public class ActionNode<TTarget> : Node, ITarget
     {
+        private Type _targetType;
+
         public Node Prev { get; set; }
 
         public ActionNode ()
         {
             NodeType = NodeType.ActionNode;
+
+            _targetType = typeof(TTarget);
         }
 
-        public IDataWriter<BsonDataRow> Writer { get; set; }
+        public Action<TTarget> Write { get; set; }
+
+        public Type TargetType
+        {
+            get
+            {
+                return _targetType;
+            }
+        }
     }
 
-    public class BroadCastNode : Node
+    public class BroadCastNode : Node, IBroadCast
     {
         private IList<Node> _nodes;
 
@@ -95,6 +172,12 @@ namespace Lemon.Transform
 
         public Node Prev { get; set; }
 
-        public IEnumerable<Node> ChildNodes { get { return _nodes; } }
+        public IEnumerable<Node> ChildNode
+        {
+            get
+            {
+                return _nodes;
+            }
+        }
     }
 }

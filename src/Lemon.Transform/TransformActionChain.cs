@@ -14,31 +14,24 @@ namespace Lemon.Transform
             _current = current;
         }
 
-        public TransformActionChain Next(ITransformBlock block)
+        public TransformActionChain Next<TSource, TTarget>(ITransformBlock<TSource, TTarget> block)
         {
-            var transformNode = new TransformNode
+            var transformNode = new TransformNode<TSource, TTarget>
             {
                 Block = block.Transform
             };
 
-            if (_current.NodeType == NodeType.SourceNode)
+            if (_current.NodeType == NodeType.SourceNode ||
+                _current.NodeType == NodeType.TransformNode ||
+                _current.NodeType == NodeType.TransformManyNode
+                )
             {
-                (_current as SourceNode).Next = transformNode;
-                transformNode.Prev = _current;
-            }
-            else if (_current.NodeType == NodeType.TransformNode)
-            {
-                (_current as TransformNode).Next = transformNode;
-                transformNode.Prev = _current;
-            }
-            else if (_current.NodeType == NodeType.TransformManyNode)
-            {
-                (_current as TransformManyNode).Next = transformNode;
+                (_current as ISource).Next = transformNode;
                 transformNode.Prev = _current;
             }
             else if (_current.NodeType == NodeType.BroadCastNode)
             {
-                (_current as BroadCastNode).AddChild(transformNode);
+                (_current as IBroadCast).AddChild(transformNode);
                 transformNode.Prev = _current;
             }
             else
@@ -51,31 +44,23 @@ namespace Lemon.Transform
             return this;
         }
 
-        public TransformActionChain NextToMany(ITransformManyBlock block)
+        public TransformActionChain NextToMany<TSource, TTarget>(ITransformManyBlock<TSource, TTarget> block)
         {
-            var transformManyNode = new TransformManyNode
+            var transformManyNode = new TransformManyNode<TSource, TTarget>
             {
                 Block = block.Transform
             };
 
-            if (_current.NodeType == NodeType.SourceNode)
+            if (_current.NodeType == NodeType.SourceNode ||
+                _current.NodeType == NodeType.TransformNode ||
+                _current.NodeType == NodeType.TransformManyNode)
             {
-                (_current as SourceNode).Next = transformManyNode;
-                transformManyNode.Prev = _current;
-            }
-            else if (_current.NodeType == NodeType.TransformNode)
-            {
-                (_current as TransformNode).Next = transformManyNode;
-                transformManyNode.Prev = _current;
-            }
-            else if (_current.NodeType == NodeType.TransformManyNode)
-            {
-                (_current as TransformManyNode).Next = transformManyNode;
+                (_current as ISource).Next = transformManyNode;
                 transformManyNode.Prev = _current;
             }
             else if (_current.NodeType == NodeType.BroadCastNode)
             {
-                (_current as BroadCastNode).AddChild(transformManyNode);
+                (_current as IBroadCast).AddChild(transformManyNode);
                 transformManyNode.Prev = _current;
             }
             else
@@ -92,18 +77,11 @@ namespace Lemon.Transform
         {
             var broadCastNode = new BroadCastNode();
 
-            if (_current.NodeType == NodeType.SourceNode)
+            if (_current.NodeType == NodeType.SourceNode || 
+                _current.NodeType == NodeType.TransformNode ||
+                _current.NodeType == NodeType.TransformManyNode)
             {
-                (_current as SourceNode).Next = broadCastNode;
-            }
-            else if (_current.NodeType == NodeType.TransformNode)
-            {
-                (_current as TransformNode).Next = broadCastNode;
-                broadCastNode.Prev = _current;
-            }
-            else if (_current.NodeType == NodeType.TransformManyNode)
-            {
-                (_current as TransformManyNode).Next = broadCastNode;
+                (_current as ISource).Next = broadCastNode;
                 broadCastNode.Prev = _current;
             }
             else
@@ -114,28 +92,22 @@ namespace Lemon.Transform
             return new BroadCastActionChain(broadCastNode);
         }
 
-        public void Output(IDataWriter<BsonDataRow> writer)
+        public void Output<TTarget>(IDataWriter<TTarget> writer)
         {
-            var actionNode = new ActionNode
+            var actionNode = new ActionNode<TTarget>
             {
-                Writer = writer
+                Write = writer.Write
             };
 
-            if (_current.NodeType == NodeType.SourceNode)
+            if (_current.NodeType == NodeType.SourceNode ||
+                _current.NodeType == NodeType.TransformNode ||
+                _current.NodeType == NodeType.TransformManyNode)
             {
-                (_current as SourceNode).Next = actionNode;
-            }
-            else if (_current.NodeType == NodeType.TransformNode)
-            {
-                (_current as TransformNode).Next = actionNode;
-            }
-            else if (_current.NodeType == NodeType.TransformManyNode)
-            {
-                (_current as TransformManyNode).Next = actionNode;
+                (_current as ISource).Next = actionNode;
             }
             else if (_current.NodeType == NodeType.BroadCastNode)
             {
-                (_current as BroadCastNode).AddChild(actionNode);
+                (_current as IBroadCast).AddChild(actionNode);
             }
             else
             {

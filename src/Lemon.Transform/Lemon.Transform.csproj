@@ -38,28 +38,8 @@
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.2.3.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.2.3\lib\net45\MongoDB.Bson.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.2.3.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.2.3\lib\net45\MongoDB.Driver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.2.3.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.2.3\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -81,12 +61,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockBuilder.cs" />
     <Compile Include="BroadCastActionChain.cs" />
-    <Compile Include="CastUtil.cs" />
     <Compile Include="Execution.cs" />
-    <Compile Include="IDataWriter.cs" />
-    <Compile Include="IDataReader.cs" />
+    <Compile Include="interfaces\IDataWriter.cs" />
+    <Compile Include="interfaces\IDataReader.cs" />
+    <Compile Include="interfaces\IBroadCast.cs" />
     <Compile Include="interfaces\IExecute.cs" />
+    <Compile Include="interfaces\ISource.cs" />
+    <Compile Include="interfaces\ITarget.cs" />
+    <Compile Include="MethodExecutorBuilder.cs" />
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\DataTableSchema.cs" />
@@ -108,7 +92,6 @@
     <Compile Include="TransformActionChain.cs" />
     <Compile Include="TransformBlock.cs" />
     <Compile Include="TransformConfiguration.cs" />
-    <Compile Include="BsonDataRow.cs" />
     <Compile Include="Models\DataInputModel.cs" />
     <Compile Include="Models\DataOutputModel.cs" />
     <Compile Include="Models\NamedParameterObjectModel.cs" />

@@ -2,8 +2,8 @@
 
 namespace Lemon.Transform
 {
-    public interface ITransformBlock
+    public interface ITransformBlock<ISource, ITarget>
     {
-        DataRowTransformWrapper<BsonDataRow> Transform(DataRowTransformWrapper<BsonDataRow> data);
+        ITarget Transform(ISource record);
     }
 }

@@ -72,7 +72,7 @@ namespace Lemon.Transform.Tests
             var writer1 = new ConsoleDataWriter();
             var writer2 = new ConsoleDataWriter();
 
-            var broadcast = pipeline.Source(new RandomDataReader())
+            var broadcast = pipeline.DataSource(new RandomDataReader())
                     .Next(action1)
                     .Next(action2)
                     .Next(action3)

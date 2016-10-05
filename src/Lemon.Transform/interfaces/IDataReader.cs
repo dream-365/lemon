@@ -4,6 +4,6 @@
     {
         TRecord Read();
 
-        bool End { get; }
+        bool End();
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -12,15 +13,16 @@ namespace Lemon.Transform
 
         public int BoundedCapacity { get; set; }
 
-        public TransformActionChain Source(IDataReader<BsonDataRow> reader)
+        public TransformActionChain DataSource<TSource>(IDataReader<TSource> reader)
         {
-            _root = new SourceNode
+            _root = new DataSourceNode<TSource>
             {
                 Reader = reader
             };
 
             return new TransformActionChain(_root);
         }
+
 
         public IExecute Build()
         {
@@ -29,27 +31,43 @@ namespace Lemon.Transform
                 throw new Exception("the root node must be source node");
             }
 
-            var sourceNode = _root as SourceNode;
+            var reader = _root.GetType().GetProperty("Reader").GetValue(_root);
 
-            var bufferBlock = new BufferBlock<DataRowTransformWrapper<BsonDataRow>>(new DataflowBlockOptions { BoundedCapacity = BoundedCapacity });
+            var sourceNode = _root as ISource;
+
+            var readerInterface = typeof(IDataReader<>).MakeGenericType(sourceNode.SourceType);
+
+            var sendAsyncMethod = typeof(DataflowBlock).GetMethods().Where(m => m.Name.Equals("SendAsync")).First();
+
+            sendAsyncMethod = sendAsyncMethod.MakeGenericMethod(sourceNode.SourceType);
+
+            var readMethodExecutor = MethodExecutorBuilder.Build(readerInterface.GetMethod("Read"));
+
+            var endMethodExecutor = MethodExecutorBuilder.Build(readerInterface.GetMethod("End"));
+
+            var sendMethodExecutor = MethodExecutorBuilder.Build(sendAsyncMethod);
+
+            var bufferBlock = BlockBuilder.CreateBufferBlock(sourceNode.SourceType, new DataflowBlockOptions { BoundedCapacity = BoundedCapacity });
 
             var tasks = new List<Task>();
 
             var target = BuildTargetBlock(sourceNode.Next, tasks);
 
-            bufferBlock.LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true }, m => m.Success);
+            var targetBlockType = typeof(ITargetBlock<>).MakeGenericType(sourceNode.SourceType);
 
-            var reader = sourceNode.Reader;
+            var linkTomethod = bufferBlock.GetType().GetMethod("LinkTo", new Type[] { targetBlockType, typeof(DataflowLinkOptions) });
+
+            linkTomethod.Invoke(bufferBlock, new object[] { target, new DataflowLinkOptions { PropagateCompletion = true } });
 
             return new Execution(async (parameters) => {
-                while (!reader.End)
+                while (!(bool)endMethodExecutor(reader, new object[] { }))
                 {
-                    var row = reader.Read();
+                    var row = readMethodExecutor(reader, new object[] { });
 
-                    await bufferBlock.SendAsync(new DataRowTransformWrapper<BsonDataRow> { Row = row, Success = true });
+                    Task<bool> task = (Task<bool>)sendMethodExecutor(null, new object[] { bufferBlock, row });
+
+                    task.Wait();
                 }
-
-                bufferBlock.Complete();
 
                 await Task.Run(() =>
                 {
@@ -62,76 +80,56 @@ namespace Lemon.Transform
             });
         }
 
-        private ITargetBlock<DataRowTransformWrapper<BsonDataRow>> BuildTargetBlock(Node node, IList<Task> tasks)
+        private object BuildTargetBlock(Node node, IList<Task> tasks)
         {
             var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
 
-            var executionOptions = new ExecutionDataflowBlockOptions
+            var executionOptions = new DataflowBlockOptions
             {
                 BoundedCapacity = BoundedCapacity
             };
 
             if(node.NodeType == NodeType.ActionNode)
             {
-                var actionNode = node as ActionNode;
+                var target = node as ITarget;
 
-                var actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(item => actionNode.Writer.Write(item.Row), executionOptions);
+                var nodeClass = typeof(ActionNode<>).MakeGenericType(target.TargetType);
 
-                tasks.Add(actionBlock.Completion);
+                var actionBlockClass = typeof(ActionBlock<>).MakeGenericType(target.TargetType);
+
+                var writeFunc = nodeClass.GetProperty("Write").GetValue(node);
+
+                var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, writeFunc, new ExecutionDataflowBlockOptions {  BoundedCapacity = executionOptions.BoundedCapacity});
+
+                var completion = actionBlockClass.GetProperty("Completion").GetValue(actionBlock) as Task;
+
+                tasks.Add(completion);
 
                 return actionBlock;
             }
             else if (node.NodeType == NodeType.TransformNode)
             {
-                var transformNode = node as TransformNode;
+                var source = node as ISource;
 
-                var transformBlock = new TransformBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transformNode.Block, executionOptions);
+                var target = node as ITarget;
 
-                var next = BuildTargetBlock(transformNode.Next, tasks);
+                var nodeClass = typeof(TransformNode<,>).MakeGenericType(source.SourceType, target.TargetType);
 
-                transformBlock.LinkTo(next, linkOptions, m => m.Success);
+                var transformFunc = nodeClass.GetProperty("Block").GetValue(node);
+
+                var transformBlock = BlockBuilder.CreateTransformBlock(source.SourceType, target.TargetType, transformFunc, new ExecutionDataflowBlockOptions {  BoundedCapacity = executionOptions.BoundedCapacity });
+
+                var targetBlock = BuildTargetBlock(source.Next, tasks);
+
+                var targetBlockType = typeof(ITargetBlock<>).MakeGenericType(target.TargetType);
+
+                var linkTomethod = transformBlock.GetType().GetMethod("LinkTo", new Type[] { targetBlockType, typeof(DataflowLinkOptions) });
+
+                linkTomethod.Invoke(transformBlock, new object[] { targetBlock, new DataflowLinkOptions { PropagateCompletion = true } });
 
                 return transformBlock;
             }
-            else if (node.NodeType == NodeType.TransformManyNode)
-            {
-                var transformManyNode = node as TransformManyNode;
-
-                var transformManyBlock = new TransformManyBlock<DataRowTransformWrapper<BsonDataRow>, DataRowTransformWrapper<BsonDataRow>>(transformManyNode.Block, executionOptions);
-
-                var next = BuildTargetBlock(transformManyNode.Next, tasks);
-
-                transformManyBlock.LinkTo(next, linkOptions, m => m.Success);
-
-                return transformManyBlock;
-            }
-            else if (node.NodeType == NodeType.BroadCastNode)
-            {
-                var broadcastNode = node as BroadCastNode;
-
-                IList<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>> targets = new List<ITargetBlock<DataRowTransformWrapper<BsonDataRow>>>(); 
-
-                foreach(var childNode in broadcastNode.ChildNodes)
-                {
-                    targets.Add(BuildTargetBlock(childNode, tasks));
-                }
-
-                var actionBlock = new ActionBlock<DataRowTransformWrapper<BsonDataRow>>(async item => {
-                    foreach (var target in targets)
-                    {
-                        await target.SendAsync(item);
-                    }
-                }, executionOptions);
-
-                actionBlock.Completion.ContinueWith(task => {
-                    foreach (var target in targets)
-                    {
-                        target.Complete();
-                    }
-                });
-
-                return actionBlock;
-            } else
+             else
             {
                 throw new Exception("the node type does not support buidling target block");
             }
