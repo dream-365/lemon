@@ -154,13 +154,17 @@ namespace Lemon.Transform
         }
     }
 
-    public class BroadCastNode : Node, IBroadCast
+    public class BroadCastNode<TTarget> : Node, IBroadCast, ITarget
     {
         private IList<Node> _nodes;
+
+        private Type _targetType;
 
         public BroadCastNode()
         {
             NodeType = NodeType.BroadCastNode;
+
+            _targetType = typeof(TTarget);
 
             _nodes = new List<Node>();
         }
@@ -172,11 +176,19 @@ namespace Lemon.Transform
 
         public Node Prev { get; set; }
 
-        public IEnumerable<Node> ChildNode
+        public IEnumerable<Node> ChildrenNodes
         {
             get
             {
                 return _nodes;
+            }
+        }
+
+        public Type TargetType
+        {
+            get
+            {
+                return _targetType;
             }
         }
     }

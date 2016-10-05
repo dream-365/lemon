@@ -72,6 +72,7 @@
     <Compile Include="interfaces\IExecute.cs" />
     <Compile Include="interfaces\ISource.cs" />
     <Compile Include="interfaces\ITarget.cs" />
+    <Compile Include="MessageDispatchBlock.cs" />
     <Compile Include="MethodExecutorBuilder.cs" />
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />

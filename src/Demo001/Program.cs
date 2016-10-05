@@ -23,26 +23,16 @@ namespace Demo001
             var writer1 = new ConsoleDataWriter<int>("W1", 100);
             var writer2 = new ConsoleDataWriter<int>("W2");
 
-            pipeline.DataSource(new RandomDataReader(100))
+            var broadcast = pipeline.DataSource(new RandomDataReader(100))
                     .Transform(action1)
-                    .Output(writer1);
+                    .Broadcast();
+
+            broadcast.Branch().Output(writer1);
+            broadcast.Branch().Output(writer2);
 
             var exe = pipeline.Build();
 
             exe.RunAsync(null).Wait();
-
-            //.Next(action1)
-            //.Next(action2)
-            //.Next(action3)
-            //.Output(writer1);
-
-
-            // broadcast.Branch().Next(action1).Output(writer1);
-            // broadcast.Branch().Next(action2).Output(writer2);
-
-            // var exe = pipeline.Build();
-
-            // exe.RunAsync(null).Wait();
         }
     }
 }

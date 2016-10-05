@@ -15,9 +15,15 @@ namespace Lemon.Transform
 
         private MethodExecutorBuilder.MethodExecutor _sendMethodExecutor;
 
-        public DataflowBlockReflectionWrapper(object block)
+        public DataflowBlockReflectionWrapper(object obj)
         {
-            _block = block;
+            if (obj.GetType() == typeof(DataflowBlockReflectionWrapper))
+            {
+                _block = (obj as DataflowBlockReflectionWrapper)._block;
+            } else
+            {
+                _block = obj;
+            }
         }
 
         public IDisposable LinkTo(DataflowBlockReflectionWrapper targetBlock, DataflowLinkOptions options)
@@ -83,6 +89,8 @@ namespace Lemon.Transform
         public void Complete()
         {
             var method = _block.GetType().GetMethod("Complete");
+
+            method.Invoke(_block, new object[] { });
         }
 
         public Task Completion { get { return _block.GetType().GetProperty("Completion").GetValue(_block) as Task; } }

@@ -18,7 +18,7 @@ namespace LemonDemo
 
         public void Write(TRecord record)
         {
-            Console.WriteLine(record);
+            Console.WriteLine("{0}:{1}", _name, record);
         }
     }
 }

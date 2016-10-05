@@ -10,6 +10,6 @@ namespace Lemon.Transform
     {
         void AddChild(Node node);
 
-        IEnumerable<Node> ChildNode { get; }
+        IEnumerable<Node> ChildrenNodes { get; }
     }
 }

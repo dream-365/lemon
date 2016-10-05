@@ -1,9 +1,7 @@
-﻿using Lemon.Transform.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using System.Linq;
 
 namespace Lemon.Transform
 {
@@ -13,14 +11,14 @@ namespace Lemon.Transform
 
         public int BoundedCapacity { get; set; }
 
-        public TransformActionChain DataSource<TSource>(IDataReader<TSource> reader)
+        public TransformActionChain<TSource> DataSource<TSource>(IDataReader<TSource> reader)
         {
             _root = new DataSourceNode<TSource>
             {
                 Reader = reader
             };
 
-            return new TransformActionChain(_root);
+            return new TransformActionChain<TSource>(_root);
         }
 
 
@@ -51,6 +49,8 @@ namespace Lemon.Transform
                     await bufferBlock.SendAsync(row);
                 }
 
+                bufferBlock.Complete();
+
                 await Task.Run(() =>
                 {
                     Task.WaitAll(tasks.ToArray());
@@ -66,7 +66,7 @@ namespace Lemon.Transform
         {
             var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
 
-            var executionOptions = new DataflowBlockOptions
+            var executionOptions = new ExecutionDataflowBlockOptions
             {
                 BoundedCapacity = BoundedCapacity
             };
@@ -81,11 +81,41 @@ namespace Lemon.Transform
 
                 var writeFunc = nodeClass.GetProperty("Write").GetValue(node);
 
-                var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, writeFunc, new ExecutionDataflowBlockOptions {  BoundedCapacity = executionOptions.BoundedCapacity});
+                var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, writeFunc, executionOptions);
 
                 tasks.Add(actionBlock.Completion);
 
                 return actionBlock;
+            }
+            else if(node.NodeType == NodeType.BroadCastNode)
+            {
+                var broadcast = node as IBroadCast;
+
+                var target = node as ITarget;
+
+                IList<DataflowBlockReflectionWrapper> targets = new List<DataflowBlockReflectionWrapper>();
+
+                foreach(var childrenNode in broadcast.ChildrenNodes)
+                {
+                    targets.Add(new DataflowBlockReflectionWrapper(BuildTargetBlock(childrenNode, tasks)));
+                }
+
+                var dispatcherType = typeof(MessageDispatchBlock<>).MakeGenericType(target.TargetType);
+
+                var dispatcher = Activator.CreateInstance(dispatcherType, new object[] { targets  });
+
+                var dispatch = dispatcherType.GetProperty("Dispatch").GetValue(dispatcher);
+
+                var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, dispatch, executionOptions);
+
+                actionBlock.Completion.ContinueWith(task => {
+                    foreach (var targetBlock in targets)
+                    {
+                        targetBlock.Complete();
+                    }
+                });
+
+                return actionBlock; 
             }
             else if (node.NodeType == NodeType.TransformNode)
             {
@@ -97,11 +127,11 @@ namespace Lemon.Transform
 
                 var transformFunc = nodeClass.GetProperty("Block").GetValue(node);
 
-                var transformBlock = BlockBuilder.CreateTransformBlock(source.SourceType, target.TargetType, transformFunc, new ExecutionDataflowBlockOptions {  BoundedCapacity = executionOptions.BoundedCapacity });
+                var transformBlock = BlockBuilder.CreateTransformBlock(source.SourceType, target.TargetType, transformFunc, executionOptions);
 
                 var targetBlock = BuildTargetBlock(source.Next, tasks);
 
-                transformBlock.LinkTo(targetBlock, new DataflowLinkOptions { PropagateCompletion = true });
+                transformBlock.LinkTo(targetBlock, linkOptions);
 
                 return transformBlock;
             }

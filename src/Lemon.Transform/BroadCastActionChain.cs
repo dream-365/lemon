@@ -1,22 +1,17 @@
-﻿using Lemon.Transform.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks.Dataflow;
-
-namespace Lemon.Transform
+﻿namespace Lemon.Transform
 {
-    public class BroadCastActionChain
+    public class BroadCastActionChain<T>
     {
-        private BroadCastNode _node;
+        private BroadCastNode<T> _node;
 
-        public BroadCastActionChain(BroadCastNode node)
+        public BroadCastActionChain(BroadCastNode<T> node)
         {
             _node = node;
         }
 
-        public TransformActionChain Branch()
+        public TransformActionChain<T> Branch()
         {
-            return new TransformActionChain(_node);
+            return new TransformActionChain<T>(_node);
         }
     }
 }

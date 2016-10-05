@@ -5,7 +5,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Lemon.Transform
 {
-    public class TransformActionChain
+    public class TransformActionChain<TSource>
     {
         private Node _current;
 
@@ -14,13 +14,13 @@ namespace Lemon.Transform
             _current = current;
         }
 
-        public TransformActionChain Transform<TSource, TTarget>(ITransformBlock<TSource, TTarget> block)
+        public TransformActionChain<TTarget> Transform<TTarget>(ITransformBlock<TSource, TTarget> block)
         {
             var transformNode = new TransformNode<TSource, TTarget>
             {
                 Block = block.Transform
             };
-
+            
             if (_current.NodeType == NodeType.SourceNode ||
                 _current.NodeType == NodeType.TransformNode ||
                 _current.NodeType == NodeType.TransformManyNode
@@ -39,12 +39,10 @@ namespace Lemon.Transform
                 throw new Exception("Node type does not support next");
             }
 
-            _current = transformNode;
-
-            return this;
+            return new TransformActionChain<TTarget>(transformNode);
         }
 
-        public TransformActionChain TransformMany<TSource, TTarget>(ITransformManyBlock<TSource, TTarget> block)
+        public TransformActionChain<TTarget> TransformMany<TTarget>(ITransformManyBlock<TSource, TTarget> block)
         {
             var transformManyNode = new TransformManyNode<TSource, TTarget>
             {
@@ -68,14 +66,12 @@ namespace Lemon.Transform
                 throw new Exception("Node type does not support next");
             }
 
-            _current = transformManyNode;
-
-            return this;
+            return new TransformActionChain<TTarget>(_current);
         }
 
-        public BroadCastActionChain Broadcast()
+        public BroadCastActionChain<TSource> Broadcast()
         {
-            var broadCastNode = new BroadCastNode();
+            var broadCastNode = new BroadCastNode<TSource>();
 
             if (_current.NodeType == NodeType.SourceNode || 
                 _current.NodeType == NodeType.TransformNode ||
@@ -89,12 +85,12 @@ namespace Lemon.Transform
                 throw new Exception("Node type does not support broadcast");
             }
 
-            return new BroadCastActionChain(broadCastNode);
+            return new BroadCastActionChain<TSource>(broadCastNode);
         }
 
-        public void Output<TTarget>(IDataWriter<TTarget> writer)
+        public void Output(IDataWriter<TSource> writer)
         {
-            var actionNode = new ActionNode<TTarget>
+            var actionNode = new ActionNode<TSource>
             {
                 Write = writer.Write
             };
