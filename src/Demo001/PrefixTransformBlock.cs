@@ -5,7 +5,7 @@ using System;
 
 namespace LemonDemo
 {
-    public class PrefixTransformBlock : ITransformBlock<IDictionary<string, object>, IDictionary<string, object>>
+    public class PrefixTransformBlock : ITransformBlock<int, int>
     {
         private string _prefix;
 
@@ -14,11 +14,9 @@ namespace LemonDemo
             _prefix = prefix;
         }
 
-        public IDictionary<string, object> Transform(IDictionary<string, object> record)
+        public int Transform(int record)
         {
-            record["prefix"] = _prefix;
-
-            return record;
+            return record + 100000;
         }
     }
 }

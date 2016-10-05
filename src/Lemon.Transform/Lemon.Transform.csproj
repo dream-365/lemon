@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="BlockBuilder.cs" />
     <Compile Include="BroadCastActionChain.cs" />
+    <Compile Include="DataflowBlockReflectionWrapper.cs" />
     <Compile Include="Execution.cs" />
     <Compile Include="interfaces\IDataWriter.cs" />
     <Compile Include="interfaces\IDataReader.cs" />

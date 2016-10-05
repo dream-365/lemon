@@ -36,7 +36,7 @@ namespace Lemon.Transform
             _sourceType = typeof(TSource);
         }
 
-        public IDataReader<TSource> Reader { get; set; }
+        public IDataReader Reader { get; set; }
 
         public Node Next { get; set; }
 

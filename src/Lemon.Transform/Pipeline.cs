@@ -31,21 +31,9 @@ namespace Lemon.Transform
                 throw new Exception("the root node must be source node");
             }
 
-            var reader = _root.GetType().GetProperty("Reader").GetValue(_root);
+            var reader = _root.GetType().GetProperty("Reader").GetValue(_root) as IDataReader;
 
             var sourceNode = _root as ISource;
-
-            var readerInterface = typeof(IDataReader<>).MakeGenericType(sourceNode.SourceType);
-
-            var sendAsyncMethod = typeof(DataflowBlock).GetMethods().Where(m => m.Name.Equals("SendAsync")).First();
-
-            sendAsyncMethod = sendAsyncMethod.MakeGenericMethod(sourceNode.SourceType);
-
-            var readMethodExecutor = MethodExecutorBuilder.Build(readerInterface.GetMethod("Read"));
-
-            var endMethodExecutor = MethodExecutorBuilder.Build(readerInterface.GetMethod("End"));
-
-            var sendMethodExecutor = MethodExecutorBuilder.Build(sendAsyncMethod);
 
             var bufferBlock = BlockBuilder.CreateBufferBlock(sourceNode.SourceType, new DataflowBlockOptions { BoundedCapacity = BoundedCapacity });
 
@@ -53,20 +41,14 @@ namespace Lemon.Transform
 
             var target = BuildTargetBlock(sourceNode.Next, tasks);
 
-            var targetBlockType = typeof(ITargetBlock<>).MakeGenericType(sourceNode.SourceType);
-
-            var linkTomethod = bufferBlock.GetType().GetMethod("LinkTo", new Type[] { targetBlockType, typeof(DataflowLinkOptions) });
-
-            linkTomethod.Invoke(bufferBlock, new object[] { target, new DataflowLinkOptions { PropagateCompletion = true } });
+            bufferBlock.LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true });
 
             return new Execution(async (parameters) => {
-                while (!(bool)endMethodExecutor(reader, new object[] { }))
+                while (!reader.End())
                 {
-                    var row = readMethodExecutor(reader, new object[] { });
+                    var row = reader.ReadObject();
 
-                    Task<bool> task = (Task<bool>)sendMethodExecutor(null, new object[] { bufferBlock, row });
-
-                    task.Wait();
+                    await bufferBlock.SendAsync(row);
                 }
 
                 await Task.Run(() =>
@@ -101,9 +83,7 @@ namespace Lemon.Transform
 
                 var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, writeFunc, new ExecutionDataflowBlockOptions {  BoundedCapacity = executionOptions.BoundedCapacity});
 
-                var completion = actionBlockClass.GetProperty("Completion").GetValue(actionBlock) as Task;
-
-                tasks.Add(completion);
+                tasks.Add(actionBlock.Completion);
 
                 return actionBlock;
             }
@@ -121,11 +101,7 @@ namespace Lemon.Transform
 
                 var targetBlock = BuildTargetBlock(source.Next, tasks);
 
-                var targetBlockType = typeof(ITargetBlock<>).MakeGenericType(target.TargetType);
-
-                var linkTomethod = transformBlock.GetType().GetMethod("LinkTo", new Type[] { targetBlockType, typeof(DataflowLinkOptions) });
-
-                linkTomethod.Invoke(transformBlock, new object[] { targetBlock, new DataflowLinkOptions { PropagateCompletion = true } });
+                transformBlock.LinkTo(targetBlock, new DataflowLinkOptions { PropagateCompletion = true });
 
                 return transformBlock;
             }

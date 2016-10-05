@@ -1,10 +1,9 @@
 ﻿using Lemon.Transform;
-using System.Collections.Generic;
 using System;
 
 namespace LemonDemo
 {
-    public class RandomDataReader : IDataReader<IDictionary<string, object>>
+    public class RandomDataReader : IDataReader<int>
     {
         private bool _end = false;
 
@@ -17,21 +16,26 @@ namespace LemonDemo
             _max = max;
         }
 
-        public IDictionary<string, object> Read()
-        {
-            var row = new Dictionary<string, object>
-            {
-                {"id", _index }
-            };
-
-            _end = _index > _max;
-
-            return row;
-        }
-
-        bool IDataReader<IDictionary<string, object>>.End()
+        public bool End()
         {
             return _end;
+        }
+
+        public int Read()
+        {
+            _index++;
+
+            if(_index > _max)
+            {
+                _end = true;
+            }
+
+            return (int)_index;
+        }
+
+        public object ReadObject()
+        {
+            return Read();
         }
     }
 }
