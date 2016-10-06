@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
-    public class MessageDispatchBlock<TMessage>
+    public class MessageBroadCastBlock<TMessage>
     {
         private Action<TMessage> _dispatch;
 
         private IEnumerable<DataflowBlockReflectionWrapper> _targets;
 
-        public MessageDispatchBlock(IEnumerable<DataflowBlockReflectionWrapper> targets)
+        public MessageBroadCastBlock(IEnumerable<DataflowBlockReflectionWrapper> targets)
         {
             _targets = targets;
 

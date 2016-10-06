@@ -100,7 +100,7 @@ namespace Lemon.Transform
                     targets.Add(new DataflowBlockReflectionWrapper(BuildTargetBlock(childrenNode, tasks)));
                 }
 
-                var dispatcherType = typeof(MessageDispatchBlock<>).MakeGenericType(target.TargetType);
+                var dispatcherType = typeof(MessageBroadCastBlock<>).MakeGenericType(target.TargetType);
 
                 var dispatcher = Activator.CreateInstance(dispatcherType, new object[] { targets  });
 

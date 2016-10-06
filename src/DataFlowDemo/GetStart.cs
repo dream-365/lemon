@@ -10,11 +10,18 @@ namespace DataFlowDemo
         {
             var bufferBlock = new BufferBlock<int>(new DataflowBlockOptions { BoundedCapacity = 100 });
 
-            var transformBlock = new TransformBlock<int, int>(item => { return item + 10000; }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
+            var transformBlock = new TransformBlock<int, int>(item => {
+                if(item == 5)
+                {
+                    throw new Exception("ex");
+                }
+
+                return item + 10000;
+            }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
 
             var actionBlock = new ActionBlock<int>((item) => { Task.Delay(100).Wait(); Console.WriteLine("action: {0}", item); }, new ExecutionDataflowBlockOptions { BoundedCapacity = 10 });
 
-            bufferBlock.LinkTo(transformBlock, new DataflowLinkOptions { PropagateCompletion = true });
+            bufferBlock.LinkTo(transformBlock, new DataflowLinkOptions { PropagateCompletion = true },  m => m != null);
 
             transformBlock.LinkTo(actionBlock, new DataflowLinkOptions { PropagateCompletion = true });
 

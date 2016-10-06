@@ -16,6 +16,11 @@ namespace LemonDemo
 
         public int Transform(int record)
         {
+            if(record == 5)
+            {
+                throw new Exception("ex");
+            }
+
             return record + 100000;
         }
     }
