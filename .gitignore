@@ -35,3 +35,6 @@
 /src/DataFlowDemo/obj/Debug
 /src/DataFlowDemo/obj/Release
 *.user
+/src/Lemon.Data.Core/bin
+/src/LemonDemo/obj
+/src/LemonDemo/bin

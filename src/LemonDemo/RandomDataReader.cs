@@ -16,6 +16,11 @@ namespace LemonDemo
             _max = max;
         }
 
+        public void Close()
+        {
+            
+        }
+
         public bool End()
         {
             return _end;

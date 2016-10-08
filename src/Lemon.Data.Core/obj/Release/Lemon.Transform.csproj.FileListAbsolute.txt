@@ -1,0 +1,15 @@
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Lemon.Transform.dll
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Lemon.Transform.pdb
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Castle.Core.dll
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Castle.Windsor.dll
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\log4net.dll
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Newtonsoft.Json.dll
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\System.Threading.Tasks.Dataflow.dll
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Castle.Core.xml
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Castle.Windsor.xml
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\log4net.xml
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\Newtonsoft.Json.xml
+E:\GitHub\lemon\src\Lemon.Transform\bin\Release\System.Threading.Tasks.Dataflow.xml
+E:\GitHub\lemon\src\Lemon.Transform\obj\Release\Lemon.Transform.dll
+E:\GitHub\lemon\src\Lemon.Transform\obj\Release\Lemon.Transform.pdb
+E:\GitHub\lemon\src\Lemon.Transform\obj\Release\Lemon.Transform.csprojResolveAssemblyReference.cache

@@ -75,12 +75,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lemon.Transform\Lemon.Transform.csproj">
-      <Project>{1a0e7840-4d1d-4226-8931-c1daedeae0d5}</Project>
-      <Name>Lemon.Transform</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
