@@ -10,6 +10,8 @@ namespace DataFlowDemo
         {
             var bufferBlock = new BufferBlock<int>(new DataflowBlockOptions { BoundedCapacity = 100 });
 
+            bufferBlock.LinkTo(DataflowBlock.NullTarget<int>());
+
             var transformBlock = new TransformBlock<int, int>(item => {
                 if(item == 5)
                 {

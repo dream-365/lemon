@@ -94,6 +94,7 @@
     <Compile Include="PipelineContext.cs" />
     <Compile Include="interfaces\IDataSourceService.cs" />
     <Compile Include="build-in\JsonDataSourceService.cs" />
+    <Compile Include="PredicateMaker.cs" />
     <Compile Include="TransformActionChain.cs" />
     <Compile Include="interfaces\ITransformBlock.cs" />
     <Compile Include="TransformConfiguration.cs" />

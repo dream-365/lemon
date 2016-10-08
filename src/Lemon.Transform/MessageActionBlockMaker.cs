@@ -18,9 +18,9 @@ namespace Lemon.Transform
             {
                 _action(messageWrapper.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: exception log
+                LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
             }
         }
 

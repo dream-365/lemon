@@ -12,6 +12,13 @@ namespace Lemon.Transform
 
         public int BoundedCapacity { get; set; }
 
+        private Guid _id;
+
+        public Pipeline()
+        {
+            _id = Guid.NewGuid();
+        }
+
         public TransformActionChain<TSource> DataSource<TSource>(IDataReader<TSource> reader)
         {
             _root = new DataSourceNode<TSource>
@@ -51,9 +58,9 @@ namespace Lemon.Transform
                     {
                         var row = reader.ReadObject();
 
-                        var message = Activator.CreateInstance(messageType, new object[] { row });
+                        var message = Activator.CreateInstance(messageType, new object[] { row, _id });
 
-                        await bufferBlock.SendAsync(message);
+                        var result = await bufferBlock.SendAsync(message);
                     }
                     catch (Exception)
                     {

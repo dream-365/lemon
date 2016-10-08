@@ -64,12 +64,28 @@ namespace Lemon.Transform
 
             if(sourceRecordType != targetRecordType)
             {
-                throw new Exceptions.BlockLinkException(string.Format("can not link type {0} to type {1}", sourceRecordType, targetRecordType));
+                throw new Exceptions.BlockLinkException(string.Format("can not link type {0} to type {1}", sourceRecordType.GetGenericArguments().First(), targetRecordType.GetGenericArguments().First()));
             }
 
-            var method = _block.GetType().GetMethod("LinkTo", new Type[] { targetInterfaceType, typeof(DataflowLinkOptions) });
+            var linkToMethodWithThreeParameters = typeof(DataflowBlock).GetMethods().Where(m => m.Name.Equals("LinkTo")).Last();
+            var nullTargetMethod = typeof(DataflowBlock).GetMethods().Where(m => m.Name.Equals("NullTarget")).First();
 
-            return (IDisposable)method.Invoke(_block, new object[] { targetBlock, options });
+            linkToMethodWithThreeParameters = linkToMethodWithThreeParameters.MakeGenericMethod(targetRecordType);
+            nullTargetMethod = nullTargetMethod.MakeGenericMethod(targetRecordType);
+
+            var predicateMakerClass = typeof(MessagePredicateMaker<>).MakeGenericType(targetRecordType.GetGenericArguments().First());
+
+            var predicateInstance = Activator.CreateInstance(predicateMakerClass, new object[] { });
+
+            var isNotBroken = predicateMakerClass.GetProperty("IsNotBroken").GetValue(predicateInstance);
+            var isBroken = predicateMakerClass.GetProperty("IsBroken").GetValue(predicateInstance);
+
+            var nullTarget = nullTargetMethod.Invoke(null, new object[] { });
+
+            linkToMethodWithThreeParameters.Invoke(null, new object[] { _block, targetBlock, options, isNotBroken});
+            linkToMethodWithThreeParameters.Invoke(null, new object[] { _block, nullTarget, options, isBroken });
+
+            return null;
         }
 
         public Task<bool> SendAsync(object message)
