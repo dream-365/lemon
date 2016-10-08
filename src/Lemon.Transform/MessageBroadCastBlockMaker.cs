@@ -1,32 +1,37 @@
-﻿using System;
+﻿using Lemon.Transform.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Transform
 {
-    public class MessageBroadCastBlock<TMessage>
+    public class MessageBroadCastBlockMaker<TMessage>
     {
         private Action<TMessage> _dispatch;
 
+        private Type _messageType;
+
         private IEnumerable<DataflowBlockReflectionWrapper> _targets;
 
-        public MessageBroadCastBlock(IEnumerable<DataflowBlockReflectionWrapper> targets)
+        public MessageBroadCastBlockMaker(IEnumerable<DataflowBlockReflectionWrapper> targets)
         {
             _targets = targets;
 
             _dispatch = DispatchImpl;
+
+            _messageType = typeof(MessageWrapper<>).MakeGenericType(typeof(TMessage));
         }
 
         private void DispatchImpl(TMessage message)
         {
             foreach (var target in _targets)
             {
-                target.SendAsync(message).Wait();
+                var messageWrapper = Activator.CreateInstance(_messageType, new object[] { message });
+
+                target.SendAsync(messageWrapper).Wait();
             }
         }
 
         public Action<TMessage> Dispatch { get { return _dispatch;  }  }
     }
 }
+ 

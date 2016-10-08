@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using Lemon.Transform.Models;
 
 namespace Lemon.Transform
 {
@@ -35,6 +36,8 @@ namespace Lemon.Transform
 
             var bufferBlock = BlockBuilder.CreateBufferBlock(sourceNode.SourceType, new DataflowBlockOptions { BoundedCapacity = BoundedCapacity });
 
+            var messageType = typeof(MessageWrapper<>).MakeGenericType(sourceNode.SourceType);
+
             var tasks = new List<Task>();
 
             var target = BuildTargetBlock(sourceNode.Next, tasks);
@@ -44,9 +47,18 @@ namespace Lemon.Transform
             return new Execution(async (parameters) => {
                 while (!reader.End())
                 {
-                    var row = reader.ReadObject();
+                    try
+                    {
+                        var row = reader.ReadObject();
 
-                    await bufferBlock.SendAsync(row);
+                        var message = Activator.CreateInstance(messageType, new object[] { row });
+
+                        await bufferBlock.SendAsync(message);
+                    }
+                    catch (Exception)
+                    {
+                        // TODO: exception handle
+                    }
                 }
 
                 bufferBlock.Complete();
@@ -100,7 +112,7 @@ namespace Lemon.Transform
                     targets.Add(new DataflowBlockReflectionWrapper(BuildTargetBlock(childrenNode, tasks)));
                 }
 
-                var dispatcherType = typeof(MessageBroadCastBlock<>).MakeGenericType(target.TargetType);
+                var dispatcherType = typeof(MessageBroadCastBlockMaker<>).MakeGenericType(target.TargetType);
 
                 var dispatcher = Activator.CreateInstance(dispatcherType, new object[] { targets  });
 

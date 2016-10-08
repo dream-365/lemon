@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageActionBlockMaker.cs" />
     <Compile Include="BlockBuilder.cs" />
     <Compile Include="BroadCastActionChain.cs" />
     <Compile Include="DataflowBlockReflectionWrapper.cs" />
@@ -72,8 +73,8 @@
     <Compile Include="interfaces\IExecute.cs" />
     <Compile Include="interfaces\ISource.cs" />
     <Compile Include="interfaces\ITarget.cs" />
-    <Compile Include="MessageDispatchBlock.cs" />
-    <Compile Include="MessageTransformBlock.cs" />
+    <Compile Include="MessageBroadCastBlockMaker.cs" />
+    <Compile Include="MessageTransformBlockMaker.cs" />
     <Compile Include="MethodExecutorBuilder.cs" />
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="FieldTypeMapping.cs" />
     <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="LogService.cs" />
-    <Compile Include="Models\DataRowTransformWrapper.cs" />
     <Compile Include="Models\MessageWrapper.cs" />
     <Compile Include="Models\NamedParameter.cs" />
     <Compile Include="Models\ProgressStateItem.cs" />
