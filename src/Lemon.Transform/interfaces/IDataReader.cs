@@ -11,5 +11,7 @@
         object ReadObject();
 
         bool End();
+
+        void Close();
     }
 }

@@ -68,6 +68,8 @@ namespace Lemon.Transform
                     }
                 }
 
+                reader.Close();
+
                 bufferBlock.Complete();
 
                 await Task.Run(() =>
