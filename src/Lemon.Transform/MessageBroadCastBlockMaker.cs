@@ -10,11 +10,15 @@ namespace Lemon.Transform
 
         private Type _messageType;
 
+        private Guid _pipelineId;
+
         private IEnumerable<DataflowBlockReflectionWrapper> _targets;
 
-        public MessageBroadCastBlockMaker(IEnumerable<DataflowBlockReflectionWrapper> targets)
+        public MessageBroadCastBlockMaker(IEnumerable<DataflowBlockReflectionWrapper> targets, Guid pipelineId)
         {
             _targets = targets;
+
+            _pipelineId = pipelineId;
 
             _dispatch = DispatchImpl;
 
@@ -25,7 +29,7 @@ namespace Lemon.Transform
         {
             foreach (var target in _targets)
             {
-                var messageWrapper = Activator.CreateInstance(_messageType, new object[] { message });
+                var messageWrapper = Activator.CreateInstance(_messageType, new object[] { message, _pipelineId });
 
                 target.SendAsync(messageWrapper).Wait();
             }

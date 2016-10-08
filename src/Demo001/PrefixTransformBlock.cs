@@ -1,11 +1,9 @@
 ﻿using Lemon.Transform;
-using Lemon.Transform.Models;
-using System.Collections.Generic;
 using System;
 
 namespace LemonDemo
 {
-    public class PrefixTransformBlock : ITransformBlock<int, int>
+    public class PrefixTransformBlock : ITransformBlock<int, string>
     {
         private string _prefix;
 
@@ -14,14 +12,14 @@ namespace LemonDemo
             _prefix = prefix;
         }
 
-        public int Transform(int record)
+        public string Transform(int record)
         {
             if (record % 5 == 0)
             {
                 throw new Exception("ex");
             }
 
-            return record + 100000;
+            return _prefix + (record + 100000).ToString();
         }
     }
 }

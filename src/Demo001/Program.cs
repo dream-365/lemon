@@ -20,8 +20,8 @@ namespace Demo001
 
             var action3 = new PrefixTransformBlock("c");
 
-            var writer1 = new ConsoleDataWriter<int>("W1", 100);
-            var writer2 = new ConsoleDataWriter<int>("W2");
+            var writer1 = new ConsoleDataWriter<string>("W1", 100);
+            var writer2 = new ConsoleDataWriter<string>("W2");
 
             var broadcast = pipeline.DataSource(new RandomDataReader(100))
                     .Transform(action1)

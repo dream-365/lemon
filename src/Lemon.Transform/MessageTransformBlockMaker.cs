@@ -25,7 +25,7 @@ namespace Lemon.Transform
             catch (Exception ex)
             {
                 LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
-                return new MessageWrapper<TOuput> { Message = default(TOuput), IsBroken = true };
+                return new MessageWrapper<TOuput> { IsBroken = true };
             }
         }
 

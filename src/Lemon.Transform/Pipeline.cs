@@ -121,7 +121,7 @@ namespace Lemon.Transform
 
                 var dispatcherType = typeof(MessageBroadCastBlockMaker<>).MakeGenericType(target.TargetType);
 
-                var dispatcher = Activator.CreateInstance(dispatcherType, new object[] { targets  });
+                var dispatcher = Activator.CreateInstance(dispatcherType, new object[] { targets, _id });
 
                 var dispatch = dispatcherType.GetProperty("Dispatch").GetValue(dispatcher);
 
