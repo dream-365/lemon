@@ -61,9 +61,9 @@ namespace Lemon.Transform
             return Read();
         }
 
-        public void Close()
+        public void Dispose()
         {
-            if(_isOpen)
+            if (_isOpen)
             {
                 _reader.Close();
             }

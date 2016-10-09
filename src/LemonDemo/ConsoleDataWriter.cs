@@ -1,6 +1,5 @@
 ﻿using Lemon.Transform;
 using System;
-using System.Threading.Tasks;
 
 namespace LemonDemo
 {
@@ -22,6 +21,11 @@ namespace LemonDemo
         public void Write(TRecord record)
         {
             Console.WriteLine("[{2}]-{0}:{1}", _name, record, _index++);
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

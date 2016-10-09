@@ -6,12 +6,10 @@
     }
 
 
-    public interface IDataReader
+    public interface IDataReader : System.IDisposable
     {
         object ReadObject();
 
         bool End();
-
-        void Close();
     }
 }

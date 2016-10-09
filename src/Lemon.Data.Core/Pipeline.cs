@@ -68,7 +68,7 @@ namespace Lemon.Transform
                     }
                 }
 
-                reader.Close();
+                reader.Dispose();
 
                 bufferBlock.Complete();
 

@@ -16,9 +16,9 @@ namespace LemonDemo
             _max = max;
         }
 
-        public void Close()
+        public void Dispose()
         {
-            
+    
         }
 
         public bool End()
