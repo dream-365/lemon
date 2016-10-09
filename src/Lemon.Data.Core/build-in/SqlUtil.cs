@@ -4,31 +4,20 @@ using System.Text;
 
 namespace Lemon.Data.Core
 {
-    public class SqlQueryBuilder
+    public class SqlUtil
     {
-        private string _tableName;
-
-        private string[] _primaryKeys;
-
-        public SqlQueryBuilder(string tableName, string[] primaryKeys)
-        {
-            _tableName = tableName;
-
-            _primaryKeys = primaryKeys;
-        }
-
-        public string Build(DataTableSchema schema, bool upsert = true)
+        public static string BuildInsertSql(DataTableSchema schema, bool upsert = true)
         {
             var sb = new StringBuilder();
 
             sb.Append("IF NOT EXISTS(SELECT * FROM [dbo].")
-                .Append("[" + _tableName + "]");
+                .Append("[" + schema.Name + "]");
 
-            var firstPrimaryKey = _primaryKeys.FirstOrDefault();
+            var firstPrimaryKey = schema.PrimaryKeys.FirstOrDefault();
 
             sb.Append(" WHERE [").Append(firstPrimaryKey).Append("] = @").Append(firstPrimaryKey);
 
-            foreach (var primaryKey in _primaryKeys.Skip(1))
+            foreach (var primaryKey in schema.PrimaryKeys.Skip(1))
             {
                 sb.Append(" AND ").Append("[").Append(primaryKey).Append("] = @").Append(primaryKey);
             }
@@ -36,7 +25,7 @@ namespace Lemon.Data.Core
             sb.AppendLine(")");
 
             sb.Append("INSERT INTO [dbo].")
-                .Append("[" + _tableName + "]")
+                .Append("[" + schema.Name + "]")
                 .Append(" (")
                 .Append(string.Join(",", schema.Columns.Select(m => string.Format("[{0}]", m)))).AppendLine(")");
 
@@ -48,7 +37,7 @@ namespace Lemon.Data.Core
             {
                 sb.AppendLine("ELSE");
 
-                sb.Append("UPDATE [dbo].").AppendLine("[" + _tableName + "]");
+                sb.Append("UPDATE [dbo].").AppendLine("[" + schema.Name + "]");
 
                 var sets = schema.Columns.Skip(1).Select(m => string.Format("[{0}] = @{0}", m));
 
@@ -56,7 +45,7 @@ namespace Lemon.Data.Core
 
                 sb.Append(" WHERE [").Append(firstPrimaryKey).Append("] = @").Append(firstPrimaryKey);
 
-                foreach (var primaryKey in _primaryKeys.Skip(1))
+                foreach (var primaryKey in schema.PrimaryKeys.Skip(1))
                 {
                     sb.Append(" AND ").Append("[").Append(primaryKey).Append("] = @").Append(primaryKey);
                 }

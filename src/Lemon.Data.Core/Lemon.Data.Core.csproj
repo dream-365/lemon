@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="build-in\JsonDataReader.cs" />
-    <Compile Include="build-in\SqlQueryBuilder.cs" />
+    <Compile Include="build-in\SqlUtil.cs" />
     <Compile Include="MessageActionBlockMaker.cs" />
     <Compile Include="BlockBuilder.cs" />
     <Compile Include="BroadCastActionChain.cs" />
