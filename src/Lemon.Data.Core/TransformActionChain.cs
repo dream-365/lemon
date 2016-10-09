@@ -1,7 +1,4 @@
-﻿using Lemon.Data.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks.Dataflow;
+﻿using System;
 
 namespace Lemon.Data.Core
 {
@@ -14,13 +11,13 @@ namespace Lemon.Data.Core
             _current = current;
         }
 
-        public TransformActionChain<TTarget> Transform<TTarget>(ITransformBlock<TSource, TTarget> block)
+        public TransformActionChain<TTarget> Transform<TTarget>(Func<TSource, TTarget> func)
         {
             var transformNode = new TransformNode<TSource, TTarget>
             {
-                Block = block.Transform
+                Block = func
             };
-            
+
             if (_current.NodeType == NodeType.SourceNode ||
                 _current.NodeType == NodeType.TransformNode ||
                 _current.NodeType == NodeType.TransformManyNode
@@ -40,6 +37,11 @@ namespace Lemon.Data.Core
             }
 
             return new TransformActionChain<TTarget>(transformNode);
+        }
+
+        public TransformActionChain<TTarget> Transform<TTarget>(ITransformBlock<TSource, TTarget> block)
+        {
+            return Transform(block.Transform);
         }
 
         public TransformActionChain<TTarget> TransformMany<TTarget>(ITransformManyBlock<TSource, TTarget> block)

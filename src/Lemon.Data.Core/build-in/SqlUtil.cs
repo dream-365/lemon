@@ -27,11 +27,11 @@ namespace Lemon.Data.Core
             sb.Append("INSERT INTO [dbo].")
                 .Append("[" + schema.Name + "]")
                 .Append(" (")
-                .Append(string.Join(",", schema.Columns.Select(m => string.Format("[{0}]", m)))).AppendLine(")");
+                .Append(string.Join(",", schema.Columns.Select(m => string.Format("[{0}]", m.Name)))).AppendLine(")");
 
             sb.Append("VALUES ")
                 .Append("(")
-                .Append(string.Join(",", schema.Columns.Select(m => string.Format("@{0}", m)))).AppendLine(")");
+                .Append(string.Join(",", schema.Columns.Select(m => string.Format("@{0}", m.Name)))).AppendLine(")");
 
             if (upsert)
             {
@@ -39,7 +39,7 @@ namespace Lemon.Data.Core
 
                 sb.Append("UPDATE [dbo].").AppendLine("[" + schema.Name + "]");
 
-                var sets = schema.Columns.Skip(1).Select(m => string.Format("[{0}] = @{0}", m));
+                var sets = schema.Columns.Skip(1).Select(m => string.Format("[{0}] = @{0}", m.Name));
 
                 sb.Append("SET ").AppendLine(string.Join(",", sets));
 
