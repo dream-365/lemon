@@ -77,6 +77,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lemon.Data.Core\Lemon.Data.Core.csproj">
+      <Project>{1a0e7840-4d1d-4226-8931-c1daedeae0d5}</Project>
+      <Name>Lemon.Data.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

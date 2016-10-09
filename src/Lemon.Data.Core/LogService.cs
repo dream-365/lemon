@@ -5,7 +5,7 @@ using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using System;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class LogService
     {

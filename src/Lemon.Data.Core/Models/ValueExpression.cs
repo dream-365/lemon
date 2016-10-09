@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     /// <summary>
     /// a class to represent value with data type specified

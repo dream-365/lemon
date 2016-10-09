@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks.Dataflow;
 using System.Threading.Tasks;
-using Lemon.Transform.Exceptions;
+using Lemon.Data.Core.Exceptions;
 
-namespace Lemon.Transform.Tests
+namespace Lemon.Data.Core.Tests
 {
     /// <summary>
     /// Summary description for DataflowBlockReflectionWrapperTest

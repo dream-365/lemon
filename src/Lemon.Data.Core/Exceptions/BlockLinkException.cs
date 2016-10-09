@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemon.Transform.Exceptions
+namespace Lemon.Data.Core.Exceptions
 {
     public class BlockLinkException : Exception
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Lemon.Transform.Tests
+namespace Lemon.Data.Core.Tests
 {
     /// <summary>
     /// Summary description for DataSourceServiceRegisterTest

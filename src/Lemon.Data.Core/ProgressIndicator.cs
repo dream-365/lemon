@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class ProgressIndicator
     {

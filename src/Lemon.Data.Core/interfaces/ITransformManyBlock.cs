@@ -1,7 +1,7 @@
-﻿using Lemon.Transform.Models;
+﻿using Lemon.Data.Core.Models;
 using System.Collections.Generic;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public interface ITransformManyBlock<TSource, TTarget>
     {

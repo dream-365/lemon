@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class GlobalConfiguration
     {

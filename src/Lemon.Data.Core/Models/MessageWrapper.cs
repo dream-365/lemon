@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lemon.Transform.Models
+namespace Lemon.Data.Core.Models
 {
     public class MessageWrapper<TMessage>
     {

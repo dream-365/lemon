@@ -1,4 +1,4 @@
-﻿namespace Lemon.Transform
+﻿namespace Lemon.Data.Core
 {
     public interface IDataReader<TRecord> : IDataReader
     {

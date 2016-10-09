@@ -1,10 +1,10 @@
-﻿using Lemon.Transform.Models;
+﻿using Lemon.Data.Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     internal class DataInputModelProxy
     {

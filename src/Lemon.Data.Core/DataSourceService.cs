@@ -1,4 +1,4 @@
-﻿namespace Lemon.Transform
+﻿namespace Lemon.Data.Core
 {
     public class DataSourceService : IDataSourceService
     {

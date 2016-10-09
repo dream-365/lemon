@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class DataflowBlockReflectionWrapper
     {

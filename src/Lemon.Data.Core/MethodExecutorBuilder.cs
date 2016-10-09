@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class MethodExecutorBuilder
     {

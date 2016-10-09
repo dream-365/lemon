@@ -1,9 +1,9 @@
-﻿using Lemon.Transform.Models;
+﻿using Lemon.Data.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks.Dataflow;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class TransformActionChain<TSource>
     {

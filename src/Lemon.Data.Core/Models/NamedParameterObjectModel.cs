@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lemon.Transform.Models
+namespace Lemon.Data.Core.Models
 {
     public abstract class NamedParameterObjectModel
     {

@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class TransformConfiguration    {
 

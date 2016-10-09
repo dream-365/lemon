@@ -1,7 +1,7 @@
 ﻿using System;
-using Lemon.Transform.Models;
+using Lemon.Data.Core.Models;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class MessageActionBlockMaker<TMessage>
     {

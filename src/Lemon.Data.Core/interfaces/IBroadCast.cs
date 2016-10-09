@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public interface IBroadCast
     {

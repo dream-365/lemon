@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     /// <summary>
     /// Pipeline context: provide the context information for data pipeline

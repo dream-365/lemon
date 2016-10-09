@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class JsonDataReader<TRecord> : IDataReader<TRecord>
     {

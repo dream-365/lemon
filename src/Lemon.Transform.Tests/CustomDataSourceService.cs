@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lemon.Transform.Tests
+namespace Lemon.Data.Core.Tests
 {
     public class CustomDataSourceService : IDataSourceService
     {

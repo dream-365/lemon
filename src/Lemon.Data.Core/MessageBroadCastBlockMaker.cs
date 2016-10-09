@@ -1,8 +1,8 @@
-﻿using Lemon.Transform.Models;
+﻿using Lemon.Data.Core.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Lemon.Transform
+namespace Lemon.Data.Core
 {
     public class MessageBroadCastBlockMaker<TMessage>
     {
