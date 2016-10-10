@@ -1,1 +1,1 @@
-﻿nuget pack Lemon.Transform.csproj -Prop Configuration=Release
+﻿nuget pack Lemon.Data.Core.csproj -Prop Configuration=Release
