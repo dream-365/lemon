@@ -107,7 +107,7 @@ namespace Lemon.Data.Core
             _targetType = typeof(TTarget);
         }
 
-        public Func<TSource, IEnumerable<TTarget>> Block;
+        public Func<TSource, IEnumerable<TTarget>> Block { get; set; }
 
         public Node Prev { get; set; }
 

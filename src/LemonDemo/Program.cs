@@ -16,16 +16,21 @@ namespace Demo001
 
             var action1 = new PrefixTransformBlock("a");
 
-            var action2 = new PrefixTransformBlock("b");
-
-            var action3 = new PrefixTransformBlock("c");
-
             var writer1 = new ConsoleDataWriter<string>("W1", 100);
             var writer2 = new ConsoleDataWriter<string>("W2");
 
             var broadcast = pipeline.DataSource(new RandomDataReader(100))
                     .Transform(action1)
-                    .Broadcast();
+                    .TransformMany((line => {
+                        var lines = new List<string>();
+
+                        for(int i = 0; i < 3; i++)
+                        {
+                            lines.Add(string.Format("{0}_{1}", i, line));
+                        }
+
+                        return lines;
+                    })).Broadcast();
 
             broadcast.Branch().Output(writer1);
             broadcast.Branch().Output(writer2);

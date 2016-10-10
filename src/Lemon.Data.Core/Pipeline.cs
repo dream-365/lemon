@@ -156,7 +156,25 @@ namespace Lemon.Data.Core
 
                 return transformBlock;
             }
-             else
+            else if (node.NodeType == NodeType.TransformManyNode)
+            {
+                var source = node as ISource;
+
+                var target = node as ITarget;
+
+                var nodeClass = typeof(TransformManyNode<,>).MakeGenericType(source.SourceType, target.TargetType);
+
+                var transformManyFunc = nodeClass.GetProperty("Block").GetValue(node);
+
+                var transformManyBlock = BlockBuilder.CreateTransformManyBlock(source.SourceType, target.TargetType, transformManyFunc, executionOptions);
+
+                var targetBlock = BuildTargetBlock(source.Next, tasks);
+
+                transformManyBlock.LinkTo(targetBlock, linkOptions);
+
+                return transformManyBlock;
+            }
+            else
             {
                 throw new Exception("the node type does not support buidling target block");
             }

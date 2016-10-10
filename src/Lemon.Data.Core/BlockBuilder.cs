@@ -6,9 +6,15 @@ namespace Lemon.Data.Core
 {
     public class BlockBuilder
     {
+        private static Type MakeMessageWrapperType(Type type)
+        {
+            return typeof(MessageWrapper<>).MakeGenericType(type);
+        }
+
+
         public static DataflowBlockReflectionWrapper CreateBufferBlock(Type type, DataflowBlockOptions options)
         {
-            var messageType = typeof(MessageWrapper<>).MakeGenericType(type);
+            var messageType = MakeMessageWrapperType(type);
 
             var bufferBlockClass = typeof(BufferBlock<>).MakeGenericType(messageType);
 
@@ -17,7 +23,7 @@ namespace Lemon.Data.Core
 
         public static DataflowBlockReflectionWrapper CreateActionBlock(Type type, object block, ExecutionDataflowBlockOptions options)
         {
-            var messageType = typeof(MessageWrapper<>).MakeGenericType(type);
+            var messageType = MakeMessageWrapperType(type);
 
             var actionBlockClass = typeof(ActionBlock<>).MakeGenericType(messageType);
 
@@ -32,9 +38,9 @@ namespace Lemon.Data.Core
 
         public static DataflowBlockReflectionWrapper CreateTransformBlock(Type source, Type target, object block, ExecutionDataflowBlockOptions options)
         {
-            var sourceMessageType = typeof(MessageWrapper<>).MakeGenericType(source);
+            var sourceMessageType = MakeMessageWrapperType(source);
 
-            var targetMessageType = typeof(MessageWrapper<>).MakeGenericType(target);
+            var targetMessageType = MakeMessageWrapperType(target);
 
             var transformBlockClass = typeof(TransformBlock<,>).MakeGenericType(sourceMessageType, targetMessageType);
 
@@ -45,6 +51,23 @@ namespace Lemon.Data.Core
             var blockWrapper = transformBlockMakerClass.GetProperty("Transform").GetValue(transformBlockMakerInstance);
 
             return new DataflowBlockReflectionWrapper(Activator.CreateInstance(transformBlockClass, new object[] { blockWrapper, options }));
+        }
+
+        public static DataflowBlockReflectionWrapper CreateTransformManyBlock(Type source, Type target, object expression, ExecutionDataflowBlockOptions options)
+        {
+            var sourceMessageType = MakeMessageWrapperType(source);
+
+            var targetMessageType = MakeMessageWrapperType(target);
+
+            var transformManyBlockClass = typeof(TransformManyBlock<,>).MakeGenericType(sourceMessageType, targetMessageType);
+
+            var transformManyBlockMakerClass = typeof(MessageTransformManyBlockMaker<,>).MakeGenericType(source, target);
+
+            var transformManyBlockMakerInstance = Activator.CreateInstance(transformManyBlockMakerClass, new object[] { expression });
+
+            var blockWrapper = transformManyBlockMakerClass.GetProperty("TransformMany").GetValue(transformManyBlockMakerInstance);
+
+            return new DataflowBlockReflectionWrapper(Activator.CreateInstance(transformManyBlockClass, new object[] { blockWrapper, options }));
         }
     }
 }

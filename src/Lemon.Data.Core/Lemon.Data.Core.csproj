@@ -77,6 +77,7 @@
     <Compile Include="interfaces\ITarget.cs" />
     <Compile Include="MessageBroadCastBlockMaker.cs" />
     <Compile Include="MessageTransformBlockMaker.cs" />
+    <Compile Include="MessageTransformManyBlockMaker.cs" />
     <Compile Include="MethodExecutorBuilder.cs" />
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
