@@ -14,15 +14,11 @@ namespace Lemon.Data.Core
         BroadCastNode = 4
     }
 
-    public enum TransformMode
-    {
-        OneToOne = 0,
-        OneToMany = 1
-    }
-
     public class Node
     {
         public NodeType NodeType { get; protected set; }
+
+        public int? MaxDegreeOfParallelism { get; set; }
     }
 
     public class DataSourceNode<TSource> : Node, ISource

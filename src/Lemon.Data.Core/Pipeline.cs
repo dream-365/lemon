@@ -148,7 +148,17 @@ namespace Lemon.Data.Core
 
                 var transformFunc = nodeClass.GetProperty("Block").GetValue(node);
 
-                var transformBlock = BlockBuilder.CreateTransformBlock(source.SourceType, target.TargetType, transformFunc, executionOptions);
+                var options = new ExecutionDataflowBlockOptions
+                {
+                    BoundedCapacity = executionOptions.BoundedCapacity
+                };
+
+                if(node.MaxDegreeOfParallelism.HasValue)
+                {
+                    options.MaxDegreeOfParallelism = node.MaxDegreeOfParallelism.Value;
+                }
+
+                var transformBlock = BlockBuilder.CreateTransformBlock(source.SourceType, target.TargetType, transformFunc, options);
 
                 var targetBlock = BuildTargetBlock(source.Next, tasks);
 
@@ -166,7 +176,17 @@ namespace Lemon.Data.Core
 
                 var transformManyFunc = nodeClass.GetProperty("Block").GetValue(node);
 
-                var transformManyBlock = BlockBuilder.CreateTransformManyBlock(source.SourceType, target.TargetType, transformManyFunc, executionOptions);
+                var options = new ExecutionDataflowBlockOptions
+                {
+                    BoundedCapacity = executionOptions.BoundedCapacity
+                };
+
+                if (node.MaxDegreeOfParallelism.HasValue)
+                {
+                    options.MaxDegreeOfParallelism = node.MaxDegreeOfParallelism.Value;
+                }
+
+                var transformManyBlock = BlockBuilder.CreateTransformManyBlock(source.SourceType, target.TargetType, transformManyFunc, options);
 
                 var targetBlock = BuildTargetBlock(source.Next, tasks);
 

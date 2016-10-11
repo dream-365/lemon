@@ -1,5 +1,6 @@
 ﻿using Lemon.Data.Core;
 using System;
+using System.Threading.Tasks;
 
 namespace LemonDemo
 {
@@ -20,6 +21,11 @@ namespace LemonDemo
 
         public void Write(TRecord record)
         {
+            if(_delay > 0)
+            {
+                Task.Delay(_delay).Wait();
+            }
+            
             Console.WriteLine("[{2}]-{0}:{1}", _name, record, _index++);
         }
 

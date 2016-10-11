@@ -2,6 +2,7 @@
 using LemonDemo;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace Demo001
@@ -20,8 +21,10 @@ namespace Demo001
             var writer2 = new ConsoleDataWriter<string>("W2");
 
             var broadcast = pipeline.DataSource(new RandomDataReader(100))
-                    .Transform(action1)
+                    .Transform(action1, 10)
                     .TransformMany((line => {
+                        Console.WriteLine("Thread Id: {0}", System.Threading.Thread.CurrentThread.ManagedThreadId);
+
                         var lines = new List<string>();
 
                         for(int i = 0; i < 3; i++)
@@ -30,7 +33,7 @@ namespace Demo001
                         }
 
                         return lines;
-                    })).Broadcast();
+                    }), 10).Broadcast();
 
             broadcast.Branch().Output(writer1);
             broadcast.Branch().Output(writer2);

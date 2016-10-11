@@ -12,11 +12,12 @@ namespace Lemon.Data.Core
             _current = current;
         }
 
-        public TransformActionChain<TTarget> Transform<TTarget>(Func<TSource, TTarget> func)
+        public TransformActionChain<TTarget> Transform<TTarget>(Func<TSource, TTarget> func, int? maxDegreeOfParallelism = null)
         {
             var transformNode = new TransformNode<TSource, TTarget>
             {
-                Block = func
+                Block = func,
+                MaxDegreeOfParallelism = maxDegreeOfParallelism
             };
 
             if (_current.NodeType == NodeType.SourceNode ||
@@ -40,9 +41,9 @@ namespace Lemon.Data.Core
             return new TransformActionChain<TTarget>(transformNode);
         }
 
-        public TransformActionChain<TTarget> TransformMany<TTarget>(Func<TSource, IEnumerable<TTarget>> expression)
+        public TransformActionChain<TTarget> TransformMany<TTarget>(Func<TSource, IEnumerable<TTarget>> expression, int? maxDegreeOfParallelism = null)
         {
-            var node = new TransformManyNode<TSource, TTarget> { Block = expression };
+            var node = new TransformManyNode<TSource, TTarget> { Block = expression, MaxDegreeOfParallelism = maxDegreeOfParallelism };
 
             if (_current.NodeType == NodeType.SourceNode ||
                 _current.NodeType == NodeType.TransformNode ||
@@ -65,14 +66,14 @@ namespace Lemon.Data.Core
             return new TransformActionChain<TTarget>(node);
         }
 
-        public TransformActionChain<TTarget> TransformMany<TTarget>(ITransformManyBlock<TSource, TTarget> block)
+        public TransformActionChain<TTarget> TransformMany<TTarget>(ITransformManyBlock<TSource, TTarget> block, int? maxDegreeOfParallelism = null)
         {
-            return TransformMany(block.Transform);
+            return TransformMany(block.Transform, maxDegreeOfParallelism);
         }
 
-        public TransformActionChain<TTarget> Transform<TTarget>(ITransformBlock<TSource, TTarget> block)
+        public TransformActionChain<TTarget> Transform<TTarget>(ITransformBlock<TSource, TTarget> block, int? maxDegreeOfParallelism = null)
         {
-            return Transform(block.Transform);
+            return Transform(block.Transform, maxDegreeOfParallelism);
         }
 
         public BroadCastActionChain<TSource> Broadcast()
