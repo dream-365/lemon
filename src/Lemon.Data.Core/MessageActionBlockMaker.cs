@@ -20,7 +20,13 @@ namespace Lemon.Data.Core
             }
             catch (Exception ex)
             {
-                LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                if(messageWrapper != null)
+                {
+                    LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                }else
+                {
+                    LogService.Default.Error("empty message - action", ex);
+                }
             }
         }
 

@@ -15,8 +15,15 @@ namespace Lemon.Data.Core
             return message.IsBroken;
         }
 
+        public bool IsNullImpl(MessageWrapper<TMessage> message)
+        {
+            return message == null;
+        }
+
         public Predicate<MessageWrapper<TMessage>> IsNotBroken { get { return IsNotBrokenImpl; } }
 
         public Predicate<MessageWrapper<TMessage>> IsBroken { get { return IsBrokenImpl; } }
+
+        public Predicate<MessageWrapper<TMessage>> IsNull { get { return IsNullImpl; } }
     }
 }

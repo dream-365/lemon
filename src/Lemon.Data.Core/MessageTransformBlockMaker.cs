@@ -24,7 +24,14 @@ namespace Lemon.Data.Core
             }
             catch (Exception ex)
             {
-                LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                if(messageWrapper != null)
+                {
+                    LogService.Default.Error("empty message - transform", ex);
+                }else
+                {
+                    LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                }
+
                 return new MessageWrapper<TOuput> { IsBroken = true };
             }
         }
