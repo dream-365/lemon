@@ -63,6 +63,10 @@
   <ItemGroup>
     <Compile Include="build-in\JsonDataReader.cs" />
     <Compile Include="build-in\SqlUtil.cs" />
+    <Compile Include="DataSet.cs" />
+    <Compile Include="DataSetCompareEngine.cs" />
+    <Compile Include="interfaces\IComareExecute.cs" />
+    <Compile Include="interfaces\ICompareObserver.cs" />
     <Compile Include="MessageActionBlockMaker.cs" />
     <Compile Include="BlockBuilder.cs" />
     <Compile Include="BroadCastActionChain.cs" />
