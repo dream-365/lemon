@@ -1,4 +1,7 @@
-﻿namespace Lemon.Data.Core
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Lemon.Data.Core
 {
     public interface IDataReader<TRecord> : IDataReader
     {
@@ -10,6 +13,6 @@
     {
         object Read();
 
-        bool End();
+        bool Next();
     }
 }

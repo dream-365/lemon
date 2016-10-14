@@ -20,7 +20,7 @@ namespace Demo001
             var writer1 = new ConsoleDataWriter<string>("W1", 100);
             var writer2 = new ConsoleDataWriter<string>("W2");
 
-            var broadcast = pipeline.DataSource(new RandomDataReader(100))
+            var broadcast = pipeline.DataSource(new SequenceDataReader(100))
                     .Transform(action1, 10)
                     .TransformMany((line => {
                         var lines = new List<string>();

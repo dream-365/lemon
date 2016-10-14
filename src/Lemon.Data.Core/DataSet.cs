@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lemon.Data.Core
 {
-    public class DataSet<T>
+    public class DataSet<T> : IEnumerable<T>
     {
-        public DataSet(IEnumerable<T> rows)
-        {
+        private const int DEFAULT_LENGTH_OF_PAGE = 1000;
 
+        public int LengthOfPage;
+
+        public DataSet(IDataReader<T> source)
+        {
+            LengthOfPage = DEFAULT_LENGTH_OF_PAGE;
         }
 
-        public T Current()
+        public IEnumerator<T> GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
-        public bool MoveNext()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
         }

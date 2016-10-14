@@ -52,7 +52,7 @@ namespace Lemon.Data.Core
             bufferBlock.LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true });
 
             return new Execution(async (parameters) => {
-                while (!reader.End())
+                while (reader.Next())
                 {
                     try
                     {

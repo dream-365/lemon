@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="build-in\JsonDataReader.cs" />
     <Compile Include="build-in\SqlUtil.cs" />
     <Compile Include="DataSet.cs" />
     <Compile Include="DataSetCompareEngine.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="Models\WriteOnChangeConfiguration.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="ObjectType.cs" />
+    <Compile Include="PageEnumerator.cs" />
     <Compile Include="ParametersInfo.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="PipelineContext.cs" />
