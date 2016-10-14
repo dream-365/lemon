@@ -26,10 +26,10 @@ namespace Lemon.Data.Core
             {
                 if(messageWrapper != null)
                 {
-                    LogService.Default.Error("empty message - transform", ex);
+                    LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);   
                 }else
                 {
-                    LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                    LogService.Default.Error("empty message - transform", ex);
                 }
 
                 return new MessageWrapper<TOuput> { IsBroken = true };

@@ -2,13 +2,13 @@
 {
     public interface IDataReader<TRecord> : IDataReader
     {
-        TRecord Read();
+        new TRecord Read();
     }
 
 
     public interface IDataReader : System.IDisposable
     {
-        object ReadObject();
+        object Read();
 
         bool End();
     }

@@ -56,7 +56,7 @@ namespace Lemon.Data.Core
                 {
                     try
                     {
-                        var row = reader.ReadObject();
+                        var row = reader.Read();
 
                         var message = Activator.CreateInstance(messageType, new object[] { row, _id });
 

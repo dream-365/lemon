@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace Lemon.Data.Core
 {
-    public class DataSet
+    public class DataSet<T>
     {
+        public DataSet(IEnumerable<T> rows)
+        {
 
+        }
+
+        public T Current()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MoveNext()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

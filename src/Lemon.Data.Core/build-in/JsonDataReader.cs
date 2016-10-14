@@ -56,7 +56,7 @@ namespace Lemon.Data.Core
             }
         }
 
-        public object ReadObject()
+        object IDataReader.Read()
         {
             return Read();
         }

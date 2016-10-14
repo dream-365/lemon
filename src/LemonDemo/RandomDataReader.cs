@@ -38,7 +38,7 @@ namespace LemonDemo
             return (int)_index;
         }
 
-        public object ReadObject()
+        object IDataReader.Read()
         {
             return Read();
         }
