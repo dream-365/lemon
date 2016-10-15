@@ -9,11 +9,11 @@ namespace Lemon.Data.Core
     {
         private const int DEFAULT_LENGTH_OF_PAGE = 1000;
 
-        public int LengthOfPage;
+        private int _lengthOfPage;
 
         public DataSet(IDataReader<T> source)
         {
-            LengthOfPage = DEFAULT_LENGTH_OF_PAGE;
+            _lengthOfPage = DEFAULT_LENGTH_OF_PAGE;
         }
 
         public IEnumerator<T> GetEnumerator()

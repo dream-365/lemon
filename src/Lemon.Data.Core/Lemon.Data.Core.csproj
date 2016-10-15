@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="build-in\SqlUtil.cs" />
+    <Compile Include="DataEnumerator.cs" />
+    <Compile Include="DataReaderExtension.cs" />
     <Compile Include="DataSet.cs" />
     <Compile Include="DataSetCompareEngine.cs" />
     <Compile Include="interfaces\IComareExecute.cs" />

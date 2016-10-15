@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using Newtonsoft.Json;
 using Lemon.Data.Core;
@@ -11,9 +10,10 @@ namespace Lemon.Data.IO
         private string _filePath;
 
         private bool _isOpen;
-        
-        private StreamReader _reader;
 
+        private TRecord _current;
+
+        private StreamReader _reader;
 
         public JsonDataReader(string filePath)
         {
@@ -31,21 +31,23 @@ namespace Lemon.Data.IO
 
         public bool Next()
         {
-            throw new NotImplementedException();
-        }
-
-        public TRecord Read()
-        {
-            if(!_isOpen)
+            if (!_isOpen)
             {
                 Open();
             }
 
             try
             {
+                if (_reader.EndOfStream)
+                {
+                    return false;
+                }
+
                 var text = _reader.ReadLine();
 
-                return JsonConvert.DeserializeObject<TRecord>(text, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() });
+                _current = JsonConvert.DeserializeObject<TRecord>(text, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() });
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -53,6 +55,11 @@ namespace Lemon.Data.IO
 
                 throw ex;
             }
+        }
+
+        public TRecord Read()
+        {
+            return _current;
         }
 
         object IDataReader.Read()
@@ -66,16 +73,6 @@ namespace Lemon.Data.IO
             {
                 _reader.Close();
             }
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool MoveNext()
-        {
-            throw new NotImplementedException();
         }
     }
 }

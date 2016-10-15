@@ -8,8 +8,6 @@
 *.user
 /src/Lemon.Transform.Tests/bin
 /src/Lemon.Transform.Tests/obj
-/src/Lemon.Transform.Extension/obj
-/src/Lemon.Transform.Extension/bin
 /src/DataFlowDemo/bin
 /src/DataFlowDemo/obj
 /src/Lemon.Data.Core/bin
@@ -19,3 +17,5 @@
 /src/Lemon.Data.Core/bin
 /src/Lemon.Data.IO/bin
 /src/Lemon.Data.IO/obj
+/src/Lemon.Data.IO.Tests/bin
+/src/Lemon.Data.IO.Tests/obj
