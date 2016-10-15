@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Lemon.Data.Core
 {
@@ -11,19 +9,30 @@ namespace Lemon.Data.Core
 
         private int _lengthOfPage;
 
+        private IEnumerator<T> _enumerator;
+
+        public DataSet(IEnumerable<T> source)
+        {
+            _lengthOfPage = DEFAULT_LENGTH_OF_PAGE;
+
+            _enumerator = new PageEnumerator<T>(source.GetEnumerator(), _lengthOfPage);
+        }
+
         public DataSet(IDataReader<T> source)
         {
             _lengthOfPage = DEFAULT_LENGTH_OF_PAGE;
+
+            _enumerator = new PageEnumerator<T>(source.AsEnumerator(), _lengthOfPage);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return _enumerator;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }

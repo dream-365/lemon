@@ -7,12 +7,49 @@ using Lemon.Data.Core;
 namespace Lemon.Transform.Tests
 {
     /// <summary>
-    /// Summary description for PageEnumeratorTest
+    /// Summary description for ComareExecutorTest
     /// </summary>
     [TestClass]
-    public class PageEnumeratorTest
+    public class ComareExecutorTest
     {
-        public PageEnumeratorTest()
+        public class Message
+        {
+            public string Id { get; set; }
+
+            public int Value { get; set; }
+        }
+
+
+        public class Observer : ICompareObserver<Message>
+        {
+            public List<Message> AddMessages { get; set; }
+
+            public IList<Message> DeleteMessages { get; set; }
+
+            public Observer()
+            {
+                AddMessages = new List<Message>();
+
+                DeleteMessages = new List<Message>();
+            }
+
+            public void OnAdd(Message message)
+            {
+                AddMessages.Add(message);
+            }
+
+            public void OnChange(Message previous, Message current)
+            {
+                
+            }
+
+            public void OnDelete(Message message)
+            {
+                DeleteMessages.Add(message);
+            }
+        }
+
+        public ComareExecutorTest()
         {
             //
             // TODO: Add constructor logic here
@@ -60,56 +97,26 @@ namespace Lemon.Transform.Tests
         #endregion
 
         [TestMethod]
-        public void LessThanDefaultLength()
+        public void CompareTest()
         {
-            var datasource = new List<string> { "A", "B", "C", "D", "E" };
-                
-                // new StringDataSource("string_{0}", 1, 5);
+            var list1 = new List<Message> {
+                new Message { Id = "1", Value = 1 },
+                new Message { Id = "3", Value = 1 }
+            };
 
-            var pageEnum = new PageEnumerator<string>(datasource.GetEnumerator(), 1024);
+            var list2 = new List<Message> {
+                new Message { Id = "1", Value = 1 },
+                new Message { Id = "2", Value = 2 }
+            };
 
-            int count = 0;
+            var ds1 = new DataSet<Message>(list1);
+            var ds2 = new DataSet<Message>(list2);
 
-            while(pageEnum.MoveNext())
-            {
-                count++;
-            }
+            var exe = new ComareExecutor<Message>(ds1, ds2, new CompareOptions { PrimaryKey = "Id" });
 
-            Assert.AreEqual(5, count);
-        }
+            exe.Observer = new Observer();
 
-        [TestMethod]
-        public void EqualToLength()
-        {
-            List<string> list = new List<string> { "a", "b", "c", "d", "e" };
-
-            var pageEnum = new PageEnumerator<string>(list.GetEnumerator(), 5);
-
-            int count = 0;
-
-            while (pageEnum.MoveNext())
-            {
-                count++;
-            }
-
-            Assert.AreEqual(5, count);
-        }
-
-        [TestMethod]
-        public void MoreThanLength()
-        {
-            var datasource = new StringDataSource("string_{0}", 1, 1024);
-
-            var pageEnum = new PageEnumerator<string>(datasource.GetEnumerator(), 5);
-
-            int count = 0;
-
-            while (pageEnum.MoveNext())
-            {
-                count++;
-            }
-
-            Assert.AreEqual(1024, count);
+            exe.RunAsync().Wait();
         }
     }
 }

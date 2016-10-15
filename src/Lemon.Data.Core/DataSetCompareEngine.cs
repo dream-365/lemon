@@ -4,9 +4,9 @@ namespace Lemon.Data.Core
 {
     public class DataSetCompareEngine
     {
-        public IComareExecute Compare<T>(DataSet<T> set, DataSet<T> with)
+        public IComareExecute<T> Compare<T>(DataSet<T> set, DataSet<T> with, CompareOptions options)
         {
-            throw new NotImplementedException();
+            return new ComareExecutor<T>(set, with, options);
         }
     }
 }

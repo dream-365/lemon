@@ -7,12 +7,20 @@ using Lemon.Data.Core;
 namespace Lemon.Transform.Tests
 {
     /// <summary>
-    /// Summary description for PageEnumeratorTest
+    /// Summary description for PrimaryKeyComparerTests
     /// </summary>
     [TestClass]
-    public class PageEnumeratorTest
+    public class PrimaryKeyComparerTests
     {
-        public PageEnumeratorTest()
+        public class Message
+        {
+            public string Id { get; set; }
+
+            public int Value { get; set; }
+        }
+
+
+        public PrimaryKeyComparerTests()
         {
             //
             // TODO: Add constructor logic here
@@ -60,56 +68,17 @@ namespace Lemon.Transform.Tests
         #endregion
 
         [TestMethod]
-        public void LessThanDefaultLength()
+        public void CompareStringPrimaryKey()
         {
-            var datasource = new List<string> { "A", "B", "C", "D", "E" };
-                
-                // new StringDataSource("string_{0}", 1, 5);
+            var comparer = new PrimaryKeyComparer<Message>("Id");
 
-            var pageEnum = new PageEnumerator<string>(datasource.GetEnumerator(), 1024);
+            var left = new Message { Id = "123456", Value = 123456 };
 
-            int count = 0;
+            var right = new Message { Id = "abcdefg", Value = 123 };
 
-            while(pageEnum.MoveNext())
-            {
-                count++;
-            }
+            var result = comparer.Compare(left, right);
 
-            Assert.AreEqual(5, count);
-        }
-
-        [TestMethod]
-        public void EqualToLength()
-        {
-            List<string> list = new List<string> { "a", "b", "c", "d", "e" };
-
-            var pageEnum = new PageEnumerator<string>(list.GetEnumerator(), 5);
-
-            int count = 0;
-
-            while (pageEnum.MoveNext())
-            {
-                count++;
-            }
-
-            Assert.AreEqual(5, count);
-        }
-
-        [TestMethod]
-        public void MoreThanLength()
-        {
-            var datasource = new StringDataSource("string_{0}", 1, 1024);
-
-            var pageEnum = new PageEnumerator<string>(datasource.GetEnumerator(), 5);
-
-            int count = 0;
-
-            while (pageEnum.MoveNext())
-            {
-                count++;
-            }
-
-            Assert.AreEqual(1024, count);
+            Assert.AreEqual(-1, result);
         }
     }
 }

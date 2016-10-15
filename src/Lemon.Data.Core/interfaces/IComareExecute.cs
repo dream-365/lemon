@@ -1,7 +1,11 @@
-﻿namespace Lemon.Data.Core
+﻿using System.Threading.Tasks;
+
+namespace Lemon.Data.Core
 {
-    public interface IComareExecute
+    public interface IComareExecute<T>
     {
-        ICompareObserver Observer { get; set; }
+        ICompareObserver<T> Observer { get; set; }
+
+        Task RunAsync();
     }
 }

@@ -28,9 +28,9 @@ namespace Lemon.Data.Core
 
             _length = lengthOfPage;
 
-            _hasMore = _enumerator.MoveNext(); ;
-
             Reset();
+
+            _hasMore = _enumerator.MoveNext(); ;
         }
 
         public T Current
@@ -51,7 +51,7 @@ namespace Lemon.Data.Core
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
 
         public bool MoveNext()
@@ -81,7 +81,7 @@ namespace Lemon.Data.Core
 
         private bool LoadData()
         {
-            bool hasMore = true;
+            bool hasMore = _hasMore;
 
             lock(_data)
             {
