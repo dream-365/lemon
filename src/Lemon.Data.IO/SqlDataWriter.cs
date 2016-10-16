@@ -21,7 +21,7 @@ namespace Lemon.Data.IO
 
             schema.Name = name;
 
-            _sql = SqlUtil.BuildInsertSql(schema);
+            _sql = Util.BuildInsertSql(schema);
 
             _connection = new SqlConnection(_connectionString);
         }
