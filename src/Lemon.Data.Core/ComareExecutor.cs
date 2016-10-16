@@ -44,6 +44,8 @@ namespace Lemon.Data.Core
 
             var primaryKeyComparer = new PrimaryKeyComparer<T>(_options.PrimaryKey);
 
+            var equalityComparer = new EqualityComparer<T>(_options.ColumnsToCompare);
+
             endOfSet = !_set.MoveNext();
             endOfWith = !_with.MoveNext();
 
@@ -79,6 +81,11 @@ namespace Lemon.Data.Core
                     endOfSet = !_set.MoveNext();
                 } else
                 {
+                    if(!equalityComparer.Equals(_set.Current, _with.Current))
+                    {
+                        _observer.OnChange(_set.Current, _with.Current);
+                    }
+
                     endOfSet = !_set.MoveNext();
                     endOfWith = !_with.MoveNext();
                 }

@@ -9,5 +9,7 @@ namespace Lemon.Data.Core
     public class CompareOptions
     {
         public string PrimaryKey { get; set; }
+
+        public string[] ColumnsToCompare { get; set; }
     }
 }
