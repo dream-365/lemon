@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EqualityComparer.cs" />
     <Compile Include="ComareExecutor.cs" />
     <Compile Include="Models\CompareOptions.cs" />
     <Compile Include="PrimaryKeyComparer.cs" />

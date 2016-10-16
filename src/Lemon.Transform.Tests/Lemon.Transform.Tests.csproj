@@ -78,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringDataSource.cs" />
     <Compile Include="StringFormatsEnumerator.cs" />
+    <Compile Include="EqualityComparerUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
