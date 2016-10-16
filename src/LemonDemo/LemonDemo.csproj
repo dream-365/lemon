@@ -37,6 +37,10 @@
       <HintPath>..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,7 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basic.cs" />
     <Compile Include="ConsoleDataWriter.cs" />
+    <Compile Include="DataCompare.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="PrefixTransformBlock.cs" />
     <Compile Include="SequenceDataReader.cs" />
     <Compile Include="Program.cs" />
@@ -70,6 +77,10 @@
     <ProjectReference Include="..\Lemon.Data.Core\Lemon.Data.Core.csproj">
       <Project>{1a0e7840-4d1d-4226-8931-c1daedeae0d5}</Project>
       <Name>Lemon.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lemon.Data.IO\Lemon.Data.IO.csproj">
+      <Project>{eb62fac7-54f0-4b8d-96e0-885601896284}</Project>
+      <Name>Lemon.Data.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -33,7 +33,7 @@ namespace LemonDemo
                 throw new Exception("write exception");
             }
             
-            Console.WriteLine("[{2}]-{0}:{1}", _name, record, _index);
+            Console.WriteLine("[{2}]-{0}:{1}", _name, Newtonsoft.Json.JsonConvert.SerializeObject(record), _index);
         }
 
         public void Dispose()

@@ -41,7 +41,7 @@ namespace Lemon.Data.Core
 
         public void Reset()
         {
-            throw new NotSupportedException();
+            
         }
     }
 }
