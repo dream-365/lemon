@@ -44,7 +44,7 @@ namespace Lemon.Data.IO
             };
         }
 
-        public static string BuildSelectSql(DataTableSchema schema, string whereCaluse = null)
+        public static string BuildSelectSql(DataTableSchema schema, string orderBy, string whereCaluse = null)
         {
             var sb = new StringBuilder();
 
@@ -62,7 +62,12 @@ namespace Lemon.Data.IO
             if(!string.IsNullOrWhiteSpace(whereCaluse))
             {
                 sb.Append("WHERE " + whereCaluse);
-            }           
+            }
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                sb.Append("ORDER BY " + orderBy);
+            }
 
             return sb.ToString();
         }

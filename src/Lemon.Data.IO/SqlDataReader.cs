@@ -16,7 +16,7 @@ namespace Lemon.Data.IO
 
         private IEnumerator<T> _enumerator;
 
-        public SqlDataReader(string connectionString, string table, string whereClause = null)
+        public SqlDataReader(string connectionString, string table, string orderBy, string whereClause = null)
         {
             _connectionString = connectionString;
 
@@ -24,7 +24,7 @@ namespace Lemon.Data.IO
 
             schema.Name = table;
 
-            _sql = Util.BuildSelectSql(schema, whereClause);
+            _sql = Util.BuildSelectSql(schema, orderBy, whereClause);
 
             _connection = new SqlConnection(_connectionString);
         }
