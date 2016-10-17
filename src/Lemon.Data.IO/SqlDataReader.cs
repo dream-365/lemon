@@ -18,6 +18,8 @@ namespace Lemon.Data.IO
 
         private bool _buffered = true;
 
+        private object _parameters;
+
         public bool Buffered {
             get { return _buffered; }
             set { _buffered = value; }
@@ -36,6 +38,15 @@ namespace Lemon.Data.IO
             _connection = new SqlConnection(_connectionString);
         }
 
+        public SqlDataReader(string connectionString, string query, object parameters = null)
+        {
+            _connectionString = connectionString;
+
+            _parameters = parameters;
+
+            _sql = query;
+        }
+
         public void Dispose()
         {
             if(_connection != null && _connection.State != ConnectionState.Closed)
@@ -48,7 +59,7 @@ namespace Lemon.Data.IO
         {
             if(_enumerator == null)
             {
-                var result = _connection.Query<T>(_sql, buffered: _buffered);
+                var result = _connection.Query<T>(_sql, param: _parameters, buffered: _buffered);
 
                 if(result == null)
                 {
