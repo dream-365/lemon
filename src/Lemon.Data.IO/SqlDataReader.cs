@@ -45,6 +45,8 @@ namespace Lemon.Data.IO
             _parameters = parameters;
 
             _sql = query;
+
+            _connection = new SqlConnection(_connectionString);
         }
 
         public void Dispose()
