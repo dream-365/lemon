@@ -16,6 +16,13 @@ namespace Lemon.Data.IO
 
         private IEnumerator<T> _enumerator;
 
+        private bool _buffered = true;
+
+        public bool Buffered {
+            get { return _buffered; }
+            set { _buffered = value; }
+        }
+
         public SqlDataReader(string connectionString, string table, string orderBy, string whereClause = null)
         {
             _connectionString = connectionString;
@@ -41,7 +48,7 @@ namespace Lemon.Data.IO
         {
             if(_enumerator == null)
             {
-                var result = _connection.Query<T>(_sql);
+                var result = _connection.Query<T>(_sql, buffered: _buffered);
 
                 if(result == null)
                 {

@@ -55,6 +55,7 @@
     <Compile Include="ConsoleDataWriter.cs" />
     <Compile Include="DataCompare.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="PrefixTransformBlock.cs" />
     <Compile Include="SequenceDataReader.cs" />
     <Compile Include="Program.cs" />

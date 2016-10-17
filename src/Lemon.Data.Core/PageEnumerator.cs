@@ -113,7 +113,14 @@ namespace Lemon.Data.Core
 
             _currentIndex = -1;
 
-            _enumerator.Reset();
+            try
+            {
+                _enumerator.Reset();
+            }
+            catch (NotSupportedException)
+            {
+
+            }  
 
             _data = new T[] { };
         }

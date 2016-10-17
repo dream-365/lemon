@@ -30,18 +30,14 @@ namespace LemonDemo
 
         public static void Run()
         {
-            var connectionString = "{connection string}";
-
-            var sqlDataReader1 = new SqlDataReader<Message>(connectionString, "directory_objects", "Id != '0142ebdf-e6fe-4906-993a-e995a76da4cf'");
-
-            var sqlDataReader2 = new SqlDataReader<Message>(connectionString, "directory_objects", "Id != '0134e450-dbf0-447c-8698-5f395f002454'");
-
-            var ds1 = new DataSet<Message>(sqlDataReader1);
-            var ds2 = new DataSet<Message>(sqlDataReader2);
+            var ds1 = new DataSet<Message>(new Messages(10000000000000000).AsEnumerable());
+            var ds2 = new DataSet<Message>(new Messages(10000000000000000).AsEnumerable());
 
             var engine = new DataSetCompareEngine();
 
-             var exe = engine.Compare(ds1, ds2, new CompareOptions { PrimaryKey = "Id" });
+             var exe = engine.Compare(ds1, ds2, new CompareOptions {
+                 PrimaryKey = "Id",
+                 ColumnsToCompare = new string[] { "Name" } });
 
             exe.Observer = new CompareObserver();
 
