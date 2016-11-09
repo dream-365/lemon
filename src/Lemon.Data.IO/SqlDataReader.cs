@@ -20,6 +20,8 @@ namespace Lemon.Data.IO
 
         private object _parameters;
 
+        public int? Timeout { get; set; }
+
         public bool Buffered {
             get { return _buffered; }
             set { _buffered = value; }
@@ -61,7 +63,7 @@ namespace Lemon.Data.IO
         {
             if(_enumerator == null)
             {
-                var result = _connection.Query<T>(_sql, param: _parameters, buffered: _buffered);
+                var result = _connection.Query<T>(_sql, param: _parameters, buffered:_buffered, commandTimeout:Timeout);
 
                 if(result == null)
                 {
