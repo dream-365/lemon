@@ -1,1 +1,1 @@
-﻿test data: http://bit.ly/1RZ166i
+﻿nuget pack Lemon.Data.Core.csproj -Prop Configuration=Release
