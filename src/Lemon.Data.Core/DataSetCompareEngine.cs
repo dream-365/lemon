@@ -6,7 +6,7 @@ namespace Lemon.Data.Core
     {
         public IComareExecute<T> Compare<T>(DataSet<T> set, DataSet<T> with, CompareOptions options)
         {
-            return new ComareExecutor<T>(set, with, options);
+            return new CompareExecutor<T>(set, with, options);
         }
     }
 }

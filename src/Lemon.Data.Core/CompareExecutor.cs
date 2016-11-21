@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Lemon.Data.Core
 {
-    public class ComareExecutor<T> : IComareExecute<T>
+    public class CompareExecutor<T> : IComareExecute<T>
     {
         private IEnumerator<T>  _set;
 
@@ -12,7 +12,7 @@ namespace Lemon.Data.Core
 
         private CompareOptions _options;
 
-        public ComareExecutor(DataSet<T> set, DataSet<T> with, CompareOptions options)
+        public CompareExecutor(DataSet<T> set, DataSet<T> with, CompareOptions options)
         {
             _set = set.GetEnumerator();
 

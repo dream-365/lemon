@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EqualityComparer.cs" />
-    <Compile Include="ComareExecutor.cs" />
+    <Compile Include="CompareExecutor.cs" />
     <Compile Include="Models\CompareOptions.cs" />
     <Compile Include="PrimaryKeyComparer.cs" />
     <Compile Include="DataEnumerator.cs" />
@@ -90,9 +90,7 @@
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\DataTableSchema.cs" />
-    <Compile Include="DataSourceService.cs" />
     <Compile Include="FieldTypeMapping.cs" />
-    <Compile Include="GlobalConfiguration.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Models\MessageWrapper.cs" />
     <Compile Include="Models\NamedParameter.cs" />
@@ -101,11 +99,8 @@
     <Compile Include="Node.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="PageEnumerator.cs" />
-    <Compile Include="ParametersInfo.cs" />
     <Compile Include="Pipeline.cs" />
-    <Compile Include="PipelineContext.cs" />
     <Compile Include="interfaces\IDataSourceService.cs" />
-    <Compile Include="build-in\JsonDataSourceService.cs" />
     <Compile Include="PredicateMaker.cs" />
     <Compile Include="TransformActionChain.cs" />
     <Compile Include="interfaces\ITransformBlock.cs" />

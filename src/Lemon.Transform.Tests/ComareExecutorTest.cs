@@ -118,7 +118,7 @@ namespace Lemon.Transform.Tests
             var ds1 = new DataSet<Message>(list1);
             var ds2 = new DataSet<Message>(list2);
 
-            var exe = new ComareExecutor<Message>(ds1, ds2, new CompareOptions {
+            var exe = new CompareExecutor<Message>(ds1, ds2, new CompareOptions {
                 PrimaryKey = "Id",
                 ColumnsToCompare = new string[] { "Value" } });
 

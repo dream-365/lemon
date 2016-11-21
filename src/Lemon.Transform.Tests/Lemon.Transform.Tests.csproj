@@ -72,7 +72,6 @@
     <Compile Include="ComareExecutorTest.cs" />
     <Compile Include="CustomDataSourceService.cs" />
     <Compile Include="DataflowBlockReflectionWrapperTest.cs" />
-    <Compile Include="DataSourceServiceRegisterTest.cs" />
     <Compile Include="PageEnumeratorTest.cs" />
     <Compile Include="PrimaryKeyComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
