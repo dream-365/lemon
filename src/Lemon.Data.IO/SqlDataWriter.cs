@@ -32,23 +32,28 @@ namespace Lemon.Data.IO
         private void InternalWrite(IEnumerable<T> records)
         {
             using (var connection = new SqlConnection(_connectionString))
-            using (var trans = connection.BeginTransaction())
             {
-                try
-                {
-                    foreach (var record in records)
-                    {
-                        connection.Execute(_sql, record, trans);
-                    }
+                connection.Open();
 
-                    trans.Commit();
-                }
-                catch (Exception ex)
+                using (var trans = connection.BeginTransaction())
                 {
-                    trans.Rollback();
-                    throw ex;
+                    try
+                    {
+                        foreach (var record in records)
+                        {
+                            connection.Execute(_sql, record, trans);
+                        }
+
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw ex;
+                    }
                 }
             }
+
         }
 
         private void InternalWrite(T record)
