@@ -107,7 +107,7 @@ namespace Lemon.Data.IO
 
         public void Write(T record)
         {
-            for(int i = 0; i < TIMEOUT_MAX_TRY_TIMES; i++)
+            for (int i = 0; i < TIMEOUT_MAX_TRY_TIMES; i++)
             {
                 try
                 {
@@ -120,10 +120,15 @@ namespace Lemon.Data.IO
                     if(ex.Number == -2)
                     {
                         LogService.Default.Info("sql timeout try times: " + i);
+                                 
                         continue;
                     }
+
+                    throw ex;
                 }
             }
+
+            throw new Exception("maxium try times reached");
         }
     }
 }
