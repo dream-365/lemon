@@ -6,6 +6,13 @@ using System.Collections.Generic;
 
 namespace Lemon.Data.IO
 {
+    public enum WriteMode
+    {
+        Update = 0,
+        Insert = 1,
+        Upsert = 2
+    }
+
     public class SqlDataWriter<T> : IDataWriter<T>
     {
         private const int TIMEOUT_MAX_TRY_TIMES = 10;
@@ -14,7 +21,7 @@ namespace Lemon.Data.IO
 
         private readonly string _sql;
 
-        public SqlDataWriter(string connectionString, string name)
+        public SqlDataWriter(string connectionString, string name, WriteMode mode = WriteMode.Upsert)
         {
             _connectionString = connectionString;
 
@@ -22,11 +29,24 @@ namespace Lemon.Data.IO
 
             schema.Name = name;
 
-            _sql = Util.BuildInsertSql(schema);
+            if(mode == WriteMode.Upsert)
+            {
+                _sql = Util.BuildInsertSql(schema);
+            }else if(mode == WriteMode.Insert)
+            {
+                _sql = Util.BuildInsertSql(schema, false);
+            }else if(mode == WriteMode.Update)
+            {
+                _sql = Util.BuidUpdateSql(schema);
+            }else
+            {
+                throw new Exception("not supported write mode: " + mode);
+            }
         }
 
         public void Dispose()
         {
+
         }
 
         private void InternalWrite(IEnumerable<T> records)

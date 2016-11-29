@@ -72,6 +72,28 @@ namespace Lemon.Data.IO
             return sb.ToString();
         }
 
+        public static string BuidUpdateSql(DataTableSchema schema)
+        {
+            var sb = new StringBuilder();
+
+            var firstPrimaryKey = schema.PrimaryKeys.FirstOrDefault();
+
+            sb.Append("UPDATE [dbo].").AppendLine("[" + schema.Name + "]");
+
+            var sets = schema.Columns.Skip(1).Select(m => string.Format("[{0}] = @{0}", m.Name));
+
+            sb.Append("SET ").AppendLine(string.Join(",", sets));
+
+            sb.Append(" WHERE [").Append(firstPrimaryKey).Append("] = @").Append(firstPrimaryKey);
+
+            foreach (var primaryKey in schema.PrimaryKeys.Skip(1))
+            {
+                sb.Append(" AND ").Append("[").Append(primaryKey).Append("] = @").Append(primaryKey);
+            }
+
+            return sb.ToString();
+        }
+
         public static string BuildInsertSql(DataTableSchema schema, bool upsert = true)
         {
             var sb = new StringBuilder();
