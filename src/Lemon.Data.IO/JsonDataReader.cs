@@ -5,7 +5,7 @@ using Lemon.Data.Core;
 
 namespace Lemon.Data.IO
 {
-    public class JsonDataReader<TRecord> : IDataReader<TRecord>
+    public class JsonFileDataReader<TRecord> : IDataReader<TRecord>
     {
         private string _filePath;
 
@@ -15,7 +15,7 @@ namespace Lemon.Data.IO
 
         private StreamReader _reader;
 
-        public JsonDataReader(string filePath)
+        public JsonFileDataReader(string filePath)
         {
             _filePath = filePath;
         }

@@ -108,36 +108,6 @@ namespace Lemon.Data.Core
 
                 return actionBlock;
             }
-            else if(node.NodeType == NodeType.BroadCastNode)
-            {
-                var broadcast = node as IBroadCast;
-
-                var target = node as ITarget;
-
-                IList<DataflowBlockReflectionWrapper> targets = new List<DataflowBlockReflectionWrapper>();
-
-                foreach(var childrenNode in broadcast.ChildrenNodes)
-                {
-                    targets.Add(new DataflowBlockReflectionWrapper(BuildTargetBlock(childrenNode, tasks)));
-                }
-
-                var dispatcherType = typeof(MessageBroadCastBlockMaker<>).MakeGenericType(target.TargetType);
-
-                var dispatcher = Activator.CreateInstance(dispatcherType, new object[] { targets, _id });
-
-                var dispatch = dispatcherType.GetProperty("Dispatch").GetValue(dispatcher);
-
-                var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, dispatch, executionOptions);
-
-                actionBlock.Completion.ContinueWith(task => {
-                    foreach (var targetBlock in targets)
-                    {
-                        targetBlock.Complete();
-                    }
-                });
-
-                return actionBlock; 
-            }
             else if (node.NodeType == NodeType.TransformNode)
             {
                 var source = node as ISource;

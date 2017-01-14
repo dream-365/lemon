@@ -30,14 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -73,13 +65,11 @@
     <Compile Include="interfaces\ICompareObserver.cs" />
     <Compile Include="MessageActionBlockMaker.cs" />
     <Compile Include="BlockBuilder.cs" />
-    <Compile Include="BroadCastActionChain.cs" />
     <Compile Include="DataflowBlockReflectionWrapper.cs" />
     <Compile Include="Exceptions\BlockLinkException.cs" />
     <Compile Include="Execution.cs" />
     <Compile Include="interfaces\IDataWriter.cs" />
     <Compile Include="interfaces\IDataReader.cs" />
-    <Compile Include="interfaces\IBroadCast.cs" />
     <Compile Include="interfaces\IExecute.cs" />
     <Compile Include="interfaces\ISource.cs" />
     <Compile Include="interfaces\ITarget.cs" />
@@ -93,25 +83,16 @@
     <Compile Include="FieldTypeMapping.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Models\MessageWrapper.cs" />
-    <Compile Include="Models\NamedParameter.cs" />
-    <Compile Include="Models\ProgressStateItem.cs" />
-    <Compile Include="Models\WriteOnChangeConfiguration.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="ObjectType.cs" />
     <Compile Include="PageEnumerator.cs" />
     <Compile Include="Pipeline.cs" />
-    <Compile Include="interfaces\IDataSourceService.cs" />
     <Compile Include="PredicateMaker.cs" />
     <Compile Include="TransformActionChain.cs" />
     <Compile Include="interfaces\ITransformBlock.cs" />
-    <Compile Include="TransformConfiguration.cs" />
-    <Compile Include="Models\DataInputModel.cs" />
-    <Compile Include="Models\DataOutputModel.cs" />
-    <Compile Include="Models\NamedParameterObjectModel.cs" />
     <Compile Include="ProgressIndicator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="interfaces\ITransformManyBlock.cs" />
-    <Compile Include="Models\ValueExpression.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

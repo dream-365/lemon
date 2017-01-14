@@ -16,7 +16,7 @@ namespace Lemon.Data.IO.Tests
         [TestMethod]
         public void JsonDataReaderReadAll()
         {
-            var jsonReader = new JsonDataReader<Record>(@"test_data.json");
+            var jsonReader = new JsonFileDataReader<Record>(@"test_data.json");
 
             int count = 0;
 

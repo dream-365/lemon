@@ -28,11 +28,6 @@ namespace Lemon.Data.Core
                 (_current as ISource).Next = transformNode;
                 transformNode.Prev = _current;
             }
-            else if (_current.NodeType == NodeType.BroadCastNode)
-            {
-                (_current as IBroadCast).AddChild(transformNode);
-                transformNode.Prev = _current;
-            }
             else
             {
                 throw new Exception("Node type does not support next");
@@ -53,11 +48,6 @@ namespace Lemon.Data.Core
                 (_current as ISource).Next = node;
                 node.Prev = _current;
             }
-            else if (_current.NodeType == NodeType.BroadCastNode)
-            {
-                (_current as IBroadCast).AddChild(node);
-                node.Prev = _current;
-            }
             else
             {
                 throw new Exception("Node type does not support next");
@@ -76,25 +66,6 @@ namespace Lemon.Data.Core
             return Transform(block.Transform, maxDegreeOfParallelism);
         }
 
-        public BroadCastActionChain<TSource> Broadcast()
-        {
-            var broadCastNode = new BroadCastNode<TSource>();
-
-            if (_current.NodeType == NodeType.SourceNode || 
-                _current.NodeType == NodeType.TransformNode ||
-                _current.NodeType == NodeType.TransformManyNode)
-            {
-                (_current as ISource).Next = broadCastNode;
-                broadCastNode.Prev = _current;
-            }
-            else
-            {
-                throw new Exception("Node type does not support broadcast");
-            }
-
-            return new BroadCastActionChain<TSource>(broadCastNode);
-        }
-
         public void Output(IDataWriter<TSource> writer)
         {
             var actionNode = new ActionNode<TSource>
@@ -107,10 +78,6 @@ namespace Lemon.Data.Core
                 _current.NodeType == NodeType.TransformManyNode)
             {
                 (_current as ISource).Next = actionNode;
-            }
-            else if (_current.NodeType == NodeType.BroadCastNode)
-            {
-                (_current as IBroadCast).AddChild(actionNode);
             }
             else
             {

@@ -10,8 +10,7 @@ namespace Lemon.Data.Core
         SourceNode = 0,
         ActionNode = 1,
         TransformNode = 2,
-        TransformManyNode = 3,
-        BroadCastNode = 4
+        TransformManyNode = 3
     }
 
     public class Node
@@ -140,45 +139,6 @@ namespace Lemon.Data.Core
         }
 
         public Action<TTarget> Write { get; set; }
-
-        public Type TargetType
-        {
-            get
-            {
-                return _targetType;
-            }
-        }
-    }
-
-    public class BroadCastNode<TTarget> : Node, IBroadCast, ITarget
-    {
-        private IList<Node> _nodes;
-
-        private Type _targetType;
-
-        public BroadCastNode()
-        {
-            NodeType = NodeType.BroadCastNode;
-
-            _targetType = typeof(TTarget);
-
-            _nodes = new List<Node>();
-        }
-
-        public void AddChild(Node node)
-        {
-            _nodes.Add(node);
-        }
-
-        public Node Prev { get; set; }
-
-        public IEnumerable<Node> ChildrenNodes
-        {
-            get
-            {
-                return _nodes;
-            }
-        }
 
         public Type TargetType
         {
