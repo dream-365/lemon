@@ -19,3 +19,5 @@
 /src/Lemon.Data.IO/obj
 /src/Lemon.Data.IO.Tests/bin
 /src/Lemon.Data.IO.Tests/obj
+/src/Lemon.Data.IO.Azure/obj/Debug
+/src/Lemon.Data.IO.Azure/bin/Debug

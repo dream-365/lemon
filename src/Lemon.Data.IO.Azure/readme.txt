@@ -1,0 +1,1 @@
+﻿nuget pack Lemon.Data.Core.csproj -Prop Configuration=Release
