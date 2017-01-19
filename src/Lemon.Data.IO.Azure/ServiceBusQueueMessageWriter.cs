@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 
-namespace Lemon.Data.IO.Azure.IO
+namespace Lemon.Data.IO.Azure
 {
     public class ServiceBusQueueMessageWriter<T> : ServiceBusQueueBase, IDataWriter<T>
     {

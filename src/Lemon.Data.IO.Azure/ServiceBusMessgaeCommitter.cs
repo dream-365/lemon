@@ -1,7 +1,7 @@
 ﻿using Microsoft.ServiceBus.Messaging;
 using System;
 
-namespace Lemon.Data.IO.Azure.IO
+namespace Lemon.Data.IO.Azure
 {
     public class ServiceBusQueueMessgaeCommitter
     {

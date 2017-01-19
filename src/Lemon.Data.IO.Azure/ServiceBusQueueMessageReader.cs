@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Lemon.Data.IO.Azure.IO
+namespace Lemon.Data.IO.Azure
 {
     public class ServiceBusQueueMessage<T>
     {

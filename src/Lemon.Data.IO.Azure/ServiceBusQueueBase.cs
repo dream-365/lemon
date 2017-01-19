@@ -1,6 +1,6 @@
 ﻿using Microsoft.ServiceBus.Messaging;
 
-namespace Lemon.Data.IO.Azure.IO
+namespace Lemon.Data.IO.Azure
 {
     public class ServiceBusQueueBase
     {
