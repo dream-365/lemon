@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Lemon.Data.Core
+﻿namespace Lemon.Data.Core
 {
     public interface IDataReader<TRecord> : IDataReader
     {

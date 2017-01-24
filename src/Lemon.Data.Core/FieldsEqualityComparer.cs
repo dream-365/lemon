@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace Lemon.Data.Core
 {
-    public class EqualityComparer<T>
+    public class FieldsEqualityComparer<T> : IEqualityComparer<T>
     {
         private Func<T, T, bool> _compareExecutor;
 
         private string[] _fieldsToCompare;
 
-        public EqualityComparer(string [] fieldsToCompare)
+        public FieldsEqualityComparer(string [] fieldsToCompare)
         {
             _fieldsToCompare = fieldsToCompare;
 
@@ -20,7 +21,6 @@ namespace Lemon.Data.Core
         private Func<T, T, bool> BuildCompareExecutor()
         {
             ParameterExpression left = Expression.Parameter(typeof(T), "left");
-
             ParameterExpression right = Expression.Parameter(typeof(T), "right");
 
             var firstColumn = _fieldsToCompare.First();
@@ -42,6 +42,11 @@ namespace Lemon.Data.Core
         public bool Equals(T x, T y)
         {
             return _compareExecutor(x, y);
+        }
+
+        public int GetHashCode(T obj)
+        {
+            throw new NotSupportedException();
         }
     }
 }

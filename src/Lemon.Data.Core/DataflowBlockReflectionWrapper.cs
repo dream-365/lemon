@@ -8,7 +8,6 @@ namespace Lemon.Data.Core
     public class DataflowBlockReflectionWrapper
     {
         private const string TARGET_BLOCK_INTERFACE_NAME = "ITargetBlock";
-
         private const string SOURCE_BLOCK_INTERFACE_NAME = "ISourceBlock";
 
         private object _block;

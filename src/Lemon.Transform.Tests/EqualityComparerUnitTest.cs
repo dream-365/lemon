@@ -18,7 +18,7 @@ namespace Lemon.Transform.Tests
         [TestMethod]
         public void EqualTest()
         {
-            EqualityComparer<Message> comparer = new EqualityComparer<Message>(new string[] { "Id", "CreatedOn" });
+            FieldsEqualityComparer<Message> comparer = new FieldsEqualityComparer<Message>(new string[] { "Id", "CreatedOn" });
 
             var msg1 = new Message { Id = "1", CreatedOn = DateTime.Parse("2106-9-1") };
             var msg2 = new Message { Id = "1", CreatedOn = DateTime.Parse("2106-9-1") };
@@ -29,7 +29,7 @@ namespace Lemon.Transform.Tests
         [TestMethod]
         public void NotEqualTest()
         {
-            EqualityComparer<Message> comparer = new EqualityComparer<Message>(new string[] { "Id", "CreatedOn" });
+            FieldsEqualityComparer<Message> comparer = new FieldsEqualityComparer<Message>(new string[] { "Id", "CreatedOn" });
 
             var msg1 = new Message { Id = "1", CreatedOn = DateTime.Parse("2106-9-1") };
             var msg2 = new Message { Id = "1", CreatedOn = DateTime.Parse("2106-9-2") };

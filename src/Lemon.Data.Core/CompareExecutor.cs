@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Lemon.Data.Core
 {
+    [Obsolete]
     public class CompareExecutor<T> : IComareExecute<T>
     {
         private IEnumerator<T>  _set;
@@ -44,7 +45,7 @@ namespace Lemon.Data.Core
 
             var primaryKeyComparer = new PrimaryKeyComparer<T>(_options.PrimaryKey);
 
-            var equalityComparer = new EqualityComparer<T>(_options.ColumnsToCompare);
+            var equalityComparer = new FieldsEqualityComparer<T>(_options.ColumnsToCompare);
 
             endOfSet = !_set.MoveNext();
             endOfWith = !_with.MoveNext();
@@ -99,6 +100,11 @@ namespace Lemon.Data.Core
             {
                 Compare();
             });
+        }
+
+        public void Run()
+        {
+            Compare();
         }
     }
 }

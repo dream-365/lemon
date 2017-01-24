@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
 
 namespace Lemon.Data.Core
 {
-    public class PrimaryKeyComparer<T> : Comparer<T>
+    public class PrimaryKeyComparer<T> : IComparer<T>
     {
         private Func<T, T, int> _executor;
 
@@ -47,7 +44,7 @@ namespace Lemon.Data.Core
             return Expression.Lambda<Func<T, T, int>>(call, left, right).Compile();
         }
 
-        public override int Compare(T x, T y)
+        public int Compare(T x, T y)
         {
             return _executor(x, y);
         }
