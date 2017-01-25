@@ -19,6 +19,11 @@ namespace Lemon.Data.Core
             _options = options;
         }
 
+        public void Compare(DataSet<T> set, DataSet<T> with)
+        {
+            Compare(set.GetEnumerator(), with.GetEnumerator());
+        }
+
         public void Compare(IEnumerable<T> set, IEnumerable<T> with)
         {
             Compare(set.GetEnumerator(), with.GetEnumerator());
