@@ -36,5 +36,37 @@ namespace Lemo.Data.Core.Tests
             Assert.AreEqual(1, observer.Deletes.Count());
             Assert.AreEqual(1, observer.Changes.Count());
         }
+
+        [TestMethod]
+        public void RegisterCusmtomKeyComparer()
+        {
+            ServicesInstaller.Current.Install<IComparer<DataRow>, CusmtomKeyComparer>();
+
+            var options = new CompareOptions
+            {
+                PrimaryKey = "Id",
+                ColumnsToCompare = new string[] { "Title" }
+            };
+            var observer = new AssertObserver<DataRow>();
+            var list1 = new List<DataRow>
+            {
+                new DataRow { Id = 1, Title = "Data Row #1" },
+                new DataRow { Id = 2, Title = "Data Row #2" }
+            };
+
+            var list2 = new List<DataRow>
+            {
+                new DataRow { Id = 1, Title = "Data Row #1-" },
+                new DataRow { Id = 3, Title = "Data Row #3" }
+            };
+
+            var pipe = new ComparingPipe<DataRow>(options, observer);
+
+            pipe.Compare(list1, list2);
+
+            Assert.AreEqual(0, observer.Adds.Count());
+            Assert.AreEqual(0, observer.Deletes.Count());
+            Assert.AreEqual(2, observer.Changes.Count());
+        }
     }
 }

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AssertObserver.cs" />
     <Compile Include="ComparingPipeTests.cs" />
+    <Compile Include="CusmtomKeyComparer.cs" />
     <Compile Include="DataRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

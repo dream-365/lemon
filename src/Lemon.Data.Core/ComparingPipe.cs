@@ -10,9 +10,11 @@ namespace Lemon.Data.Core
         private readonly ICompareObserver<T> _observer;
 
         public ComparingPipe(CompareOptions options, ICompareObserver<T> observer)
-        {
-            _primaryKeyComparer = new PrimaryKeyComparer<T>(options.PrimaryKey);
-            _fieldsEqualityComparer = new FieldsEqualityComparer<T>(options.ColumnsToCompare);
+        {        
+            _primaryKeyComparer = ServicesInstaller.Current.Container
+                .Resolve<IComparer<T>>(new { primaryKey = options.PrimaryKey });
+            _fieldsEqualityComparer = ServicesInstaller.Current.Container
+                .Resolve<IEqualityComparer<T>>(new { fieldsToCompare = options.ColumnsToCompare });
             _observer = observer;
             _options = options;
         }

@@ -97,6 +97,7 @@
     <Compile Include="PageEnumerator.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="PredicateMaker.cs" />
+    <Compile Include="ServicesInstaller.cs" />
     <Compile Include="TransformActionChain.cs" />
     <Compile Include="interfaces\ITransformBlock.cs" />
     <Compile Include="ProgressIndicator.cs" />
