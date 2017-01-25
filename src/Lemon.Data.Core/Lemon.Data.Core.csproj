@@ -42,6 +42,10 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.4.1.18, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.4.1\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BsonFieldsEqualityComparer.cs" />
+    <Compile Include="BsonPrimaryKeyComparer.cs" />
     <Compile Include="ComparingPipe.cs" />
     <Compile Include="FieldsEqualityComparer.cs" />
     <Compile Include="CompareExecutor.cs" />
@@ -89,7 +95,6 @@
     <Compile Include="Models\DataColumn.cs" />
     <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\DataTableSchema.cs" />
-    <Compile Include="FieldTypeMapping.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Models\MessageWrapper.cs" />
     <Compile Include="Node.cs" />

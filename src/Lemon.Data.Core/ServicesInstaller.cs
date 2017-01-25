@@ -1,13 +1,14 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using MongoDB.Bson;
 using System.Collections.Generic;
 
 namespace Lemon.Data.Core
 {
     public class ServicesInstaller
     {
-        private readonly IWindsorContainer _container;
+        private IWindsorContainer _container;
         private static ServicesInstaller _current;
 
         public static ServicesInstaller Current { get {
@@ -26,6 +27,16 @@ namespace Lemon.Data.Core
 
         private ServicesInstaller()
         {
+            Build();
+        }
+
+        public void Rebuild()
+        {
+            Build();
+        }
+
+        private void Build()
+        {
             _container = new WindsorContainer().Install(FromAssembly.This());
             InstallBuildInServices();
         }
@@ -35,7 +46,7 @@ namespace Lemon.Data.Core
             _container.Register(Component
                  .For(typeof(TService))
                  .ImplementedBy(typeof(TImpl))
-                 .LifestylePerThread());
+                 .LifeStyle.Transient);
         }
 
         private void InstallBuildInServices()
@@ -43,12 +54,15 @@ namespace Lemon.Data.Core
             _container.Register(Component
              .For(typeof(IEqualityComparer<>))
              .ImplementedBy(typeof(FieldsEqualityComparer<>))
-             .LifestylePerThread());
+             .LifeStyle.Transient);
 
             _container.Register(Component
              .For(typeof(IComparer<>))
              .ImplementedBy(typeof(PrimaryKeyComparer<>))
-             .LifestylePerThread());
+             .LifeStyle.Transient);
+
+            Install<IEqualityComparer<BsonDocument>, BsonFieldsEqualityComparer>();
+            Install<IComparer<BsonDocument>, BsonPrimaryKeyComparer>();
         }
     }
 }

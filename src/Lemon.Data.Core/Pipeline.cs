@@ -9,9 +9,7 @@ namespace Lemon.Data.Core
     public class Pipeline
     {
         private Node _root;
-
         public int BoundedCapacity { get; set; }
-
         private Guid _id;
 
         public Pipeline()
@@ -38,17 +36,14 @@ namespace Lemon.Data.Core
             }
 
             var reader = _root.GetType().GetProperty("Reader").GetValue(_root) as IDataReader;
-
             var sourceNode = _root as ISource;
-
-            var bufferBlock = BlockBuilder.CreateBufferBlock(sourceNode.SourceType, new DataflowBlockOptions { BoundedCapacity = BoundedCapacity });
-
+            var bufferBlock = BlockBuilder.CreateBufferBlock(sourceNode.SourceType, 
+                new DataflowBlockOptions { BoundedCapacity = BoundedCapacity });
             var messageType = typeof(MessageWrapper<>).MakeGenericType(sourceNode.SourceType);
 
             var tasks = new List<Task>();
 
             var target = BuildTargetBlock(sourceNode.Next, tasks);
-
             bufferBlock.LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true });
 
             return new Execution(async (parameters) => {
@@ -57,19 +52,16 @@ namespace Lemon.Data.Core
                     try
                     {
                         var row = reader.Read();
-
                         var message = Activator.CreateInstance(messageType, new object[] { row, _id });
-
                         var result = await bufferBlock.SendAsync(message);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // TODO: exception handle
+                        LogService.Default.Error("reader fail", ex);
                     }
                 }
 
                 reader.Dispose();
-
                 bufferBlock.Complete();
 
                 await Task.Run(() =>
@@ -95,15 +87,10 @@ namespace Lemon.Data.Core
             if(node.NodeType == NodeType.ActionNode)
             {
                 var target = node as ITarget;
-
                 var nodeClass = typeof(ActionNode<>).MakeGenericType(target.TargetType);
-
                 var actionBlockClass = typeof(ActionBlock<>).MakeGenericType(target.TargetType);
-
                 var writeFunc = nodeClass.GetProperty("Write").GetValue(node);
-
                 var actionBlock = BlockBuilder.CreateActionBlock(target.TargetType, writeFunc, executionOptions);
-
                 tasks.Add(actionBlock.Completion);
 
                 return actionBlock;
@@ -111,13 +98,9 @@ namespace Lemon.Data.Core
             else if (node.NodeType == NodeType.TransformNode)
             {
                 var source = node as ISource;
-
                 var target = node as ITarget;
-
                 var nodeClass = typeof(TransformNode<,>).MakeGenericType(source.SourceType, target.TargetType);
-
                 var transformFunc = nodeClass.GetProperty("Block").GetValue(node);
-
                 var options = new ExecutionDataflowBlockOptions
                 {
                     BoundedCapacity = executionOptions.BoundedCapacity
@@ -139,11 +122,8 @@ namespace Lemon.Data.Core
             else if (node.NodeType == NodeType.TransformManyNode)
             {
                 var source = node as ISource;
-
                 var target = node as ITarget;
-
                 var nodeClass = typeof(TransformManyNode<,>).MakeGenericType(source.SourceType, target.TargetType);
-
                 var transformManyFunc = nodeClass.GetProperty("Block").GetValue(node);
 
                 var options = new ExecutionDataflowBlockOptions
@@ -157,9 +137,7 @@ namespace Lemon.Data.Core
                 }
 
                 var transformManyBlock = BlockBuilder.CreateTransformManyBlock(source.SourceType, target.TargetType, transformManyFunc, options);
-
                 var targetBlock = BuildTargetBlock(source.Next, tasks);
-
                 transformManyBlock.LinkTo(targetBlock, linkOptions);
 
                 return transformManyBlock;
