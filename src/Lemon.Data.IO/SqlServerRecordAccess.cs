@@ -17,6 +17,7 @@ namespace Lemon.Data.IO
             _connectionString = connectionString;
             _table = table;
             var schema = Util.BuildSchemaFromType(typeof(T));
+            schema.Name = table;
             _selectSql = Util.BuildSelectSql(schema, null, schema.PrimaryKeys[0] + " = @PrimaryKey");
             _upsertSql = Util.BuildInsertSql(schema, true);
         }
