@@ -44,7 +44,7 @@ namespace Lemon.Data.IO
             };
         }
 
-        public static string BuildSelectSql(DataTableSchema schema, string orderBy, string whereCaluse = null)
+        public static string BuildSelectSql(DataTableSchema schema, string orderBy = null, string whereCaluse = null)
         {
             var sb = new StringBuilder();
 

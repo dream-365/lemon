@@ -46,7 +46,6 @@ namespace Lemon.Data.IO
 
         public void Dispose()
         {
-
         }
 
         private void InternalWrite(IEnumerable<T> records)
