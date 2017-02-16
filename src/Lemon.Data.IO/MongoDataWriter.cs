@@ -12,7 +12,6 @@ namespace Lemon.Data.IO
         public MongoDataWriter(string connectionString, string database, string collectionName)
         {
             var client = new MongoClient(connectionString);
-
             _collection = client.GetDatabase(database).GetCollection<BsonDocument>(collectionName);
         }
 
@@ -23,12 +22,15 @@ namespace Lemon.Data.IO
 
         public void Write(IEnumerable<BsonDocument> records)
         {
-            _collection.InsertMany(records);
+            throw new System.NotImplementedException();
         }
 
         public void Write(BsonDocument record)
         {
-            _collection.InsertOne(record);
+            _collection.ReplaceOne(
+                Builders<BsonDocument>.Filter.Eq("_id", record.GetValue("_id")),
+                record,
+                new UpdateOptions { IsUpsert = true });
         }
     }
 }
