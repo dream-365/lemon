@@ -5,7 +5,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Lemon.Core
 {
-    public class DataflowBlockReflectionWrapper
+    internal class DataflowBlockReflectionWrapper
     {
         private const string TARGET_BLOCK_INTERFACE_NAME = "ITargetBlock";
         private const string SOURCE_BLOCK_INTERFACE_NAME = "ISourceBlock";

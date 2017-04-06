@@ -17,7 +17,7 @@ namespace Lemon.Core
             _id = Guid.NewGuid();
         }
 
-        public TransformActionChain<TSource> DataSource<TSource>(IDataReader<TSource> reader)
+        public TransformActionChain<TSource> Read<TSource>(IDataReader<TSource> reader)
         {
             _root = new DataSourceNode<TSource>
             {
@@ -28,7 +28,7 @@ namespace Lemon.Core
         }
 
 
-        public IExecute Build()
+        public IExecuteable Build()
         {
             if(_root.NodeType != NodeType.SourceNode)
             {
@@ -46,7 +46,7 @@ namespace Lemon.Core
             var target = BuildTargetBlock(sourceNode.Next, tasks);
             bufferBlock.LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true });
 
-            return new Execution(async (parameters) => {
+            return new PipelineExecution(async () => {
                 while (reader.Next())
                 {
                     try
@@ -61,17 +61,16 @@ namespace Lemon.Core
                     }
                 }
 
+                // dispose the reader and signal the read completion
                 reader.Dispose();
                 bufferBlock.Complete();
 
-                await Task.Run(() =>
+                // use a task to wait all blocks completed
+                return await Task.Run(() =>
                 {
                     Task.WaitAll(tasks.ToArray());
-
                     return true;
                 });
-              
-                return true;
             });
         }
 
@@ -144,7 +143,7 @@ namespace Lemon.Core
             }
             else
             {
-                throw new Exception("the node type does not support buidling target block");
+                throw new Exception("the node type does not support building target block");
             }
         }
     }

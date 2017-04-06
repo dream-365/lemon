@@ -15,14 +15,14 @@ namespace Lemon.Core
         {
             _lengthOfPage = DEFAULT_LENGTH_OF_PAGE;
 
-            _enumerator = new PageEnumerator<T>(source.GetEnumerator(), _lengthOfPage);
+            _enumerator = new Buffer<T>(source.GetEnumerator(), _lengthOfPage);
         }
 
         public DataSet(IDataReader<T> source)
         {
             _lengthOfPage = DEFAULT_LENGTH_OF_PAGE;
 
-            _enumerator = new PageEnumerator<T>(source.AsEnumerator(), _lengthOfPage);
+            _enumerator = new Buffer<T>(source.AsEnumerator(), _lengthOfPage);
         }
 
         public IEnumerator<T> GetEnumerator()

@@ -67,25 +67,23 @@
   <ItemGroup>
     <Compile Include="BsonFieldsEqualityComparer.cs" />
     <Compile Include="BsonPrimaryKeyComparer.cs" />
-    <Compile Include="ComparingPipe.cs" />
+    <Compile Include="CompareStage.cs" />
     <Compile Include="FieldsEqualityComparer.cs" />
-    <Compile Include="CompareExecutor.cs" />
     <Compile Include="Models\CompareOptions.cs" />
     <Compile Include="PrimaryKeyComparer.cs" />
     <Compile Include="DataEnumerator.cs" />
     <Compile Include="DataReaderExtension.cs" />
     <Compile Include="DataSet.cs" />
-    <Compile Include="DataSetCompareEngine.cs" />
     <Compile Include="interfaces\IComareExecute.cs" />
     <Compile Include="interfaces\ICompareObserver.cs" />
     <Compile Include="MessageActionBlockMaker.cs" />
     <Compile Include="BlockBuilder.cs" />
     <Compile Include="DataflowBlockReflectionWrapper.cs" />
     <Compile Include="Exceptions\BlockLinkException.cs" />
-    <Compile Include="Execution.cs" />
+    <Compile Include="PipelineExecution.cs" />
     <Compile Include="interfaces\IDataWriter.cs" />
     <Compile Include="interfaces\IDataReader.cs" />
-    <Compile Include="interfaces\IExecute.cs" />
+    <Compile Include="interfaces\IExecuteable.cs" />
     <Compile Include="interfaces\ISource.cs" />
     <Compile Include="interfaces\ITarget.cs" />
     <Compile Include="MessageBroadCastBlockMaker.cs" />
@@ -99,7 +97,7 @@
     <Compile Include="Models\MessageWrapper.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="ObjectType.cs" />
-    <Compile Include="PageEnumerator.cs" />
+    <Compile Include="Buffer.cs" />
     <Compile Include="Pipeline.cs" />
     <Compile Include="PredicateMaker.cs" />
     <Compile Include="ServicesInstaller.cs" />

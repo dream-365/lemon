@@ -2,14 +2,14 @@
 
 namespace Lemon.Core
 {
-    public class ComparingPipe<T>
+    public class CompareStage<T>
     {
         private readonly CompareOptions _options;
         private readonly IComparer<T> _primaryKeyComparer;
         private readonly IEqualityComparer<T> _fieldsEqualityComparer;
         private readonly ICompareObserver<T> _observer;
 
-        public ComparingPipe(CompareOptions options, ICompareObserver<T> observer)
+        public CompareStage(CompareOptions options, ICompareObserver<T> observer)
         {        
             _primaryKeyComparer = ServicesInstaller.Current.Container
                 .Resolve<IComparer<T>>(new { primaryKey = options.PrimaryKey });

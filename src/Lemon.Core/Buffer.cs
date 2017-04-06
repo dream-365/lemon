@@ -4,32 +4,22 @@ using System.Collections.Generic;
 
 namespace Lemon.Core
 {
-    public class PageEnumerator<T> : IEnumerator<T>
+    public class Buffer<T> : IEnumerator<T>
     {
         private const int DEFAULT_LEN_OF_PAGE = 1024;
-
         private long _globalIndex;
-
         private int _currentIndex;
-
         private long _currentPageIndex;
-
         private T[] _data;
-
         private int _length;
-
         private bool _hasMore;
-
         private IEnumerator<T> _enumerator;
 
-        public PageEnumerator(IEnumerator<T> enumerator, int lengthOfPage)
+        public Buffer(IEnumerator<T> enumerator, int lengthOfPage)
         {
             _enumerator = enumerator;
-
             _length = lengthOfPage;
-
             Reset();
-
             _hasMore = _enumerator.MoveNext(); ;
         }
 
@@ -108,9 +98,7 @@ namespace Lemon.Core
         public void Reset()
         {
             _globalIndex = -1;
-
             _currentPageIndex = -1;
-
             _currentIndex = -1;
 
             try
