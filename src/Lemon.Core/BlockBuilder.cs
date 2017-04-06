@@ -4,7 +4,7 @@ using Lemon.Core.Models;
 
 namespace Lemon.Core
 {
-    public class BlockBuilder
+    internal class BlockBuilder
     {
         private static Type MakeMessageWrapperType(Type type)
         {

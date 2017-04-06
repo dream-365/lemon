@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Lemon.Core
 {
-    public class MessageBroadCastBlockMaker<TMessage>
+    internal class MessageBroadCastBlockMaker<TMessage>
     {
         private Action<TMessage> _dispatch;
 
