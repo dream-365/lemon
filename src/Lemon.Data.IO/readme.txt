@@ -1,1 +1,0 @@
-﻿nuget pack Lemon.Data.IO.csproj -Prop Configuration=Release

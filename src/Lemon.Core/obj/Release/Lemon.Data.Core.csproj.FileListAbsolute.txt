@@ -1,0 +1,16 @@
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Lemon.Data.Core.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Lemon.Data.Core.pdb
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\log4net.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Newtonsoft.Json.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\System.Threading.Tasks.Dataflow.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\log4net.xml
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Newtonsoft.Json.xml
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\System.Threading.Tasks.Dataflow.xml
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\obj\Release\Lemon.Data.Core.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\obj\Release\Lemon.Data.Core.pdb
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Castle.Core.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Castle.Windsor.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\MongoDB.Bson.dll
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Castle.Core.xml
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\Castle.Windsor.xml
+C:\Users\jec\Documents\GitHub\lemon\src\Lemon.Data.Core\bin\Release\MongoDB.Bson.xml
