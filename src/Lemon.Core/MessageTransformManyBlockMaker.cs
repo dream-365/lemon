@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lemon.Core.Models;
+using log4net;
 
 namespace Lemon.Core
 {
-    public class MessageTransformManyBlockMaker<TInput, TOutput>
+    internal class MessageTransformManyBlockMaker<TInput, TOutput>
     {
         private Func<TInput, IEnumerable<TOutput>> _func;
+        protected readonly ILog Logger;
 
         public MessageTransformManyBlockMaker(Func<TInput, IEnumerable<TOutput>> func)
         {
             _func = func;
+            Logger = LogService.Default.GetLog("MessageTransformManyBlock");
         }
 
         private IEnumerable<MessageWrapper<TOutput>> TransformManyImpl(MessageWrapper<TInput> messageWrapper)
@@ -33,10 +36,13 @@ namespace Lemon.Core
             {
                 if(messageWrapper != null)
                 {
-                    LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                    Logger.Error(
+                        string.Format("exception on pipeline {0}, value = {1}", 
+                            messageWrapper.PipelineId, messageWrapper.Message), 
+                        ex);
                 }else
                 {
-                    LogService.Default.Error("empty message in transoform many", ex);
+                    Logger.Error("empty message in transoform many", ex);
                 }
             }
 

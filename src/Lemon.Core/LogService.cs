@@ -3,7 +3,6 @@ using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
-using System;
 
 namespace Lemon.Core
 {
@@ -14,31 +13,16 @@ namespace Lemon.Core
             SetupLog4Net();
         }
 
-        private ILog _logger;
+        private LogService() {}
 
-        private LogService()
+        public ILog GetLog(string name)
         {
-            _logger = LogManager.GetLogger("lemon.log");
+            return LogManager.GetLogger(name);
         }
 
         public static LogService Default = new LogService();
 
-        public void Info(string message)
-        {
-            _logger.Info(message);
-        }
-
-        public void Error(string message, Exception ex = null)
-        {
-            _logger.Error(message, ex);
-        }
-
-        public void Error(string message)
-        {
-            _logger.Error(message);
-        }
-
-        private static void SetupLog4Net()
+        protected static void SetupLog4Net()
         {
             Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
 
@@ -55,7 +39,7 @@ namespace Lemon.Core
                 File = @"logs\",
                 Layout = patternLayout,
                 MaxSizeRollBackups = 5,
-                DatePattern = "yyyyMMddHHss'.log'",
+                DatePattern = "yyyyMMddHHmmss'.log'",
                 MaximumFileSize = "1GB",
                 RollingStyle = RollingFileAppender.RollingMode.Composite,
                 StaticLogFileName = false
@@ -64,9 +48,7 @@ namespace Lemon.Core
             rollingFileAppender.ActivateOptions();
 
             hierarchy.Root.AddAppender(rollingFileAppender);
-
             hierarchy.Root.Level = Level.Info;
-
             hierarchy.Configured = true;
         }
     }

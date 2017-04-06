@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using Lemon.Core.Models;
+using log4net;
 
 namespace Lemon.Core
 {
@@ -10,11 +11,13 @@ namespace Lemon.Core
     {
         private Node _root;
         public int BoundedCapacity { get; set; }
-        private Guid _id;
+        protected readonly Guid _id;
+        protected readonly ILog Logger;
 
         public Pipeline()
         {
             _id = Guid.NewGuid();
+            Logger = LogService.Default.GetLog("Pipeline");
         }
 
         public TransformActionChain<TSource> Read<TSource>(IDataReader<TSource> reader)
@@ -44,20 +47,28 @@ namespace Lemon.Core
             var tasks = new List<Task>();
 
             var target = BuildTargetBlock(sourceNode.Next, tasks);
-            bufferBlock.LinkTo(target, new DataflowLinkOptions { PropagateCompletion = true });
+            bufferBlock.LinkTo(
+                target, 
+                new DataflowLinkOptions {
+                    PropagateCompletion = true
+                });
 
             return new PipelineExecution(async () => {
                 while (reader.Next())
                 {
                     try
                     {
-                        var row = reader.Read();
-                        var message = Activator.CreateInstance(messageType, new object[] { row, _id });
-                        var result = await bufferBlock.SendAsync(message);
+                        await bufferBlock.SendAsync(
+                            Activator.CreateInstance(
+                                messageType,
+                                new object[] {
+                                    reader.Read(),
+                                    _id
+                                }));
                     }
                     catch (Exception ex)
                     {
-                        LogService.Default.Error("reader fail", ex);
+                        Logger.Error("reader fail", ex);
                     }
                 }
 
@@ -143,6 +154,7 @@ namespace Lemon.Core
             }
             else
             {
+                Logger.Error("the node type does not support building target block");
                 throw new Exception("the node type does not support building target block");
             }
         }

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Lemon.Core
 {
-    public class MethodExecutorBuilder
+    internal class MethodExecutorBuilder
     {
         public delegate object MethodExecutor(object instance, object[] parameters);
 

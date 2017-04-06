@@ -1,15 +1,18 @@
 ﻿using System;
 using Lemon.Core.Models;
+using log4net;
 
 namespace Lemon.Core
 {
-    public class MessageActionBlockMaker<TMessage>
+    internal class MessageActionBlockMaker<TMessage>
     {
+        protected readonly ILog Logger;
         private Action<TMessage> _action;
 
         public MessageActionBlockMaker(Action<TMessage> action)
         {
             _action = action;
+            Logger = LogService.Default.GetLog("MessageActionBlock");
         }
 
         private void ActionImpl(MessageWrapper<TMessage> messageWrapper)
@@ -22,10 +25,12 @@ namespace Lemon.Core
             {
                 if(messageWrapper != null)
                 {
-                    LogService.Default.Error(string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), ex);
+                    Logger.Error(
+                        string.Format("exception on pipeline {0}, value = {1}", messageWrapper.PipelineId, messageWrapper.Message), 
+                        ex);
                 }else
                 {
-                    LogService.Default.Error("empty message - action", ex);
+                    Logger.Error("empty message - action", ex);
                 }
             }
         }
