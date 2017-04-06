@@ -66,7 +66,7 @@ namespace Lemon.Core
             return Transform(block.Transform, maxDegreeOfParallelism);
         }
 
-        public void Output(IDataWriter<TSource> writer)
+        public void Write(IDataWriter<TSource> writer)
         {
             var actionNode = new ActionNode<TSource>
             {

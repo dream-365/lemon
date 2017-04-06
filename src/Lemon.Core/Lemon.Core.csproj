@@ -68,10 +68,12 @@
     <Compile Include="BsonFieldsEqualityComparer.cs" />
     <Compile Include="BsonPrimaryKeyComparer.cs" />
     <Compile Include="CompareStage.cs" />
+    <Compile Include="DataReaderWrapper.cs" />
     <Compile Include="FieldsEqualityComparer.cs" />
+    <Compile Include="ListWriter.cs" />
     <Compile Include="Models\CompareOptions.cs" />
     <Compile Include="PrimaryKeyComparer.cs" />
-    <Compile Include="DataEnumerator.cs" />
+    <Compile Include="EnumeratorWrapper.cs" />
     <Compile Include="DataReaderExtension.cs" />
     <Compile Include="DataSet.cs" />
     <Compile Include="interfaces\IComareExecute.cs" />
@@ -103,7 +105,6 @@
     <Compile Include="ServicesInstaller.cs" />
     <Compile Include="TransformActionChain.cs" />
     <Compile Include="interfaces\ITransformBlock.cs" />
-    <Compile Include="ProgressIndicator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="interfaces\ITransformManyBlock.cs" />
   </ItemGroup>
@@ -111,7 +112,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
+    <Content Include="nuget-package.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -30,6 +30,10 @@ namespace Lemon.Core
             return new TransformActionChain<TSource>(_root);
         }
 
+        public TransformActionChain<TSource> Read<TSource>(IEnumerable<TSource> source)
+        {
+            return Read(new DataReaderWrapper<TSource>(source));
+        }
 
         public IExecuteable Build()
         {

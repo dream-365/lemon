@@ -6,7 +6,7 @@ namespace Lemon.Core
     {
         public static IEnumerator<T> AsEnumerator<T>(this IDataReader<T> reader)
         {
-            return new DataEnumerator<T>(reader);
+            return new EnumeratorWrapper<T>(reader);
         }
     }
 }

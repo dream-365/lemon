@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Lemon.Core
 {
-    public class DataEnumerator<T> : IEnumerator<T>
+    public class EnumeratorWrapper<T> : IEnumerator<T>
     {
         private IDataReader<T> _reader;
 
-        public DataEnumerator(IDataReader<T> reader)
+        public EnumeratorWrapper(IDataReader<T> reader)
         {
             _reader = reader;
         }
